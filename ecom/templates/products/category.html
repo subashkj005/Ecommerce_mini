@@ -1,0 +1,167 @@
+{% extends 'custom_admin/base.html'%}
+{% load static %}
+
+
+{% block category-active %} active{% endblock %}
+{% block dashboard %}
+            <div class="page-header">
+              <h3 class="page-title"> Product Catagories </h3>
+            </div>
+            <div class="row">
+              <div class="col-8 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Add Category</h4>
+                     <form method="post" class="forms-sample" enctype="multipart/form-data" action="{% url 'add_category' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="exampleInputName1">Name</label>
+                          <input type="text" class="form-control" id="exampleInputName1" placeholder="Category Name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                          <label>Category Image Upload</label>
+                          <div class="input-group col-xs-12">
+                            <input type="file" class="form-control file-upload-info" name="image" placeholder="Upload Image" required id="id_image">
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                        <button class="btn btn-dark">Cancel</button>
+                      </form>
+                  </div>
+                </div>
+              </div>
+               <div class="col-lg-8 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">List Categories</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Category</th>
+                            <th></th>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in category_data %}
+                          <tr>
+                            <td>
+                                <img src="{{ i.image.url }}" class="img-fluid rounded" style="width: 50px; height: 50px;">
+                            </td>
+                            <td></td>
+                            <td>
+                                <p class="text-white">{{ i.name }}</p>
+                            </td>
+                            <td class="pr-1">
+                                <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal" data-target="#exampleModalCenteredScrollable{{i.id}}" >
+                                    <i class="fa-solid fa-pen" style="color: #ffffff; font-size: 0.9rem; margin: 0;"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-icon-text" data-toggle="modal" data-target="#exampleModalCenter{{i.id}}">
+                                    <i class="fa-solid fa-trash" style="color: #ffffff; font-size: 0.9rem; margin: 0;"></i>
+                                </button>
+                            </td>
+                          </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+<!---------------------Edit Category Modal----------------------------->
+
+        {% for category in category_data %}
+<div id="exampleModalCenteredScrollable{{ category.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Edit Category</h4>
+          <form method="post" enctype="multipart/form-data" action="{% url 'edit_category' category.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="exampleInputUsername1">Category Name</label>
+              <input type="text" class="form-control" id="exampleInputUsername1" name="name" value="{{ category.name }}">
+            </div>
+            <div class="form-group">
+              <label>Images</label>
+              <div class="d-flex">
+                <div>
+                  <img src="{{ category.image.url }}" alt="Category Image" width="100" height="100">
+                </div>
+                <div>
+                  <input type="file" id="imageUpload{{ category.id }}" name="image" style="display: none;">
+                  <button type="button" class="btn btn-outline-danger btn-sm ml-3" onclick="handleImageUpload({{ category.id }})">
+                    <i class="fa-solid fa-pen" style="color: #ffffff;"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-check form-check-flat form-check-primary">
+              <label class="form-check-label">
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Edit</button>
+            <button class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+<!---------------Script of Image edit in Category Modal------------->
+<script>
+  function handleImageUpload(categoryId) {
+    var imageUpload = document.getElementById('imageUpload' + categoryId);
+    imageUpload.click();
+    imageUpload.addEventListener('change', function(event) {
+      var previewImage = document.querySelector('#exampleModalCenteredScrollable' + categoryId + ' img');
+      var selectedFile = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        previewImage.src = e.target.result;
+      }
+
+      reader.readAsDataURL(selectedFile);
+    });
+  }
+</script>
+
+<!-----------------Modal for deleting Category------------------>
+    {% for i in category_data %}
+        <div id="exampleModalCenter{{i.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Delete Category</h4>
+                <p class="card-description"> Do you want to delete <div class="text-yellow">{{i.name}}</div></p>
+                <form class="forms-sample">
+                    <a type="submit" class="btn btn-danger mr-2" href="{% url 'delete_category' i.id %}">Delete</a>
+                    <button class="btn btn-dark" data-dismiss="modal">Cancel</button>
+                </form>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+{% endfor %}
+
+
+
+
+
+
+{% endblock %}
+

@@ -1,0 +1,1047 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style=""><!-- Nexo/index-4.html  22 Nov 2019 09:53:08 GMT --><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Nexo eCommerce Website</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Nexo - eCommerce Website">
+    <meta name="author" content="p-themes">
+
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/nexo-tab-icon-32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/icons/nexo-tab-icon-32.png' %}">
+    <link rel="manifest" href="{% static 'assets/images/icons/site.html' %}">
+    <link rel="mask-icon" href="{% static 'assets/images/icons/safari-pinned-tab.svg' %}" color="#666666">
+    <link rel="shortcut icon" href="{% static 'assets/images/icons/favicon.ico' %}">
+    <meta name="apple-mobile-web-app-title" content="Nexo">
+    <meta name="application-name" content="Nexo">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="{% static 'assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css' %}">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/jquery.countdown.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/skins/skin-demo-4.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/demos/demo-4.css' %}">
+</head>
+
+<body style="overflow-x: hidden;">
+    <div class="page-wrapper">
+        <header class="header header-intro-clearance header-4">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <a href="{% static 'tel:#' %}"><i class="icon-phone"></i>Call: +0123 456 789</a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+
+                        <ul class="top-menu">
+                            <li>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li>
+                                        <div class="header-dropdown">
+                                            <a href="#">USD</a>
+                                            <div class="header-menu">
+                                                <ul>
+                                                    <li><a href="#">Eur</a></li>
+                                                    <li><a href="#">Usd</a></li>
+                                                </ul>
+                                            </div><!-- End .header-menu -->
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="header-dropdown">
+                                            <a href="#">English</a>
+                                            <div class="header-menu">
+                                                <ul>
+                                                    <li><a href="#">English</a></li>
+                                                    <li><a href="#">French</a></li>
+                                                    <li><a href="#">Spanish</a></li>
+                                                </ul>
+                                            </div><!-- End .header-menu -->
+                                        </div>
+                                    </li>
+                                    <li>
+<!--                                        <a data-toggle="modal" href="#myModal">Sign in / Sign up</a>-->
+                                        <a href="{% url 'user_login' %}">Sign in / Sign up</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul><!-- End .top-menu -->
+                    </div><!-- End .header-right -->
+
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        
+                        <a href="{% url 'user_home' %}" class="logo">
+                            <img src="{% static 'assets/images/demos/demo-4/nexo-logo.png' %}" alt="Nexo Logo" width="105" height="25">
+                        </a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-center">
+                        <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                            <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                            <form action="#" method="get">
+                                <div class="header-search-wrapper search-wrapper-wide">
+                                    <label for="q" class="sr-only">Search</label>
+                                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required="">
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                    </div>
+
+                    <div class="header-right">
+                        <div class="dropdown compare-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
+                                <div class="icon">
+                                    <i class="fa-regular fa-user fa-sm" style="color: #000000;"></i>
+                                </div>
+                                <p>Profile</p>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+								    <li class="nav-item">
+								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" href="{% url 'logout' %}">Sign Out</a>
+								    </li>
+								</ul>
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="wishlist">
+                            <a href="{% static 'wishlist.html' %}" title="Wishlist">
+                                <div class="icon">
+                                    <i class="icon-heart-o"></i>
+                                    <span class="wishlist-count badge">3</span>
+                                </div>
+                                <p>Wishlist</p>
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <div class="icon">
+                                    <i class="icon-shopping-cart"></i>
+                                    <span class="cart-count">2</span>
+                                </div>
+                                <p>Cart</p>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-cart-products">
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="{% static 'product.html' %}">Beige knitted elastic runner shoes</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $84.00
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
+
+                                        <figure class="product-image-container">
+                                            <a href="{% static 'product.html' %}" class="product-image">
+                                                <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div><!-- End .product -->
+
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="{% static 'product.html' %}">Blue utility pinafore denim dress</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $76.00
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
+
+                                        <figure class="product-image-container">
+                                            <a href="{% static 'product.html' %}" class="product-image">
+                                                <img src="{% static 'assets/images/products/cart/product-2.jpg' %}" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div><!-- End .product -->
+                                </div><!-- End .cart-product -->
+
+                                <div class="dropdown-cart-total">
+                                    <span>Total</span>
+
+                                    <span class="cart-total-price">$160.00</span>
+                                </div><!-- End .dropdown-cart-total -->
+
+                                <div class="dropdown-cart-action">
+                                    <a href="{% static 'cart.html' %}" class="btn btn-primary">View Cart</a>
+                                    <a href="{% static 'checkout.html' %}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .dropdown-cart-total -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .cart-dropdown -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+
+            <div class="sticky-wrapper" style=""><div class="header-bottom sticky-header" style="">
+                <div class="container">
+
+                    <div class="header-left sample for making space"></div>
+
+                    <!-- Header Dropdown Category-->
+<!--                    <div class="header-left">-->
+<!--                        <div class="dropdown category-dropdown">-->
+<!--                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Browse Categories">-->
+<!--                                Browse Categories <i class="icon-angle-down"></i>-->
+<!--                            </a>-->
+
+<!--                            <div class="dropdown-menu">-->
+<!--                                <nav class="side-nav">-->
+<!--                                    <ul class="menu-vertical sf-arrows sf-js-enabled" style="touch-action: pan-y;">-->
+<!--                                        <li class="item-lead"><a href="#">Daily offers</a></li>-->
+<!--                                        <li class="item-lead"><a href="#">Gift Ideas</a></li>-->
+<!--                                        <li><a href="#">Beds</a></li>-->
+<!--                                        <li><a href="#">Lighting</a></li>-->
+<!--                                        <li><a href="#">Sofas &amp; Sleeper sofas</a></li>-->
+<!--                                        <li><a href="#">Storage</a></li>-->
+<!--                                        <li><a href="#">Armchairs &amp; Chaises</a></li>-->
+<!--                                        <li><a href="#">Decoration </a></li>-->
+<!--                                        <li><a href="#">Kitchen Cabinets</a></li>-->
+<!--                                        <li><a href="#">Coffee &amp; Tables</a></li>-->
+<!--                                        <li><a href="#">Outdoor Furniture </a></li>-->
+<!--                                    </ul>&lt;!&ndash; End .menu-vertical &ndash;&gt;-->
+<!--                                </nav>&lt;!&ndash; End .side-nav &ndash;&gt;-->
+<!--                            </div>&lt;!&ndash; End .dropdown-menu &ndash;&gt;-->
+<!--                        </div>&lt;!&ndash; End .category-dropdown &ndash;&gt;-->
+<!--                    </div>-->
+                    <!-- End .header-left -->
+
+                    <div class="header-center">
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows sf-js-enabled" style="touch-action: pan-y;">
+                                <li class="megamenu-container active">
+                                    <a href="{% static 'index.html' %}" class="sf-with-ul">Home</a>
+                                </li>
+                                <li>
+                                    <a href="{% static 'category.html' %}" class="sf-with-ul">Shop</a>
+
+                                    <div class="megamenu megamenu-md" style="display: none;">
+                                        <div class="row no-gutters">
+                                            <div class="col-md-8">
+                                                <div class="menu-col">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="menu-title">Shop with sidebar</div><!-- End .menu-title -->
+                                                            <ul>
+<!--                                                                <li><a href="{% static 'category-list.html' %}">Shop List</a></li>-->
+<!--                                                                <li><a href="{% static 'category-2cols.html' %}">Shop Grid 2 Columns</a></li>-->
+<!--                                                                <li><a href="{% static 'category.html' %}">Shop Grid 3 Columns</a></li>-->
+<!--                                                                <li><a href="{% static 'category-4cols.html' %}">Shop Grid 4 Columns</a></li>-->
+<!--                                                                <li><a href="{% static 'category-market.html' %}"><span>Shop Market<span class="tip tip-new">New</span></span></a></li>-->
+                                                            </ul>
+
+                                                            <div class="menu-title">Shop no sidebar</div><!-- End .menu-title -->
+                                                            <ul>
+<!--                                                                <li><a href="{% static 'category-boxed.html' %}"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>-->
+<!--                                                                <li><a href="{% static 'category-fullwidth.html' %}">Shop Fullwidth No Sidebar</a></li>-->
+                                                            </ul>
+                                                        </div><!-- End .col-md-6 -->
+
+                                                        <div class="col-md-6">
+                                                            <div class="menu-title">Product Category</div><!-- End .menu-title -->
+                                                            <ul>
+<!--                                                                <li><a href="{% static 'product-category-boxed.html' %}">Product Category Boxed</a></li>-->
+<!--                                                                <li><a href="{% static 'product-category-fullwidth.html' %}"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>-->
+                                                            </ul>
+                                                            <div class="menu-title">More</div><!-- End .menu-title -->
+                                                            <ul>
+                                                                <li><a href="{% static 'cart.html' %}">Cart</a></li>
+                                                                <li><a href="{% static 'checkout.html' %}">Checkout</a></li>
+                                                                <li><a href="{% static 'wishlist.html' %}">Wishlist</a></li>
+                                                                <li><a href="{% static 'dashboard.html' %}">My Account</a></li>
+                                                                <li><a href="#">Lookbook</a></li>
+                                                            </ul>
+                                                        </div><!-- End .col-md-6 -->
+                                                    </div><!-- End .row -->
+                                                </div><!-- End .menu-col -->
+                                            </div><!-- End .col-md-8 -->
+
+                                            <div class="col-md-4">
+                                                <div class="banner banner-overlay">
+                                                    <a href="{% static 'category.html' %}" class="banner banner-menu">
+                                                        <img src="{% static 'assets/images/menu/banner-1.jpg' %}" alt="Banner">
+
+                                                        <div class="banner-content banner-content-top">
+                                                            <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div><!-- End .banner-title -->
+                                                        </div><!-- End .banner-content -->
+                                                    </a>
+                                                </div><!-- End .banner banner-overlay -->
+                                            </div><!-- End .col-md-4 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .megamenu megamenu-md -->
+                                </li>
+                                <li>
+                                    <a href="{% static 'product.html' %}" class="sf-with-ul">Product</a>
+
+                                    <div class="megamenu megamenu-sm" style="display: none;">
+                                        <div class="row no-gutters">
+                                            <div class="col-md-6">
+                                                <div class="menu-col">
+                                                    <div class="menu-title">Product Details</div><!-- End .menu-title -->
+                                                    <ul>
+                                                        <li><a href="{% static 'product.html' %}">Default</a></li>
+                                                        <li><a href="{% static 'product-centered.html' %}">Centered</a></li>
+                                                        <li><a href="{% static 'product-extended.html' %}"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
+                                                        <li><a href="{% static 'product-gallery.html' %}">Gallery</a></li>
+                                                        <li><a href="{% static 'product-sticky.html' %}">Sticky Info</a></li>
+                                                        <li><a href="{% static 'product-sidebar.html' %}">Boxed With Sidebar</a></li>
+                                                        <li><a href="{% static 'product-fullwidth.html' %}">Full Width</a></li>
+                                                        <li><a href="{% static 'product-masonry.html' %}">Masonry Sticky Info</a></li>
+                                                    </ul>
+                                                </div><!-- End .menu-col -->
+                                            </div><!-- End .col-md-6 -->
+
+                                            <div class="col-md-6">
+                                                <div class="banner banner-overlay">
+                                                    <a href="{% static 'category.html' %}">
+                                                        <img src="{% static 'assets/images/menu/banner-2.jpg' %}" alt="Banner">
+
+                                                        <div class="banner-content banner-content-bottom">
+                                                            <div class="banner-title text-white">New Trends<br><span><strong>spring 2019</strong></span></div><!-- End .banner-title -->
+                                                        </div><!-- End .banner-content -->
+                                                    </a>
+                                                </div><!-- End .banner -->
+                                            </div><!-- End .col-md-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .megamenu megamenu-sm -->
+                                </li>
+                                <li>
+                                    <a href="#" class="sf-with-ul">Pages</a>
+
+                                    <ul style="display: none;">
+                                        <li>
+                                            <a href="{% static 'about.html' %}" class="sf-with-ul">About</a>
+
+                                            <ul style="display: none;">
+                                                <li><a href="{% static 'about.html' %}">About 01</a></li>
+                                                <li><a href="{% static 'about-2.html' %}">About 02</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="{% static 'contact.html' %}" class="sf-with-ul">Contact</a>
+
+                                            <ul style="display: none;">
+                                                <li><a href="{% static 'contact.html' %}">Contact 01</a></li>
+                                                <li><a href="{% static 'contact-2.html' %}">Contact 02</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% static 'login.html' %}">Login</a></li>
+                                        <li><a href="{% static 'faq.html' %}">FAQs</a></li>
+                                        <li><a href="{% static '404.html' %}">Error 404</a></li>
+                                        <li><a href="{% static 'coming-soon.html' %}">Coming Soon</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{% static 'blog.html' %}" class="sf-with-ul">Blog</a>
+
+                                    <ul style="display: none;">
+                                        <li><a href="{% static 'blog.html' %}">Classic</a></li>
+                                        <li><a href="{% static 'blog-listing.html' %}">Listing</a></li>
+                                        <li>
+                                            <a href="#" class="sf-with-ul">Grid</a>
+                                            <ul style="display: none;">
+                                                <li><a href="{% static 'blog-grid-2cols.html' %}">Grid 2 columns</a></li>
+                                                <li><a href="{% static 'blog-grid-3cols.html' %}">Grid 3 columns</a></li>
+                                                <li><a href="{% static 'blog-grid-4cols.html' %}">Grid 4 columns</a></li>
+                                                <li><a href="{% static 'blog-grid-sidebar.html' %}">Grid sidebar</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sf-with-ul">Masonry</a>
+                                            <ul style="display: none;">
+                                                <li><a href="{% static 'blog-masonry-2cols.html' %}">Masonry 2 columns</a></li>
+                                                <li><a href="{% static 'blog-masonry-3cols.html' %}">Masonry 3 columns</a></li>
+                                                <li><a href="{% static 'blog-masonry-4cols.html' %}">Masonry 4 columns</a></li>
+                                                <li><a href="{% static 'blog-masonry-sidebar.html' %}">Masonry sidebar</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sf-with-ul">Mask</a>
+                                            <ul style="display: none;">
+                                                <li><a href="{% static 'blog-mask-grid.html' %}">Blog mask grid</a></li>
+                                                <li><a href="{% static 'blog-mask-masonry.html' %}">Blog mask masonry</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sf-with-ul">Single Post</a>
+                                            <ul style="display: none;">
+                                                <li><a href="{% static 'single.html' %}">Default with sidebar</a></li>
+                                                <li><a href="{% static 'single-fullwidth.html' %}">Fullwidth no sidebar</a></li>
+                                                <li><a href="{% static 'single-fullwidth-sidebar.html' %}">Fullwidth with sidebar</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{% static 'elements-list.html' %}" class="sf-with-ul">Elements</a>
+
+                                    <ul style="display: none;">
+                                        <li><a href="{% static 'elements-products.html' %}">Products</a></li>
+                                        <li><a href="{% static 'elements-typography.html' %}">Typography</a></li>
+                                        <li><a href="{% static 'elements-titles.html' %}">Titles</a></li>
+                                        <li><a href="{% static 'elements-banners.html' %}">Banners</a></li>
+                                        <li><a href="{% static 'elements-product-category.html' %}">Product Category</a></li>
+                                        <li><a href="{% static 'elements-video-banners.html' %}">Video Banners</a></li>
+                                        <li><a href="{% static 'elements-buttons.html' %}">Buttons</a></li>
+                                        <li><a href="{% static 'elements-accordions.html' %}">Accordions</a></li>
+                                        <li><a href="{% static 'elements-tabs.html' %}">Tabs</a></li>
+                                        <li><a href="{% static 'elements-testimonials.html' %}">Testimonials</a></li>
+                                        <li><a href="{% static 'elements-blog-posts.html' %}">Blog Posts</a></li>
+                                        <li><a href="{% static 'elements-portfolio.html' %}">Portfolio</a></li>
+                                        <li><a href="{% static 'elements-cta.html' %}">Call to Action</a></li>
+                                        <li><a href="{% static 'elements-icon-boxes.html' %}">Icon Boxes</a></li>
+                                    </ul>
+                                </li>
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+                    </div><!-- End .header-center -->
+
+                    <div class="header-right">
+                        <i class="la la-lightbulb-o"></i><p>Clearance<span class="highlight">&nbsp;Up to 30% Off</span></p>
+                    </div>
+                </div><!-- End .container -->
+            </div></div><!-- End .header-bottom -->
+        </header><!-- End .header -->
+
+
+{% block content %}
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        <!-- End .main -->
+
+        <footer class="footer">
+<!--            <div class="cta bg-image bg-dark pt-4 pb-5 mb-0" style="background-image: url({% static 'assets/images/demos/demo-4/bg-5.jpg' %});">-->
+<!--                <div class="container">-->
+<!--                    <div class="row justify-content-center">-->
+<!--                        <div class="col-sm-10 col-md-8 col-lg-6">-->
+<!--                            <div class="cta-heading text-center">-->
+<!--                                <h3 class="cta-title text-white">Get The Latest Deals</h3>&lt;!&ndash; End .cta-title &ndash;&gt;-->
+<!--                                <p class="cta-desc text-white">and receive <span class="font-weight-normal">₹500 coupon</span> for first shopping</p>&lt;!&ndash; End .cta-desc &ndash;&gt;-->
+<!--                            </div>&lt;!&ndash; End .text-center &ndash;&gt;-->
+<!--                        -->
+<!--                            <form action="#">-->
+<!--                                <div class="input-group input-group-round">-->
+<!--                                    <input type="email" class="form-control form-control-white" placeholder="Enter your Email Address" aria-label="Email Adress" required="">-->
+<!--                                    <div class="input-group-append">-->
+<!--                                        <button class="btn btn-primary" type="submit"><span>Subscribe</span><i class="icon-long-arrow-right"></i></button>-->
+<!--                                    </div>&lt;!&ndash; .End .input-group-append &ndash;&gt;-->
+<!--                                </div>&lt;!&ndash; .End .input-group &ndash;&gt;-->
+<!--                            </form>-->
+<!--                        </div>&lt;!&ndash; End .col-sm-10 col-md-8 col-lg-6 &ndash;&gt;-->
+<!--                    </div>&lt;!&ndash; End .row &ndash;&gt;-->
+<!--                </div>&lt;!&ndash; End .container &ndash;&gt;-->
+<!--            </div>&lt;!&ndash; End .cta &ndash;&gt;-->
+        	<div class="footer-middle">
+	            <div class="container">
+	            	<div class="row">
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget widget-about">
+	            				<img src="{% static 'assets/images/demos/demo-4/nexo-footer-logo.png' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
+
+	            				<div class="widget-call">
+                                    <i class="icon-phone"></i>
+                                    Got Question? Call us 24/7
+                                    <a href="{% static 'tel:#' %}">+0123 456 789</a>         
+                                </div><!-- End .widget-call -->
+	            			</div><!-- End .widget about-widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="{% static 'about.html' %}">About Nexo</a></li>
+                                    <li><a href="#">Our Services</a></li>
+	            					<li><a href="#">How to shop on Nexo</a></li>
+	            					<li><a href="{% static 'faq.html' %}">FAQ</a></li>
+	            					<li><a href="{% static 'contact.html' %}">Contact us</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Payment Methods</a></li>
+	            					<li><a href="#">Money-back guarantee!</a></li>
+	            					<li><a href="#">Returns</a></li>
+	            					<li><a href="#">Shipping</a></li>
+	            					<li><a href="#">Terms and conditions</a></li>
+	            					<li><a href="#">Privacy Policy</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Sign In</a></li>
+	            					<li><a href="#">View Cart</a></li>
+	            					<li><a href="#">My Wishlist</a></li>
+	            					<li><a href="#">Track My Order</a></li>
+	            					<li><a href="#">Help</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+	            	</div><!-- End .row -->
+	            </div><!-- End .container -->
+	        </div><!-- End .footer-middle -->
+
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<p class="footer-copyright">Copyright © 2023 Nexo Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+	        		<figure class="footer-payments">
+	        			<img src="{% static 'assets/images/payments.png' %}" alt="Payment methods" width="272" height="20">
+	        		</figure><!-- End .footer-payments -->
+	        	</div><!-- End .container -->
+	        </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top" class=""><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container mobile-menu-light">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+            
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required="">
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+
+            <ul class="nav nav-pills-mobile nav-border-anim" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="mobile-menu-link" data-toggle="tab" href="{% static '#mobile-menu-tab' %}" role="tab" aria-controls="mobile-menu-tab" aria-selected="true">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="mobile-cats-link" data-toggle="tab" href="{% static '#mobile-cats-tab' %}" role="tab" aria-controls="mobile-cats-tab" aria-selected="false">Categories</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="mobile-menu-tab" role="tabpanel" aria-labelledby="mobile-menu-link">
+                    <nav class="mobile-nav">
+                        <ul class="mobile-menu">
+                            <li class="active">
+                                <a href="{% static 'index.html' %}">Home<span class="mmenu-btn"></span></a>
+
+                                <ul>
+                                    <li><a href="{% static 'index-1.html' %}">01 - furniture store</a></li>
+                                    <li><a href="{% static 'index-2.html' %}">02 - furniture store</a></li>
+                                    <li><a href="{% static 'index-3.html' %}">03 - electronic store</a></li>
+                                    <li><a href="{% static 'index-4.html' %}">04 - electronic store</a></li>
+                                    <li><a href="{% static 'index-5.html' %}">05 - fashion store</a></li>
+                                    <li><a href="{% static 'index-6.html' %}">06 - fashion store</a></li>
+                                    <li><a href="{% static 'index-7.html' %}">07 - fashion store</a></li>
+                                    <li><a href="{% static 'index-8.html' %}">08 - fashion store</a></li>
+                                    <li><a href="{% static 'index-9.html' %}">09 - fashion store</a></li>
+                                    <li><a href="{% static 'index-10.html' %}">10 - shoes store</a></li>
+                                    <li><a href="{% static 'index-11.html' %}">11 - furniture simple store</a></li>
+                                    <li><a href="{% static 'index-12.html' %}">12 - fashion simple store</a></li>
+                                    <li><a href="{% static 'index-13.html' %}">13 - market</a></li>
+                                    <li><a href="{% static 'index-14.html' %}">14 - market fullwidth</a></li>
+                                    <li><a href="{% static 'index-15.html' %}">15 - lookbook 1</a></li>
+                                    <li><a href="{% static 'index-16.html' %}">16 - lookbook 2</a></li>
+                                    <li><a href="{% static 'index-17.html' %}">17 - fashion store</a></li>
+                                    <li><a href="{% static 'index-18.html' %}">18 - fashion store (with sidebar)</a></li>
+                                    <li><a href="{% static 'index-19.html' %}">19 - games store</a></li>
+                                    <li><a href="{% static 'index-20.html' %}">20 - book store</a></li>
+                                    <li><a href="{% static 'index-21.html' %}">21 - sport store</a></li>
+                                    <li><a href="{% static 'index-22.html' %}">22 - tools store</a></li>
+                                    <li><a href="{% static 'index-23.html' %}">23 - fashion left navigation store</a></li>
+                                    <li><a href="{% static 'index-24.html' %}">24 - extreme sport store</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{% static 'category.html' %}">Shop<span class="mmenu-btn"></span></a>
+                                <ul>
+                                    <li><a href="{% static 'category-list.html' %}">Shop List</a></li>
+                                    <li><a href="{% static 'category-2cols.html' %}">Shop Grid 2 Columns</a></li>
+                                    <li><a href="{% static 'category.html' %}">Shop Grid 3 Columns</a></li>
+                                    <li><a href="{% static 'category-4cols.html' %}">Shop Grid 4 Columns</a></li>
+                                    <li><a href="{% static 'category-boxed.html' %}"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>
+                                    <li><a href="{% static 'category-fullwidth.html' %}">Shop Fullwidth No Sidebar</a></li>
+                                    <li><a href="{% static 'product-category-boxed.html' %}">Product Category Boxed</a></li>
+                                    <li><a href="{% static 'product-category-fullwidth.html' %}"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
+                                    <li><a href="{% static 'cart.html' %}">Cart</a></li>
+                                    <li><a href="{% static 'checkout.html' %}">Checkout</a></li>
+                                    <li><a href="{% static 'wishlist.html' %}">Wishlist</a></li>
+                                    <li><a href="#">Lookbook</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{% static 'product.html' %}" class="sf-with-ul">Product<span class="mmenu-btn"></span></a>
+                                <ul>
+                                    <li><a href="{% static 'product.html' %}">Default</a></li>
+                                    <li><a href="{% static 'product-centered.html' %}">Centered</a></li>
+                                    <li><a href="{% static 'product-extended.html' %}"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
+                                    <li><a href="{% static 'product-gallery.html' %}">Gallery</a></li>
+                                    <li><a href="{% static 'product-sticky.html' %}">Sticky Info</a></li>
+                                    <li><a href="{% static 'product-sidebar.html' %}">Boxed With Sidebar</a></li>
+                                    <li><a href="{% static 'product-fullwidth.html' %}">Full Width</a></li>
+                                    <li><a href="{% static 'product-masonry.html' %}">Masonry Sticky Info</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Pages<span class="mmenu-btn"></span></a>
+                                <ul>
+                                    <li>
+                                        <a href="{% static 'about.html' %}">About<span class="mmenu-btn"></span></a>
+
+                                        <ul>
+                                            <li><a href="{% static 'about.html' %}">About 01</a></li>
+                                            <li><a href="{% static 'about-2.html' %}">About 02</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="{% static 'contact.html' %}">Contact<span class="mmenu-btn"></span></a>
+
+                                        <ul>
+                                            <li><a href="{% static 'contact.html' %}">Contact 01</a></li>
+                                            <li><a href="{% static 'contact-2.html' %}">Contact 02</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% static 'login.html' %}">Login</a></li>
+                                    <li><a href="{% static 'faq.html' %}">FAQs</a></li>
+                                    <li><a href="{% static '404.html' %}">Error 404</a></li>
+                                    <li><a href="{% static 'coming-soon.html' %}">Coming Soon</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{% static 'blog.html' %}">Blog<span class="mmenu-btn"></span></a>
+
+                                <ul>
+                                    <li><a href="{% static 'blog.html' %}">Classic</a></li>
+                                    <li><a href="{% static 'blog-listing.html' %}">Listing</a></li>
+                                    <li>
+                                        <a href="#">Grid<span class="mmenu-btn"></span></a>
+                                        <ul>
+                                            <li><a href="{% static 'blog-grid-2cols.html' %}">Grid 2 columns</a></li>
+                                            <li><a href="{% static 'blog-grid-3cols.html' %}">Grid 3 columns</a></li>
+                                            <li><a href="{% static 'blog-grid-4cols.html' %}">Grid 4 columns</a></li>
+                                            <li><a href="{% static 'blog-grid-sidebar.html' %}">Grid sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">Masonry<span class="mmenu-btn"></span></a>
+                                        <ul>
+                                            <li><a href="{% static 'blog-masonry-2cols.html' %}">Masonry 2 columns</a></li>
+                                            <li><a href="{% static 'blog-masonry-3cols.html' %}">Masonry 3 columns</a></li>
+                                            <li><a href="{% static 'blog-masonry-4cols.html' %}">Masonry 4 columns</a></li>
+                                            <li><a href="{% static 'blog-masonry-sidebar.html' %}">Masonry sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">Mask<span class="mmenu-btn"></span></a>
+                                        <ul>
+                                            <li><a href="{% static 'blog-mask-grid.html' %}">Blog mask grid</a></li>
+                                            <li><a href="{% static 'blog-mask-masonry.html' %}">Blog mask masonry</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#">Single Post<span class="mmenu-btn"></span></a>
+                                        <ul>
+                                            <li><a href="{% static 'single.html' %}">Default with sidebar</a></li>
+                                            <li><a href="{% static 'single-fullwidth.html' %}">Fullwidth no sidebar</a></li>
+                                            <li><a href="{% static 'single-fullwidth-sidebar.html' %}">Fullwidth with sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{% static 'elements-list.html' %}">Elements<span class="mmenu-btn"></span></a>
+                                <ul>
+                                    <li><a href="{% static 'elements-products.html' %}">Products</a></li>
+                                    <li><a href="{% static 'elements-typography.html' %}">Typography</a></li>
+                                    <li><a href="{% static 'elements-titles.html' %}">Titles</a></li>
+                                    <li><a href="{% static 'elements-banners.html' %}">Banners</a></li>
+                                    <li><a href="{% static 'elements-product-category.html' %}">Product Category</a></li>
+                                    <li><a href="{% static 'elements-video-banners.html' %}">Video Banners</a></li>
+                                    <li><a href="{% static 'elements-buttons.html' %}">Buttons</a></li>
+                                    <li><a href="{% static 'elements-accordions.html' %}">Accordions</a></li>
+                                    <li><a href="{% static 'elements-tabs.html' %}">Tabs</a></li>
+                                    <li><a href="{% static 'elements-testimonials.html' %}">Testimonials</a></li>
+                                    <li><a href="{% static 'elements-blog-posts.html' %}">Blog Posts</a></li>
+                                    <li><a href="{% static 'elements-portfolio.html' %}">Portfolio</a></li>
+                                    <li><a href="{% static 'elements-cta.html' %}">Call to Action</a></li>
+                                    <li><a href="{% static 'elements-icon-boxes.html' %}">Icon Boxes</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav><!-- End .mobile-nav -->
+                </div><!-- .End .tab-pane -->
+                <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
+                    <nav class="mobile-cats-nav">
+                        <ul class="mobile-cats-menu">
+                            <li><a class="mobile-cats-lead" href="#">Daily offers</a></li>
+                            <li><a class="mobile-cats-lead" href="#">Gift Ideas</a></li>
+                            <li><a href="#">Beds</a></li>
+                            <li><a href="#">Lighting</a></li>
+                            <li><a href="#">Sofas &amp; Sleeper sofas</a></li>
+                            <li><a href="#">Storage</a></li>
+                            <li><a href="#">Armchairs &amp; Chaises</a></li>
+                            <li><a href="#">Decoration </a></li>
+                            <li><a href="#">Kitchen Cabinets</a></li>
+                            <li><a href="#">Coffee &amp; Tables</a></li>
+                            <li><a href="#">Outdoor Furniture </a></li>
+                        </ul><!-- End .mobile-cats-menu -->
+                    </nav><!-- End .mobile-cats-nav -->
+                </div><!-- .End .tab-pane -->
+            </div><!-- End .tab-content -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <!-- Sign in / Register Modal -->
+    <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button>
+
+                    <div class="form-box">
+                        <div class="form-tab">
+                            <ul class="nav nav-pills nav-fill nav-border-anim" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="{% static '#signin' %}" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="{% static '#register' %}" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="tab-content-5">
+                                <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="singin-email">Username or email address *</label>
+                                            <input type="text" class="form-control" id="singin-email" name="singin-email" required="">
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="singin-password">Password *</label>
+                                            <input type="password" class="form-control" id="singin-password" name="singin-password" required="">
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="signin-remember">
+                                                <label class="custom-control-label" for="signin-remember">Remember Me</label>
+                                            </div><!-- End .custom-checkbox -->
+
+                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                                <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="register-email">Your email address *</label>
+                                            <input type="email" class="form-control" id="register-email" name="register-email" required="">
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="register-password">Password *</label>
+                                            <input type="password" class="form-control" id="register-password" name="register-password" required="">
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>SIGN UP</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="register-policy" required="">
+                                                <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
+                                            </div><!-- End .custom-checkbox -->
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login  btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .form-tab -->
+                    </div><!-- End .form-box -->
+                </div><!-- End .modal-body -->
+            </div><!-- End .modal-content -->
+        </div><!-- End .modal-dialog -->
+    </div><!-- End .modal -->
+
+
+    <!-- Pop up Notification-->
+<!--    <div class="container newsletter-popup-container mfp-hide" id="newsletter-popup-form">-->
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="col-10">-->
+<!--                <div class="row no-gutters bg-white newsletter-popup-content">-->
+<!--                    <div class="col-xl-3-5col col-lg-7 banner-content-wrap">-->
+<!--                        <div class="banner-content text-center">-->
+<!--                            <img src="{% static 'assets/images/popup/newsletter/logo.png' %}" class="logo" alt="logo" width="60" height="15">-->
+<!--                            <h2 class="banner-title">get <span>25<light>%</light></span> off</h2>-->
+<!--                            <p>Subscribe to the Nexo eCommerce newsletter to receive timely updates from your favorite products.</p>-->
+<!--                            <form action="#">-->
+<!--                                <div class="input-group input-group-round">-->
+<!--                                    <input type="email" class="form-control form-control-white" placeholder="Your Email Address" aria-label="Email Adress" required="">-->
+<!--                                    <div class="input-group-append">-->
+<!--                                        <button class="btn" type="submit"><span>go</span></button>-->
+<!--                                    </div>&lt;!&ndash; .End .input-group-append &ndash;&gt;-->
+<!--                                </div>&lt;!&ndash; .End .input-group &ndash;&gt;-->
+<!--                            </form>-->
+<!--                            <div class="custom-control custom-checkbox">-->
+<!--                                <input type="checkbox" class="custom-control-input" id="register-policy-2" required="">-->
+<!--                                <label class="custom-control-label" for="register-policy-2">Do not show this popup again</label>-->
+<!--                            </div>&lt;!&ndash; End .custom-checkbox &ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-xl-2-5col col-lg-5 ">-->
+<!--                        <img src="{% static 'assets/images/popup/newsletter/img-1.jpg' %}" class="newsletter-img" alt="newsletter">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <!-- End of Pop up Notification-->
+
+
+<!--    My Modal-->
+    <div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <ul class="nav nav-pills w-100 p-5 justify-content-center nav-fill nav-border-anim ">
+          <li class="nav-item">
+            <a class="nav-link active text-center" data-toggle="tab" href="#signInTab">Sign In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-center" data-toggle="tab" href="#signUpTab">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class="tab-content">
+          <!-- Sign In Tab -->
+          <div class="tab-pane fade show active" id="signInTab">
+            <form>
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username">
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password">
+              </div>
+            </form>
+          </div>
+          <!-- Sign Up Tab -->
+          <div class="tab-pane fade" id="signUpTab">
+            <form>
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name">
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile Number:</label>
+                <input type="text" class="form-control" id="mobile">
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email">
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password">
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirmPassword">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <div class="tab-content w-100 justify-content-center">
+          <!-- Sign In Tab Footer -->
+          <div class="tab-pane fade show active" id="signInTab">
+            <a href="#">Forgot Password</a>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Sign In</button>
+         </div>
+          <!-- Sign Up Tab Footer -->
+          <div class="tab-pane fade" id="signUpTab">
+            <a href="#">Forgot Password</a>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Sign Up</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+    <!-- Plugins JS File -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.plugin.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.countdown.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/demos/demo-4.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.elevateZoom.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+
+
+
+</body><!-- Nexo/index-4.html  22 Nov 2019 09:54:18 GMT --></html>

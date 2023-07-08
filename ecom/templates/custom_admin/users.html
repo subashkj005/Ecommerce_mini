@@ -1,0 +1,48 @@
+{% extends 'custom_admin/base.html'%}
+{% load static %}
+
+
+
+{% block dashboard %}
+<div class="content-wrapper">
+            <div class="page-header">
+              <h3 class="page-title"> Users </h3>
+            </div>
+                <div class="card">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Profile</th>
+                                <th>Phone number</th>
+                                <th>Email</th>
+                                <th class="">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.phone_number }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    <div>
+                                        {% if user.is_active %}
+                                            <a type="button" class="btn btn-outline-danger btn-fw" href="{% url 'user_status' user.id %}">Block</a>
+                                        {% else %}
+                                            <a type="button" class="btn btn-outline-success btn-fw" href="{% url 'user_status' user.id %}">Unblock</a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                  </div>
+            </div>
+          </div>
+{% endblock %}
+
+{% block users-active %} active {% endblock %}

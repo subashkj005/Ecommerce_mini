@@ -1,0 +1,36 @@
+{% extends 'custom_admin/base.html'%}
+{% load static %}
+
+{% block dashboard %}
+
+            <div class="page-header">
+              <h3 class="page-title"> Dashboard </h3>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#"></a></li>
+                  <li class="breadcrumb-item active" aria-current="page"></li>
+                </ol>
+              </nav>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                    <h4 class="card-title">Doughnut chart</h4>
+                    <canvas id="doughnutChart" style="height: 301px; display: block; width: 602px;" width="1204" height="602" class="chartjs-render-monitor"></canvas>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                    <h4 class="card-title">Bar chart</h4>
+                    <canvas id="barChart" style="height: 301px; display: block; width: 602px;" width="1204" height="602" class="chartjs-render-monitor"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+{% endblock %}
+
+{% block dashboard-active %} active {% endblock %}
