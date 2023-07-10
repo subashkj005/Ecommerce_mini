@@ -275,6 +275,24 @@
     <script src="{% static 'assets/js/todolist.js' %}"></script>
 
     <script src="{% static 'assets/js/dashboard.js' %}"></script>
+    <script>
+  function handleImageUpload(categoryId) {
+    var imageUpload = document.getElementById('imageUpload' + categoryId);
+    imageUpload.click();
+    imageUpload.addEventListener('change', function(event) {
+      var previewImage = document.querySelector('#exampleModalCenteredScrollable' + categoryId + ' img');
+      var selectedFile = event.target.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        previewImage.src = e.target.result;
+      }
+
+      reader.readAsDataURL(selectedFile);
+    });
+  }
+</script>
+
 
 
 

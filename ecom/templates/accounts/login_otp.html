@@ -665,7 +665,7 @@ form button:hover {
                                     <i class="bx bxs-check-shield"></i>
                                   </header>
                                   <h4 class="text-center" >Enter OTP Code sent to {{ phone }}</h4>
-                                  <form method="POST" action="{% url 'otp' %}">
+                                  <form method="POST" action="{% url 'login-otp' %}">
                                     {% csrf_token %}
                                     <div class="input-field">
                                       <input type="number" name="otp1" id="otp1">
@@ -779,7 +779,7 @@ form button:hover {
                 <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
-            
+
             <nav class="mobile-nav">
                 <ul class="mobile-menu">
                     <li class="active">

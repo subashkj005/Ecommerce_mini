@@ -71,7 +71,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
     <div class="modal-content">
   <div class="card">
-    <div class="card-body">
+    <div class="card-body" style="height: 100%; overflow-y: auto;">
       <form method="post" enctype="multipart/form-data" class="forms-sample" action="{% url 'edit_product' i.id %}">
         {% csrf_token %}
         <div class="row">
@@ -116,10 +116,16 @@
           <div class="input-group col-xs-12">
             <input type="file" multiple class="form-control file-upload-info btn btn-primary" name="images" placeholder="Upload Image" id="name">
           </div>
-          <div class="d-flex">
+          <div class="d-flex flex-wrap">
             {% for image in i.images.all %}
-            <div style="background-color: #2A3038;" class="mt-4">
-              <img src="{{image.image.url}}" width="100" height="100">
+            <div style="background-color: #2A3038;" class="mt-4 col-md-3">
+              <form action="{% url 'delete_image' image.id %}" method="POST" style="display: inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger delete-image">
+                    <i class="fa-sharp fa-solid fa-xmark" style="color: #cf0c0c; font-size: 0.9rem; margin: 0;"></i>
+                  </button>
+                <img class="mt-1" src="{{image.image.url}}" width="100" height="100">
+                </form>
             </div>
           {% endfor %}
           </div>

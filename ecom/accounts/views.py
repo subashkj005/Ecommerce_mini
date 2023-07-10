@@ -10,8 +10,6 @@ from .forms import LoginForm
 
 @never_cache
 def user_login(request):
-    # if 'phone_number' in request.session:
-    #     return redirect('user_home')
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -24,9 +22,15 @@ def user_login(request):
             active = Profile.objects.get(user_id=user.id)
 
             if user is not None and active.is_active:
-                login(request, user)
-                request.session['phone_number'] = phone_number
-                return redirect('user_home')
+                otp = str(random.randint(1000, 9999))
+                # send_otp(otp)
+
+                print('--------------------')
+                print('OTP IS ' + otp)
+                print('--------------------')
+                request.session['user'] = {'phone_number': phone_number, 'otp': otp}
+                return render(request, 'accounts/login_otp.html', {'phone': phone_number})
+
             elif user is not None and not active.is_active:
                 messages.error(request, 'Your account is blocked')
                 return redirect('user_login')
@@ -39,7 +43,26 @@ def user_login(request):
 
     return render(request, 'accounts/login.html', {'form': form})
 
+def login_otp(request):
 
+    user = request.session.get('user')
+    otp = user['otp']
+    phone_number = user['phone_number']
+    if request.method == 'POST':
+        entered_otp = f"{request.POST.get('otp1')}{request.POST.get('otp2')}{request.POST.get('otp3')}{request.POST.get('otp4')}"
+        if entered_otp == otp:
+            del request.session['user']
+            request.session['phone_number'] = phone_number
+
+            return redirect('user_home')
+
+        else:
+            context = 'Invalid OTP'
+            return render(request, 'accounts/otp.html', {'otp_err': context})
+
+    return render(request, 'accounts/login_otp.html')
+    
+    
 
 
 

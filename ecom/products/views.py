@@ -15,16 +15,14 @@ def categories(request):
 def add_category(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        images = request.FILES.getlist('image')
+        image = request.FILES.get('image')
         check_category = Category.objects.filter(name=name).first()
         if check_category:
             messages.error(request, 'Category exists')
         else:
-            
-            # for image in images:
-                
-            category = Category(name = name,image= image)
+            category = Category(name=name,image=image)
             category.save()
+
     return redirect('categories')
 
 
@@ -74,19 +72,23 @@ def edit_products(request, id):
         product.stock = request.POST.get('stock')
         product.description = request.POST.get('description')
         product.save()
-        
-        product.images.all().delete()
 
-        new_images = request.FILES.getlist('images')[:3]
-        for image in new_images:
-            product_image = ProductImage(product=product, image=image)
-            product_image.save()
-            
-        
+
+        new_images = request.FILES.getlist('images')
+        if new_images:
+            product.images.all().delete()
+            for image in new_images:
+                product_image = ProductImage(product=product, image=image)
+                product_image.save()
+
         return redirect('product')
 
     return render(request, 'products/products.html', {'product_data': Product.objects.all()})
 
+def delete_image(request, id):
+    image = ProductImage.objects.get(id=id)
+    image.delete()
+    return redirect('product')
 
 def add_products(request):
 
@@ -114,7 +116,7 @@ def add_products(request):
 
 def delete_product(request,id):
     product = Product.objects.get(id=id)
-    product.is_deleted=False
+    product.is_deleted = False
     product.save()
 
     return redirect('product')

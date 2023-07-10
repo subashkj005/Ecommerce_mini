@@ -12,5 +12,6 @@ urlpatterns = [
     path('forgot_password/', forgot_password, name='forgot'),
     path('forgot_otp/', forgot_otp, name='forgot_otp'),
     path('pass-update/', password_update, name="pass_update"),
+    path('login-otp/',login_otp, name="login-otp"),
 
 ]
