@@ -22,27 +22,18 @@
                       <table class="table">
                         <thead>
                           <tr>
-                            <th>Product</th>
                             <th>Name</th>
                             <th>Category</th>
-                            <th>Stock</th>
-                            <th>Price</th>
-                            <th>Action</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                               <th></th>
                           </tr>
                         </thead>
                         <tbody>
                         {% for i in product_data %}
                           <tr>
-                            <td>
-                              <div>
-                                <img class="img-fluid rounded" style="width: 50px; height: 50px;" src="{{ i.images.first.image.url }}">
-                              </div>
-                            </td>
                             <td>{{ i.name }}</td>
                             <td>{{ i.category }}</td>
-                            <td>{{ i.stock }}</td>
-                            <td>Rs.{{ i.price }}</td>
                             <td>
                               <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal" data-target="#exampleModalCenteredScrollable{{ i.id }}" >
                                     <i class="fa-solid fa-pen" style="color: #ffffff; font-size: 0.9rem; margin: 0;"></i>
@@ -62,12 +53,58 @@
                 </div>
 
 
-
-
-<!---------------------Edit Product Modal----------------------------->
-
+<!----------------------Edid Product Modal New----------------------------->
         {% for i in product_data %}
 <div id="exampleModalCenteredScrollable{{ i.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+  <div class="card">
+    <div class="card-body" style="height: 100%; overflow-y: auto;">
+      <form method="post" enctype="multipart/form-data" class="forms-sample" action="{% url 'edit_product' i.id %}">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputName1">Product Name</label>
+              <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name" value="{{i.name}}">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Category</label>
+                    <select class="form-control text-white" id="exampleFormControlSelect2" name="category">
+                      {% for category in category_data %}
+                        <option style="text-white" value="{{ category.id }}" {% if category.id == i.category.id %}selected{% endif %}>
+                          {% if category.id == i.category.id %}{{ i.category.name }}{% else %}{{ category.name }}{% endif %}
+                        </option>
+                      {% endfor %}
+                      </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-info">Edit Variant</button>
+        </div>
+        <div class="form-group">
+          <label for="exampleTextarea1">Product Description</label>
+          <textarea class="form-control" id="exampleTextarea1" rows="4" name="description">{{i.description}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        <button class="btn btn-dark"  data-dismiss="modal" aria-label="Close">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+{% endfor %}
+
+<!---------------------Edit Product Modal (OLD) ----------------------------->
+
+        {% for i in product_data %}
+<div id="exampleModalCenteredScrollableTTTTTTT{{ i.id }}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none;" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
     <div class="modal-content">
   <div class="card">

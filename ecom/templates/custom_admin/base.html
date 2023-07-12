@@ -19,6 +19,20 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{% static 'custom_admin/assets/images/favicon.png' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+  .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .description p {
+    margin: 0;  /* Remove any default margin */
+  }
+</style>
+
   </head>
   <body>
     <div class="container-scroller">
@@ -62,6 +76,14 @@
                 <i class="mdi mdi-table-large"></i>
               </span>
               <span class="menu-title">Products</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items {% block variants-active %} {% endblock %}">
+            <a class="nav-link" href="{% url 'variant_page' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-arrange-bring-forward"></i>
+              </span>
+              <span class="menu-title">Variants</span>
             </a>
           </li>
         </ul>

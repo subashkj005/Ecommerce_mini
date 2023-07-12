@@ -55,7 +55,9 @@ def delete_category(request,id):
 def product_page(request):
     if 'username' in request.session:
         all_category = Category.objects.all()
-        products = Product.objects.filter(is_deleted=True)
+        products = Product.objects.filter(is_deleted=False)
+        print(all_category)
+        print(products)
 
         return render(request,'products/products.html', {'product_data': products, 'category_data': all_category })
     return render(request, 'custom_admin/admin_login.html')
@@ -122,9 +124,41 @@ def delete_product(request,id):
     return redirect('product')
 
 
+def variant_page(request):
+    all_products = Product.objects.all()
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        product = Product.objects.get(id=product_id)
+        colours = Color.objects.filter(product=product_id)
+        return render(request, 'custom_admin/variants_page.html', {'product': product, 'colours': colours, 'all_products': all_products})
 
+    return render(request, 'custom_admin/variants_page.html', {'all_products': all_products})
 
+def add_color(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        colour_name = request.POST.get('colour_name')
+        colour_code = request.POST.get('colour_code')
 
+        product = Product.objects.get(id=product_id)
+        color = Color.objects.create(product=product, name=colour_name, color_code=colour_code)
+
+        return redirect('variant_page')
+
+def add_variant(request):
+    if request.method =='POST':
+        product_id = request.POST.get('product_id')
+        variant_colour = request.POST.get('variant_colour')
+        variant_name = request.POST.get('variant_name')
+        variant_price = request.POST.get('variant_price')
+        variant_stock = request.POST.get('variant_stock')
+
+        product = Product.objects.get(id=product_id)
+        colour = Color.objects.get(id=variant_colour)
+
+        variant = Variant.objects.create(product=product, colour=colour, name=variant_name, price=variant_price, stock=variant_stock)
+
+        return redirect('variant_page')
 
 
 

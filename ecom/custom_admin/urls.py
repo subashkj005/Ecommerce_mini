@@ -19,6 +19,9 @@ urlpatterns = [
     path('delete_product<int:id>/', delete_product, name='delete_product'),
     path('delete_image<int:id>/', delete_image, name='delete_image'),
     path('add_products/', add_products, name='add_product'),
+    path('variant/', variant_page, name='variant_page'),
+    path('add_colour', add_color, name='add_colour'),
+    path('add_variant', add_variant, name='add_variant'),
 
 
 ]

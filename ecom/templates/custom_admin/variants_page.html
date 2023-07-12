@@ -1,0 +1,121 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% block variants-active %} active{% endblock %}
+
+
+{% block dashboard %}
+
+<div class="page-header">
+    <h3 class="page-title">Add Product Variants</h3>
+</div>
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Select Product</h4>
+
+            <form class="forms-sample" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <select class="form-control text-white"  id="productSelect" name="product_id">
+                        {% for select_product in all_products %}
+                        <option  style="text-white" value="{{ select_product.id }}" {% if select_product.id == product.id %}selected{% endif %}>
+                            {% if select_product.id == product.id %}{{ product.name }}{% else %}{{ select_product.name }}{% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Select</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Add Colours</h4>
+
+                <form class="forms-sample" method="post" action="{% url 'add_colour' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Colour</label>
+                        <input type="text" class="form-control" id="colour_name" placeholder="Colour Name"
+                               name="colour_name">
+                    </div>
+                    <input type="hidden" id="product_id_hidden" name="product_id" value="">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Colour code</label>
+                        <input type="text" class="form-control" id="colour_code" placeholder="Colour code"
+                               name="colour_code">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Add Colour</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Add Variant</h4>
+
+                <form class="forms-sample" method="post" action="{% url 'add_variant' %}">
+                    {% csrf_token %}
+                    <input type="hidden" id="product_id_hidden_form2" name="product_id" value="">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Variant Name</label>
+                                    <input type="text" class="form-control" id="exampleInputUsername1"
+                                           placeholder="Variant Name" name="variant_name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Choose Colour</label>
+                                    <select class="form-control text-white" name="variant_colour">
+                                        {% for colour in colours %}
+                                        <option style="text-white" value="{{ colour.id }}">{{ colour.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Price</label>
+                                    <input type="text" class="form-control" id="exampleInputUsername1"
+                                           placeholder="Price" name="variant_price">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputUsername1">Stock</label>
+                                    <input type="text" class="form-control" id="exampleInputUsername1"
+                                           placeholder="Stock" name="variant_stock">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea1">Images</label>
+                        <div class="p-5" style="background-color: #2a3038;"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Add Variant</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('product_id_hidden').value = document.getElementById('productSelect').value;
+    document.getElementById('product_id_hidden_form2').value = document.getElementById('productSelect').value;
+</script>
+
+
+{% endblock %}
