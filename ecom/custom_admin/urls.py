@@ -20,8 +20,10 @@ urlpatterns = [
     path('delete_image<int:id>/', delete_image, name='delete_image'),
     path('add_products/', add_products, name='add_product'),
     path('variant/', variant_page, name='variant_page'),
+    path('add_variant_page', add_variant_page, name='add_variant_page'),
     path('add_colour', add_color, name='add_colour'),
     path('add_variant', add_variant, name='add_variant'),
+    path('edit_variant<int:id>/', edit_variant, name='edit_variant'),
 
 
 ]

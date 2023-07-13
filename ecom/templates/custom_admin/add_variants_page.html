@@ -16,11 +16,9 @@
             <form class="forms-sample" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <select class="form-control text-white"  id="productSelect" name="product_id">
+                    <select class="form-control text-white" id="productSelect" name="product_id">
                         {% for select_product in all_products %}
-                        <option  style="text-white" value="{{ select_product.id }}" {% if select_product.id == product.id %}selected{% endif %}>
-                            {% if select_product.id == product.id %}{{ product.name }}{% else %}{{ select_product.name }}{% endif %}
-                        </option>
+                        <option style="text-white" value="{{ select_product.id }}" {% if select_product.id == product.id %} selected {% endif %}>{% if select_product.id == product.id %}{{ product.name }}{% else %}{{ select_product.name }}{% endif %}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -58,7 +56,7 @@
             <div class="card-body">
                 <h4 class="card-title">Add Variant</h4>
 
-                <form class="forms-sample" method="post" action="{% url 'add_variant' %}">
+                <form class="forms-sample" method="post" enctype="multipart/form-data" action="{% url 'add_variant' %}">
                     {% csrf_token %}
                     <input type="hidden" id="product_id_hidden_form2" name="product_id" value="">
                     <div class="form-group">
@@ -102,7 +100,30 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleTextarea1">Images</label>
-                        <div class="p-5" style="background-color: #2a3038;"></div>
+                        <div class="input-group col-xs-12">
+                                <input type="file" multiple class="form-control file-upload-info btn btn-primary mb-3"
+                                       name="images" placeholder="Upload Image" id="image-upload">
+                        </div>
+
+<!--                 --------- Code for showing the image after choosing images for upload----------->
+
+<!--                        <div class="row" id="selected-images-container" style="background-color: #2a3038; border-radius: 8px; padding: 5px 0 5px 0;">-->
+<!--                            {% for image in images %}-->
+<!--                            <div class="col-3" style="max-width: 18%;">-->
+<!--                                <div class="row" style="width: 8em;">-->
+<!--                                    <div class="col-6">-->
+<!--                                        <img style="width: 60px; height: 60px; border-radius: 15px;" src="{{ image.url }}">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-6">-->
+<!--                                        <a class="btn btn-danger" style="height: 1.4rem; margin-bottom: 9px; width: .8rem;">-->
+<!--                                            <i class="fa-sharp fa-solid fa-xmark" style="color: #000000; font-size: 0.9rem; margin: -7px;"></i>-->
+<!--                                        </a>-->
+<!--                                        <input style="width: 1.5rem;" name="image_order">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Add Variant</button>
                 </form>
@@ -116,6 +137,64 @@
     document.getElementById('product_id_hidden').value = document.getElementById('productSelect').value;
     document.getElementById('product_id_hidden_form2').value = document.getElementById('productSelect').value;
 </script>
+
+<!-------------------Script for showing images before upload---------------------->
+
+<!--<script>-->
+<!--    document.getElementById('image-upload').addEventListener('change', function(event) {-->
+<!--        var selectedImagesContainer = document.getElementById('selected-images-container');-->
+<!--        selectedImagesContainer.innerHTML = ''; // Clear previous selected images-->
+
+<!--        var files = event.target.files;-->
+<!--        for (var i = 0; i < files.length; i++) {-->
+<!--            var file = files[i];-->
+<!--            var imageURL = URL.createObjectURL(file);-->
+
+<!--            var imageDiv = document.createElement('div');-->
+<!--            imageDiv.className = 'col-3';-->
+<!--            imageDiv.style.maxWidth = '18%';-->
+
+<!--            var imageRow = document.createElement('div');-->
+<!--            imageRow.className = 'row';-->
+<!--            imageDiv.appendChild(imageRow);-->
+
+<!--            var imageCol1 = document.createElement('div');-->
+<!--            imageCol1.className = 'col-6';-->
+<!--            imageRow.appendChild(imageCol1);-->
+
+<!--            var imageElement = document.createElement('img');-->
+<!--            imageElement.style.width = '60px';-->
+<!--            imageElement.style.height = '60px';-->
+<!--            imageElement.style.borderRadius = '15px';-->
+<!--            imageElement.src = imageURL;-->
+<!--            imageCol1.appendChild(imageElement);-->
+
+<!--            var imageCol2 = document.createElement('div');-->
+<!--            imageCol2.className = 'col-6';-->
+<!--            imageRow.appendChild(imageCol2);-->
+
+<!--            var deleteButton = document.createElement('a');-->
+<!--            deleteButton.className = 'btn btn-danger';-->
+<!--            deleteButton.style.height = '1.4rem';-->
+<!--            deleteButton.style.marginBottom = '9px';-->
+<!--            deleteButton.style.width = '.8rem';-->
+<!--            imageCol2.appendChild(deleteButton);-->
+
+<!--            var deleteIcon = document.createElement('i');-->
+<!--            deleteIcon.className = 'fa-sharp fa-solid fa-xmark';-->
+<!--            deleteIcon.style.color = '#000000';-->
+<!--            deleteIcon.style.fontSize = '0.9rem';-->
+<!--            deleteIcon.style.margin = '-7px';-->
+<!--            deleteButton.appendChild(deleteIcon);-->
+
+<!--            var inputBox = document.createElement('input');-->
+<!--            inputBox.style.width = '1.5rem';-->
+<!--            imageCol2.appendChild(inputBox);-->
+
+<!--            selectedImagesContainer.appendChild(imageDiv);-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
 
 
 {% endblock %}

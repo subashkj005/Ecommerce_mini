@@ -34,8 +34,8 @@ class Color(models.Model):
 
 
 class Variant(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variant_product')
-    colour = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='variants')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
+    colour = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='variant_colours')
     name = models.CharField(max_length=50)
     stock = models.IntegerField()
     price = models.FloatField()
@@ -46,14 +46,10 @@ class Variant(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product')
-    color = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='images')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='colour_images')
     image = models.ImageField(upload_to='product_images/')
-    order = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ['order']
 
     def __str__(self):
-        return f"Image of {self.product_color.name}"
+        return f"Image of {self.color.name}"
 
