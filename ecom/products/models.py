@@ -1,4 +1,11 @@
 from django.db import models
+from django.apps import AppConfig
+from django.db.models.signals import pre_delete, pre_save
+from django.dispatch import receiver
+from django.conf import settings
+import os
+
+
 
 # Create your models here.
 
@@ -52,4 +59,13 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image of {self.color.name}"
+
+@receiver(pre_delete, sender=ProductImage)
+def delete_image_file(sender, instance, **kwargs):
+    if instance.image:
+        print('-------------------------Instance Found-------------------------------------------')
+        file_path = os.path.join(settings.MEDIA_ROOT, str(instance.image))
+        if os.path.exists(file_path):
+            print('-------------------------File Removed-------------------------------------------')
+            os.remove(file_path)
 

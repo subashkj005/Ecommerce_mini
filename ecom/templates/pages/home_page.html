@@ -293,13 +293,13 @@
                 <div class="products">
                     <div class="row justify-content-center">
 
-                        {% for product in product_data %}
+                        {% for variant in variant_data %}
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="product product-2 ">
                                 <figure class="product-media">
 <!--                                    <span class="product-label label-circle label-sale">Sale</span>-->
-                                    <a href="{% url 'product_page' product.id %}">
-                                        <img src="{{product.images.first.image.url}}" alt="Product image" class="product-image">
+                                    <a href="{% url 'product_page' variant.id %}">
+                                        <img src="{{variant.colour.colour_images.first.image.url}}" alt="Product image" class="product-image">
                                     </a>
 
                                     <div class="product-action-vertical">
@@ -314,11 +314,12 @@
 
                                 <div class="product-body">
                                     <div class="product-cat">
-                                        <a href="{% url 'product_page' product.id %}">{{product.category.name}}</a>
+                                        <a href="">{{variant.product.category.name}}</a>
                                     </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="product.html">{{product.name}}</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a href="product.html">{{variant.product.name}} - {{variant.name}}  ({{variant.colour.name}})</a></h3><!-- End .product-title -->
                                     <div class="product-price">
-                                        <span class="new-price">{{product.price}}</span>
+                                        Rs. {{variant.price}}
+<!--                                        <span class="new-price"></span>-->
 <!--                                        <span class="old-price">Was $349.99</span>-->
                                     </div><!-- End .product-price -->
                                     <div class="ratings-container">
@@ -328,13 +329,11 @@
 <!--                                        <span class="ratings-text">( 4 Reviews )</span>-->
                                     </div><!-- End .rating-container -->
 
-<!--                                    <div class="product-nav product-nav-dots">-->
-<!--                                        <a href="#" class="active" style="background: #666666;"><span class="sr-only">Color name</span></a>-->
-<!--                                        <a href="#" style="background: #ff887f;"><span class="sr-only">Color name</span></a>-->
-<!--                                        <a href="#" style="background: #6699cc;"><span class="sr-only">Color name</span></a>-->
-<!--                                        <a href="#" style="background: #f3dbc1;"><span class="sr-only">Color name</span></a>-->
-<!--                                        <a href="#" style="background: #eaeaec;"><span class="sr-only">Color name</span></a>-->
-<!--                                    </div>-->
+                                    <div class="product-nav product-nav-dots">
+                                        {% for colour in variant.product.colors.all %}
+                                        <a href="#" class="active" style="background: {{colour.color_code}}"><span class="sr-only">Color name</span></a>
+                                        {% endfor %}
+                                    </div>
 
                                     <!-- End .product-nav -->
                                 </div><!-- End .product-body -->

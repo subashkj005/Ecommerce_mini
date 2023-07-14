@@ -181,13 +181,17 @@ def edit_variant(request, id):
         variant.colour = v_colour
         variant.save()
 
-        product.description = description
-        product.save()
+        if description:
+            product.description = description
+            product.save()
+
 
         if images:
             for image in images:
                 variant_image = ProductImage(product=product, color=v_colour, image=image)
                 variant_image.save()
+
+
 
         return redirect('variant_page')
 
