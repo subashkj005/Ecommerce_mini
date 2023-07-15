@@ -86,22 +86,37 @@
                                         </div><!-- End .product-nav -->
                                     </div>
 
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="size">Size:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="#" selected="selected">Select a size</option>
-                                                <option value="s">Small</option>
-                                                <option value="m">Medium</option>
-                                                <option value="l">Large</option>
-                                                <option value="xl">Extra Large</option>
-                                            </select>
-                                        </div><!-- End .select-custom -->
+<!--                                    <div class="details-filter-row details-row-size">-->
+<!--                                        <label for="size">Size:</label>-->
+<!--                                        <div class="select-custom">-->
+<!--                                            <select name="size" id="size" class="form-control">-->
+<!--                                                {% for model in variant.colour.variant_colours.all %}-->
+<!--                                                    {% with model_id=model.id %}-->
+<!--                                                    <option value="{{ model_id }}">{{ model.name }}</option>-->
+<!--                                                    {% endwith %}-->
+<!--                                                {% endfor %}-->
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <div class="product-variant-details mb-2">
+                                        <div class="col-md-6">
 
+                                            <div class="row">
+                                                <h6 style="margin-right: 1.5rem;">RAM : </h6>
+                                                <ul class="d-flex">
+                                                    {% for model in variant.colour.variant_colours.all %}
+                                                        {% with model_id=model.id %}
+                                                    <li style="margin-right: 1.5rem;">
+                                                        <a href="{% url 'product_page' model_id %}" style="padding: 1.0rem;font-weight: 500;border: {% if model_id == variant.id %}1.8px solid #73daff96; background-color: #33c9ff96;{% else %}1.8px solid #c1c1c1;{% endif %}">
+                                                            {{ model.name }}
+                                                        </a>
+                                                    </li>
+                                                        {% endwith %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-
-
-
 
 
                                     <div class="product-details-action">
@@ -334,5 +349,16 @@
         </main>
 
 
+
+<!--Variant option changer-->
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        $('#size').change(function() {-->
+<!--            var modelId = $(this).val();-->
+<!--            var url = "{".replace('model_id', modelId);-->
+<!--            window.location.href = url;-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
 {% endblock %}

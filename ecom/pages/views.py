@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.cache import never_cache
 from products.models import *
 from accounts.models import *
 # Create your views here.

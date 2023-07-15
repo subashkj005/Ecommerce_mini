@@ -46,6 +46,7 @@ class Variant(models.Model):
     name = models.CharField(max_length=50)
     stock = models.IntegerField()
     price = models.FloatField()
+    is_deleted = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -63,9 +64,9 @@ class ProductImage(models.Model):
 @receiver(pre_delete, sender=ProductImage)
 def delete_image_file(sender, instance, **kwargs):
     if instance.image:
-        print('-------------------------Instance Found-------------------------------------------')
+        print('-----Instance Found------')
         file_path = os.path.join(settings.MEDIA_ROOT, str(instance.image))
         if os.path.exists(file_path):
-            print('-------------------------File Removed-------------------------------------------')
+            print('------File Removed------')
             os.remove(file_path)
 
