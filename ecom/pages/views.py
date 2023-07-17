@@ -15,9 +15,6 @@ def homepage(request):
         first_variant = product.variants.first()
         if first_variant:
             variants.append(first_variant)
-    print(variants)
-
-
 
     return render(request, 'pages/home_page.html', {'category_data': categories, 'variant_data': variants})
 
@@ -31,7 +28,7 @@ def productpage(request, id):
     return render(request, 'pages/product_page.html', {'variant':variant, 'all_products': all_products, 'variant_images':variant_images})
 
 def test_page(request):
-    return render(request, 'pages/test_page.html')
+    return render(request, 'pages/cart.html')
 
 def profile_page(request):
     if 'phone_number' in request.session:

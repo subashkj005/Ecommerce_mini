@@ -59,7 +59,7 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to='product_images/')
 
     def __str__(self):
-        return f"Image of {self.color.name}"
+        return f"Image of {self.product.name} {self.color.name}"
 
 @receiver(pre_delete, sender=ProductImage)
 def delete_image_file(sender, instance, **kwargs):

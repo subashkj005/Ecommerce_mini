@@ -1,15 +1,10 @@
 {% extends 'pages/base.html' %}
 {% load static %}
 
-
 {% block content %}
 
 <main class="main">
-        	<div class="page-header text-center" style="background-image: url('{% static 'assets/images/polygonal19.jpg' %}');">
-        		<div class="container">
-        			<h1 class="page-title">My Account<span>Shop</span></h1>
-        		</div><!-- End .container -->
-        	</div><!-- End .page-header -->
+        	{% include 'pages/page_header.html' with page_title="My Account" sub_title="Shop" %}
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
                 <div class="container">
                     <ol class="breadcrumb">

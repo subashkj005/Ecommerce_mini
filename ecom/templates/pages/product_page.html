@@ -120,7 +120,8 @@
 
 
                                     <div class="product-details-action">
-                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="#" class="btn-product btn-cart" id="add-to-cart-btn" data-variant-id="{{ variant.id }}"><span>Add to Cart</span></a>
+
 
                                         <div class="details-action-wrapper">
                                             <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
@@ -142,6 +143,11 @@
 <!--                                            <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>-->
 <!--                                        </div>-->
                                     </div><!-- End .product-details-footer -->
+                                    <div class="product-details-footer">
+                                        <div class="product-cat">
+                                            <div id="cart-notification"></div>
+                                        </div>
+                                    </div>
                                 </div><!-- End .product-details -->
                             </div><!-- End .col-md-6 -->
                         </div><!-- End .row -->

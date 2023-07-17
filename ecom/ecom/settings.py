@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'accounts',
     'custom_admin',
     'products',
+    'pages',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +70,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # Custom context_processor for cart items count
+                'cart.context_processors.cart_item_count',
             ],
         },
     },

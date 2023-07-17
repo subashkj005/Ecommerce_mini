@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" style=""><!-- Nexo/index-4.html  22 Nov 2019 09:53:08 GMT --><head>
+<html lang="en" style="" xmlns="http://www.w3.org/1999/html"><!-- Nexo/index-4.html  22 Nov 2019 09:53:08 GMT --><head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -34,9 +34,56 @@
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/skins/skin-demo-4.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/demos/demo-4.css' %}">
+    <!-- Css for quantity selector   -->
+    <style>
+        .counter {
+            width: 150px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .counter input {
+            width: 40px;
+            border: 0;
+            line-height: 30px;
+            font-size: 20px;
+            text-align: center;
+            background: #39f;
+            color: #fff;
+            appearance: none;
+            outline: 0;
+        }
+        .counter span {
+            display: block;
+            font-size: 25px;
+            padding: 0 10px;
+            cursor: pointer;
+            color: #39f;
+            user-select: none;
+        }
+    </style>
+    <!--Css for add to cart success notification -->
+    <style>
+        #cart-notification {
+          display: none;
+          background-color: green;
+          color: white;
+          padding: 10px;
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 9999;
+        }
+
+    </style>
+
 </head>
 
 <body style="overflow-x: hidden;">
+
+
+
     <div class="page-wrapper">
         <header class="header header-intro-clearance header-4">
             <div class="header-top">
@@ -93,7 +140,7 @@
                             <span class="sr-only">Toggle mobile menu</span>
                             <i class="icon-bars"></i>
                         </button>
-                        
+
                         <a href="{% url 'user_home' %}" class="logo">
                             <img src="{% static 'assets/images/demos/demo-4/nexo-logo.png' %}" alt="Nexo Logo" width="105" height="25">
                         </a>
@@ -149,76 +196,93 @@
                             <a href="{% static 'wishlist.html' %}" title="Wishlist">
                                 <div class="icon">
                                     <i class="icon-heart-o"></i>
-                                    <span class="wishlist-count badge">3</span>
+
+                                    <!-- Wishlist icon counter ---------->
+<!--                                    <span class="wishlist-count badge">0</span>-->
+
+
+
+
                                 </div>
                                 <p>Wishlist</p>
                             </a>
                         </div><!-- End .compare-dropdown -->
 
                         <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <a href="{% url 'cart_page' %}" class="dropdown-toggle" role="button" >
+<!--                            <a href="{% url 'cart_page' %}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">    -->
                                 <div class="icon">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
+                                    <span class="cart-count">{{cart_item_count}}</span>
                                 </div>
                                 <p>Cart</p>
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-cart-products">
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="{% static 'product.html' %}">Beige knitted elastic runner shoes</a>
-                                            </h4>
 
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
+                                <!-- Cart Dropdown    -->
 
-                                        <figure class="product-image-container">
-                                            <a href="{% static 'product.html' %}" class="product-image">
-                                                <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
+<!--                            <div class="dropdown-menu dropdown-menu-right">-->
+<!--                                <div class="dropdown-cart-products">-->
+<!--                                    <div class="product">-->
+<!--                                        <div class="product-cart-details">-->
+<!--                                            <h4 class="product-title">-->
+<!--                                                <a href="{% static 'product.html' %}">Beige knitted elastic runner shoes</a>-->
+<!--                                            </h4>-->
 
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="{% static 'product.html' %}">Blue utility pinafore denim dress</a>
-                                            </h4>
+<!--                                            <span class="cart-product-info">-->
+<!--                                                <span class="cart-product-qty">1</span>-->
+<!--                                                x $84.00-->
+<!--                                            </span>-->
+<!--                                        </div>&lt;!&ndash; End .product-cart-details &ndash;&gt;-->
 
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $76.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
+<!--                                        <figure class="product-image-container">-->
+<!--                                            <a href="{% static 'product.html' %}" class="product-image">-->
+<!--                                                <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">-->
+<!--                                            </a>-->
+<!--                                        </figure>-->
+<!--                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>-->
+<!--                                    </div>&lt;!&ndash; End .product &ndash;&gt;-->
 
-                                        <figure class="product-image-container">
-                                            <a href="{% static 'product.html' %}" class="product-image">
-                                                <img src="{% static 'assets/images/products/cart/product-2.jpg' %}" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
-                                </div><!-- End .cart-product -->
+<!--                                    <div class="product">-->
+<!--                                        <div class="product-cart-details">-->
+<!--                                            <h4 class="product-title">-->
+<!--                                                <a href="{% static 'product.html' %}">Blue utility pinafore denim dress</a>-->
+<!--                                            </h4>-->
 
-                                <div class="dropdown-cart-total">
-                                    <span>Total</span>
+<!--                                            <span class="cart-product-info">-->
+<!--                                                <span class="cart-product-qty">1</span>-->
+<!--                                                x $76.00-->
+<!--                                            </span>-->
+<!--                                        </div>&lt;!&ndash; End .product-cart-details &ndash;&gt;-->
 
-                                    <span class="cart-total-price">$160.00</span>
-                                </div><!-- End .dropdown-cart-total -->
+<!--                                        <figure class="product-image-container">-->
+<!--                                            <a href="{% static 'product.html' %}" class="product-image">-->
+<!--                                                <img src="{% static 'assets/images/products/cart/product-2.jpg' %}" alt="product">-->
+<!--                                            </a>-->
+<!--                                        </figure>-->
+<!--                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>-->
+<!--                                    </div>&lt;!&ndash; End .product &ndash;&gt;-->
+<!--                                </div>&lt;!&ndash; End .cart-product &ndash;&gt;-->
 
-                                <div class="dropdown-cart-action">
-                                    <a href="{% static 'cart.html' %}" class="btn btn-primary">View Cart</a>
-                                    <a href="{% static 'checkout.html' %}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
-                                </div><!-- End .dropdown-cart-total -->
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .cart-dropdown -->
+<!--                                <div class="dropdown-cart-total">-->
+<!--                                    <span>Total</span>-->
+
+<!--                                    <span class="cart-total-price">$160.00</span>-->
+<!--                                </div>&lt;!&ndash; End .dropdown-cart-total &ndash;&gt;-->
+
+<!--                                <div class="dropdown-cart-action">-->
+<!--                                    <a href="{% static 'cart.html' %}" class="btn btn-primary">View Cart</a>-->
+<!--                                    <a href="{% static 'checkout.html' %}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>-->
+<!--                                </div>&lt;!&ndash; End .dropdown-cart-total &ndash;&gt;-->
+<!--                            </div>&lt;!&ndash; End .dropdown-menu &ndash;&gt;-->
+<!--                        </div>-->
+
+                        <!-- End .cart-dropdown -->
+
+
+
+
+
                     </div><!-- End .header-right -->
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
@@ -259,8 +323,8 @@
                     <div class="header-center">
                         <nav class="main-nav">
                             <ul class="menu sf-arrows sf-js-enabled" style="touch-action: pan-y;">
-                                <li class="megamenu-container active">
-                                    <a href="{% static 'index.html' %}" class="sf-with-ul">Home</a>
+                                <li class="megamenu-container {% block active %} {% endblock %}">
+                                    <a href="{% url 'user_home' %}" class="sf-with-ul">Home</a>
                                 </li>
                                 <li>
                                     <a href="{% static 'category.html' %}" class="sf-with-ul">Shop</a>
@@ -483,7 +547,7 @@
 
 
 
-        
+
         <!-- End .main -->
 
         <footer class="footer">
@@ -519,7 +583,7 @@
 	            				<div class="widget-call">
                                     <i class="icon-phone"></i>
                                     Got Question? Call us 24/7
-                                    <a href="{% static 'tel:#' %}">+0123 456 789</a>         
+                                    <a href="{% static 'tel:#' %}">+0123 456 789</a>
                                 </div><!-- End .widget-call -->
 	            			</div><!-- End .widget about-widget -->
 	            		</div><!-- End .col-sm-6 col-lg-3 -->
@@ -588,7 +652,7 @@
     <div class="mobile-menu-container mobile-menu-light">
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="icon-close"></i></span>
-            
+
             <form action="#" method="get" class="mobile-search">
                 <label for="mobile-search" class="sr-only">Search</label>
                 <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required="">
@@ -1034,14 +1098,115 @@
     <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'assets/js/superfish.min.js' %}"></script>
     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+<!--    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>-->
     <script src="{% static 'assets/js/jquery.elevateZoom.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
-    <!-- Main JS File -->
-    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <!-- Script for Quantity selector -->
+    <script>
+        function increaseCount(a, b) {
+          var input = b.previousElementSibling;
+          var value = parseInt(input.value, 10);
+          value = isNaN(value) ? 0 : value;
+          value++;
+          input.value = value;
+        }
+
+        function decreaseCount(a, b) {
+          var input = b.nextElementSibling;
+          var value = parseInt(input.value, 10);
+          if (value > 1) {
+            value = isNaN(value) ? 0 : value;
+            value--;
+            input.value = value;
+          }
+        }
+
+    </script>
+
+    <!--Additional custom scripts-->
+    <script src="{% static 'custom_js/cart.js' %}"></script>
+
+    <!--Script for adding product to cart-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('#add-to-cart-btn').click(function(e) {
+        e.preventDefault();
+        var variantId = $(this).data('variant-id');
+
+        $.ajax({
+          url: '/add_to_cart/' + variantId + '/',
+          type: 'GET',
+          success: function(response) {
+            // Show custom success notification
+            $('#cart-notification').text('Item added to Cart').fadeIn().delay(2000).fadeOut();
+
+            // Refresh the page after success
+            location.reload();
+          },
+          error: function(xhr, status, error) {
+            alert('Error occurred while adding item to cart.');
+            console.log(xhr.responseText);
+          }
+        });
+      });
+    });
+
+    </script>
+
+    <!--Script for adding, decreasing quantity -->
+    <script>
+    $(document).ready(function() {
+      $('.down').click(function(e) {
+        e.preventDefault();
+        var cartId = $(this).data('cart-id');
+        var quantityInput = $(this).siblings('input');
+        var currentQuantity = parseInt(quantityInput.val());
+
+        if (currentQuantity > 1) {
+          quantityInput.val(currentQuantity - 1);
+          updateCart(cartId, currentQuantity - 1);
+        }
+      });
+
+      $('.up').click(function(e) {
+        e.preventDefault();
+        var cartId = $(this).data('cart-id');
+        var quantityInput = $(this).siblings('input');
+        var currentQuantity = parseInt(quantityInput.val());
+
+        quantityInput.val(currentQuantity + 1);
+        updateCart(cartId, currentQuantity + 1);
+      });
+
+      function updateCart(cartId, newQuantity) {
+        $.ajax({
+          url: 'quantity_update/' + cartId + '/',
+          type: 'GET',
+          data: {
+            quantity: newQuantity
+          },
+          success: function(response) {
+            // Refresh the page to fetch updated data
+            location.reload();
+          },
+          error: function(xhr, status, error) {
+            alert('Error occurred while updating cart.');
+            console.log(xhr.responseText);
+          }
+        });
+      }
+    });
+
+
+
+    </script>
 
 
 
 
 
-</body><!-- Nexo/index-4.html  22 Nov 2019 09:54:18 GMT --></html>
+
+</body>
+</html>

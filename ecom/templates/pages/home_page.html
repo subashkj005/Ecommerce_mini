@@ -1,6 +1,6 @@
 {% extends 'pages/base.html' %}
 {% load static %}
-
+{% block active %} active {% endblock %}
 
 {% block content %}
 <main class="main">
@@ -307,7 +307,7 @@
                                     </div><!-- End .product-action -->
 
                                     <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                        <a href="#" data-product="{{variant.id}}" data-action="add" class="btn-product btn-cart add-btn update-cart" title="Add to cart"><span>add to cart</span></a>
                                         <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
