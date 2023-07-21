@@ -10,7 +10,6 @@ from .forms import LoginForm
 
 @never_cache
 def user_login(request):
-
     if request.method == 'POST':
         form = LoginForm(request.POST)
 
@@ -18,10 +17,22 @@ def user_login(request):
             phone_number = form.cleaned_data['phone_number']
             password = form.cleaned_data['password']
 
-            user = authenticate(request, username=phone_number, password=password)
-            active = Profile.objects.get(user_id=user.id)
+            # Check if the phone number exists in the database
+            try:
+                profile = Profile.objects.get(phone_number=phone_number)
+            except Profile.DoesNotExist:
+                messages.error(request, 'Your account does not exist')
+                return redirect('user_login')
 
-            if user is not None and active.is_active:
+            # Check if the user is active
+            if not profile.is_active:
+                messages.error(request, 'Your account is inactive')
+                return redirect('user_login')
+
+            # If the phone number exists and the user is active, authenticate the user
+            user = authenticate(request, username=phone_number, password=password)
+
+            if user is not None:
                 otp = str(random.randint(1000, 9999))
                 # send_otp(otp)
 
@@ -30,19 +41,16 @@ def user_login(request):
                 print('--------------------')
                 request.session['user'] = {'phone_number': phone_number, 'otp': otp}
                 return render(request, 'accounts/login_otp.html', {'phone': phone_number})
-
-            elif user is not None and not active.is_active:
-                messages.error(request, 'Your account is blocked')
-                return redirect('user_login')
             else:
-                messages.error(request, 'Invalid phone number or password')
+                messages.error(request, 'Incorrect password')
+                return redirect('user_login')
         else:
             messages.error(request, 'Invalid form data')
+            return redirect('user_login')
     else:
         form = LoginForm()
 
     return render(request, 'accounts/login.html', {'form': form})
-
 def login_otp(request):
 
     user = request.session.get('user')

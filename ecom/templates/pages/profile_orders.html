@@ -1,0 +1,49 @@
+{% extends 'pages/profile_base.html' %}
+{% load static %}
+
+{% block orders_active %}active{% endblock %}
+
+
+{% block profile %}
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title">Orders</h4>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th></th>
+                    <th>Order date</th>
+                    <th>Order status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order_id, order_data in orders_dict.items %}
+                    {% for order_detail in order_data.order_details %}
+                        <tr>
+                            <td>
+                                {{ order_detail.product.product.name }} {{ order_detail.product.name }} {{ order_detail.product.colour.name }}
+<!--                                <img src="{{ order_detail.product.colour_images.first.image.url }}" width="50" height="50">-->
+                            </td>
+                            <td></td>
+                            <td>{{ order_data.order.date_created }}</td>
+                            <td>{{ order_data.order.order_status }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

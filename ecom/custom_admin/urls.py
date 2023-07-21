@@ -24,6 +24,9 @@ urlpatterns = [
     path('add_colour', add_color, name='add_colour'),
     path('add_variant', add_variant, name='add_variant'),
     path('edit_variant<int:id>/', edit_variant, name='edit_variant'),
+    path('orders', orders, name='orders'),
+    path('order_details<int:id>/', order_details, name='order_details'),
+    path('order_status<int:id>/', order_status_update, name='order_status_update'),
 
 
 ]

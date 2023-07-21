@@ -1,0 +1,136 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% block orders-active %} active{% endblock %}
+
+
+{% block dashboard %}
+
+
+
+
+
+
+    <div class="page-header">
+        <h3 class="page-title">Order details</h3>
+    </div>
+    <div class="row" style="justify-content: center;">
+        <div class="col-10 grid-margin">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="form-sample">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Order No.</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="invisibleInputBox" value="{{order.order_num}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Date</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="invisibleInputBox" value="{{order.date_created}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Customer Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="invisibleInputBox" value="{{order.user.name}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Payment Method</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="invisibleInputBox" value="{{order.payment_type}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Address</label>
+                                    <div class="col-sm-9">
+                                        <p>
+                                            {{order.address.address}},<br>
+                                            {{order.address.city}}, {{order.address.state}},<br>
+                                            {{order.address.zip_code}}, {{order.address.country}}<br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Order Amount</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="invisibleInputBox" value="{{order.total}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form class="form-group row" method="post" action="{% url 'order_status_update' order.id %}">
+                                    {% csrf_token %}
+                                    <label class="col-sm-3 col-form-label">Order Status</label>
+                                    <div class="col-sm-7 d-flex">
+                                        <select name="order_status" class="form-control text-white">
+                                            {% for status in order.ORDER_STATUS_CHOICES %}
+                                            <option value="{{ status.0 }}" {% if order.order_status == status.0 %}selected{% endif %}>{{ status.1 }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary ml-2">Update</button>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div style="padding: 1px;margin-bottom: 4px;"></div>
+            <div class="table-responsive" style="background-color: #191c24;padding: 40px;">
+                <h6>Products</h6>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in order.order_items.all %}
+                    <tr>
+                        <td class="text-white">{{item.product.product.name}} {{item.product.name}} {{item.product.colour.name}}</td>
+                        <td class="text-white">{{item.quantity}}</td>
+                        <td class="text-white">Rs.{{item.price}}</td>
+                        <td class="text-white">Rs.{{item.total_price}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

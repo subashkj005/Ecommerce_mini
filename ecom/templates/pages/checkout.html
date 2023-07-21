@@ -1,0 +1,259 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+{% include 'pages/page_header.html' with page_title="Checkout" sub_title="" %}
+<div class="page-content mt-2">
+    <div class="checkout">
+        <div class="container">
+            <div class="checkout-discount">
+                <!--                <form action="#">-->
+                <!--                    <input type="text" class="form-control" required="" id="checkout-discount-input">-->
+                <!--                    <label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>-->
+                <!--                </form>-->
+            </div><!-- End .checkout-discount -->
+            <form method="post" action="{% url 'order_confirm' %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-7">
+                        <p style="margin-bottom: 18px;">Choose the address for the order</p>
+
+                        <div class="row">
+                            {% for address in addresses %}
+                            <div class="col-lg-6">
+                                <div class="card card-dashboard">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Billing Address</h3><!-- End .card-title -->
+
+                                        <p>{{address.user.name}}<br>
+                                            {{address.address}},<br>
+                                            {{address.city}}, {{address.state}},<br>
+                                            {{address.zip_code}}, {{address.country}}<br>
+                                            {{address.user.phone_number}}<br>
+                                            {{address.user.email}}<br>
+                                            <a href="#">Edit <i class="icon-edit"></i></a>
+                                        </p>
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="radio" name="selected_address"
+                                                   value="{{address.id}}" id="flexRadioDefault{{address.id}}" {% if address.default_address %} checked {% endif %}>
+                                            <label class="form-check-label ml-2" for="flexRadioDefault{{address.id}}">Use
+                                                this address</label>
+                                        </div>
+                                    </div><!-- End .card-body -->
+                                </div><!-- End .card-dashboard -->
+                            </div><!-- End .col-lg-6 -->
+                            {% endfor %}
+
+
+                        </div><!-- End .row -->
+
+                    </div><!-- End .col-lg-9 -->
+                    <aside class="col-lg-5" style="">
+                        <div class="summary" style="margin-top: 43px;">
+                            <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+                            <table class="table table-summary">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td><a href="#">{{product.variant.product.name}} {{product.variant.name}}</a></td>
+                                    <td class="text-center">{{product.quantity}}</td>
+                                    <td>{{product.total}}</td>
+                                </tr>
+                                {% endfor %}
+
+                                <tr class="summary-subtotal">
+                                    <td>Subtotal:</td>
+                                    <td></td>
+                                    <td>Rs.{{sub_total}}</td>
+                                </tr><!-- End .summary-subtotal -->
+                                <tr>
+                                    <td>Shipping:</td>
+                                    <td></td>
+                                    <td>Free shipping</td>
+                                </tr>
+                                <tr class="summary-total">
+                                    <td>Total:</td>
+                                    <td></td>
+                                    <td>Rs.{{sub_total}}</td>
+                                </tr><!-- End .summary-total -->
+                                </tbody>
+                            </table><!-- End .table table-summary -->
+
+                            <div class="accordion-summary" id="accordion-payment">
+                                <!--                                <div class="card">-->
+                                <!--                                    <div class="card-header" id="heading-1">-->
+                                <!--                                        <h2 class="card-title">-->
+                                <!--                                            <a role="button" data-toggle="collapse" href="#collapse-1"-->
+                                <!--                                               aria-expanded="true" aria-controls="collapse-1">-->
+                                <!--                                                Direct bank transfer-->
+                                <!--                                            </a>-->
+                                <!--                                        </h2>-->
+                                <!--                                    </div>&lt;!&ndash; End .card-header &ndash;&gt;-->
+                                <!--                                    <div id="collapse-1" class="collapse show" aria-labelledby="heading-1"-->
+                                <!--                                         data-parent="#accordion-payment">-->
+                                <!--                                        <div class="card-body">-->
+                                <!--                                            Make your payment directly into our bank account. Please use your Order ID-->
+                                <!--                                            as the payment reference. Your order will not be shipped until the funds-->
+                                <!--                                            have cleared in our account.-->
+                                <!--                                        </div>&lt;!&ndash; End .card-body &ndash;&gt;-->
+                                <!--                                    </div>&lt;!&ndash; End .collapse &ndash;&gt;-->
+                                <!--                                </div>&lt;!&ndash; End .card &ndash;&gt;-->
+
+                                <!--                                <div class="card">-->
+                                <!--                                    <div class="card-header" id="heading-2">-->
+                                <!--                                        <h2 class="card-title">-->
+                                <!--                                            <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2"-->
+                                <!--                                               aria-expanded="false" aria-controls="collapse-2">-->
+                                <!--                                                Check payments-->
+                                <!--                                            </a>-->
+                                <!--                                        </h2>-->
+                                <!--                                    </div>&lt;!&ndash; End .card-header &ndash;&gt;-->
+                                <!--                                    <div id="collapse-2" class="collapse" aria-labelledby="heading-2"-->
+                                <!--                                         data-parent="#accordion-payment">-->
+                                <!--                                        <div class="card-body">-->
+                                <!--                                            Ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque-->
+                                <!--                                            volutpat mattis eros. Nullam malesuada erat ut turpis.-->
+                                <!--                                        </div>&lt;!&ndash; End .card-body &ndash;&gt;-->
+                                <!--                                    </div>&lt;!&ndash; End .collapse &ndash;&gt;-->
+                                <!--                                </div>&lt;!&ndash; End .card &ndash;&gt;-->
+
+                                <div class="card">
+                                    <div class="card-header" id="heading-3">
+                                        <h2 class="card-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3"
+                                               aria-expanded="false" aria-controls="collapse-3">
+                                                Cash on delivery
+                                            </a>
+                                        </h2>
+                                    </div><!-- End .card-header -->
+                                    <div id="collapse-3" class="collapse" aria-labelledby="heading-3"
+                                         data-parent="#accordion-payment">
+                                        <div class="card-body">Pay conveniently with cash when your order is delivered
+                                            by selecting the 'Cash on Delivery' option at checkout.
+                                        </div><!-- End .card-body -->
+                                    </div><!-- End .collapse -->
+                                </div><!-- End .card -->
+
+                                <!--                                <div class="card">-->
+                                <!--                                    <div class="card-header" id="heading-4">-->
+                                <!--                                        <h2 class="card-title">-->
+                                <!--                                            <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4"-->
+                                <!--                                               aria-expanded="false" aria-controls="collapse-4">-->
+                                <!--                                                PayPal <small class="float-right paypal-link">What is PayPal?</small>-->
+                                <!--                                            </a>-->
+                                <!--                                        </h2>-->
+                                <!--                                    </div>&lt;!&ndash; End .card-header &ndash;&gt;-->
+                                <!--                                    <div id="collapse-4" class="collapse" aria-labelledby="heading-4"-->
+                                <!--                                         data-parent="#accordion-payment">-->
+                                <!--                                        <div class="card-body">-->
+                                <!--                                            Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper-->
+                                <!--                                            suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.-->
+                                <!--                                        </div>&lt;!&ndash; End .card-body &ndash;&gt;-->
+                                <!--                                    </div>&lt;!&ndash; End .collapse &ndash;&gt;-->
+                                <!--                                </div>&lt;!&ndash; End .card &ndash;&gt;-->
+
+                                <!--                                <div class="card">-->
+                                <!--                                    <div class="card-header" id="heading-5">-->
+                                <!--                                        <h2 class="card-title">-->
+                                <!--                                            <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5"-->
+                                <!--                                               aria-expanded="false" aria-controls="collapse-5">-->
+                                <!--                                                Credit Card (Stripe)-->
+                                <!--                                                <img src="assets/images/payments-summary.png" alt="payments cards">-->
+                                <!--                                            </a>-->
+                                <!--                                        </h2>-->
+                                <!--                                    </div>&lt;!&ndash; End .card-header &ndash;&gt;-->
+                                <!--                                    <div id="collapse-5" class="collapse" aria-labelledby="heading-5"-->
+                                <!--                                         data-parent="#accordion-payment">-->
+                                <!--                                        <div class="card-body"> Donec nec justo eget felis facilisis fermentum.Lorem-->
+                                <!--                                            ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque-->
+                                <!--                                            volutpat mattis eros. Lorem ipsum dolor sit ame.-->
+                                <!--                                        </div>&lt;!&ndash; End .card-body &ndash;&gt;-->
+                                <!--                                    </div>&lt;!&ndash; End .collapse &ndash;&gt;-->
+                                <!--                                </div>&lt;!&ndash; End .card &ndash;&gt;-->
+                            </div><!-- End .accordion -->
+
+                            <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                <span class="btn-text">Place Order</span>
+                                <span class="btn-hover-text">Proceed to Checkout</span>
+                            </button>
+                        </div><!-- End .summary -->
+                    </aside><!-- End .col-lg-3 -->
+                </div><!-- End .row -->
+            </form>
+        </div><!-- End .container -->
+    </div><!-- End .checkout -->
+</div>
+
+
+<!---Modal for Address Add-->
+                            <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="addAddressModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" style="padding: 30px;">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="{% url 'add_address' %}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control" id="addressInput"
+                                                           name="address" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>City</label>
+                                                    <input type="text" class="form-control" id="cityInput"
+                                                           name="city" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>State</label>
+                                                    <input type="text" class="form-control" id="stateInput"
+                                                           name="state" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Zip Code</label>
+                                                    <input type="text" class="form-control" id="zipCodeInput"
+                                                           name="zip_code" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Country</label>
+                                                    <input type="text" class="form-control" id="countryInput"
+                                                           name="country" value="India" required>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                           id="defaultAddressCheck" name="default_address">
+                                                    <label class="form-check-label" for="defaultAddressCheck">Set
+                                                        as Default Address</label>
+                                                </div>
+                                                <input type="hidden" name="'url'" value="'checkout'">
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">Save changes
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+{% endblock %}

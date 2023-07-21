@@ -1,0 +1,98 @@
+{% extends 'pages/profile_base.html' %}
+{% load static %}
+
+{% block account_active %} active {% endblock %}
+{% block profile %}
+
+<div >
+    <div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label>Name *</label>
+                <input type="text" class="form-control" value="{{user.name}}" readonly>
+            </div><!-- End .col-sm-6 -->
+            <div class="col-sm-6">
+                <label>Phone number</label>
+                <input type="text" class="form-control" value="{{user.phone_number}}"
+                       readonly>
+            </div>
+
+        </div><!-- End .row -->
+
+        <label>Email address *</label>
+        <input type="email" class="form-control" value="{{user.email}}" readonly>
+
+        <button type="button" class="btn btn-outline-primary-2" data-toggle="modal" data-target="#editProfileModal"
+        ">
+        <span>EDIT</span>
+        <i class="icon-long-arrow-right"></i>
+        </button>
+
+    </div>
+</div>
+
+<!--Modal for editing Profile-->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+     style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding: 26px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'edit_profile' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="nameInput">Name *</label>
+                                <input type="text" class="form-control" id="nameInput" value="{{user.name}}" name="name"
+                                       required="">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="phoneNumberInput">Phone number</label>
+                                <input type="text" class="form-control" id="phoneNumberInput"
+                                       value="{{user.phone_number}}" name="phone" required="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailInput">Email address *</label>
+                        <input type="email" class="form-control" id="emailInput" value="{{user.email}}" name="email"
+                               required="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currentPasswordInput">Current password</label>
+                        <input type="password" class="form-control" id="currentPasswordInput" name="cur_password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPasswordInput">New password</label>
+                        <input type="password" class="form-control" id="newPasswordInput" name="new_password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPasswordInput">Confirm new password</label>
+                        <input type="password" class="form-control" id="confirmPasswordInput" name="confirm_password">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---End of Modal for editing Profile-->
+
+{% endblock %}

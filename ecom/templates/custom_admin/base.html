@@ -47,6 +47,11 @@
     #editModal::-webkit-scrollbar-thumb:hover {
       visibility: visible;
     }
+    #invisibleInputBox{
+      background-color: #191c24;
+      border: 1px solid #191c24;
+    }
+
 </style>
 
   </head>
@@ -100,6 +105,14 @@
                 <i class="mdi mdi-arrange-bring-forward"></i>
               </span>
               <span class="menu-title">Variants</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items {% block orders-active %} {% endblock %}">
+            <a class="nav-link" href="{% url 'orders' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-truck-delivery"></i>
+              </span>
+              <span class="menu-title">Orders</span>
             </a>
           </li>
         </ul>
