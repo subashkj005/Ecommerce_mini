@@ -1,0 +1,41 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<main style="padding-top: 1.4rem; border-top: 1px solid #e1e1e0;">
+        <div class="extended-container">
+            <h3>Product Return</h3>
+            <div class="extended-product-info">
+                <div class="extended-product-image">
+                    <img src="{{item.product.colour.colour_images.first.image.url}}" alt="Product Image">
+                </div>
+                <div class="extended-product-details">
+                    <h5>{{item.product.product.name}} {{item.product.name}}<br>{{item.product.colour.name}}</h5>
+                    <p>{{item.product.product.description|slice:":300"}}.  .  .  .  </p>
+                    <p style="color: black;font-weight: 500;">Price: Rs.{{item.price}}</p>
+                    <!-- Add any other product details you want to display -->
+                </div>
+            </div>
+
+            <div class="extended-order-details">
+                <h4>Order Details</h4>
+                <p>Order Number: <span style="color: black;font-weight: 500;">{{item.order.order_num}}</span></p>
+                <p>Order Date: <span style="color: black;font-weight: 500;">{{item.order.date_created}}</span></p>
+                <!-- Add any other order details you want to display -->
+            </div>
+
+            <div class="extended-reason-form">
+                <h5>Return Reason</h5>
+                <form action="{% url 'return_request' item.id %}" method="POST">
+                    {% csrf_token %}
+                    <textarea name="reason" rows="4" placeholder="Enter your reason for return..."></textarea>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+{% endblock %}

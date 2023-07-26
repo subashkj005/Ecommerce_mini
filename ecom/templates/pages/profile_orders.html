@@ -5,45 +5,68 @@
 
 
 {% block profile %}
-<div class="card">
+<div class="">
     <div class="card-body">
         <div class="d-flex justify-content-between">
             <h4 class="card-title">Orders</h4>
         </div>
         <div class="table-responsive">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Product</th>
-                    <th></th>
-                    <th>Order date</th>
-                    <th>Order status</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for order_id, order_data in orders_dict.items %}
-                    {% for order_detail in order_data.order_details %}
-                        <tr>
-                            <td>
-                                {{ order_detail.product.product.name }} {{ order_detail.product.name }} {{ order_detail.product.colour.name }}
-<!--                                <img src="{{ order_detail.product.colour_images.first.image.url }}" width="50" height="50">-->
-                            </td>
-                            <td></td>
-                            <td>{{ order_data.order.date_created }}</td>
-                            <td>{{ order_data.order.order_status }}</td>
-                        </tr>
+            {% for order.id,order_data in orders_list.items %}
+            <div class="order-table"
+                 style="border-radius: 9px;background: #f7fbff;padding: 1rem;border: 0.1px solid #d6d6d6;margin-bottom: 1.2rem;">
+                <div class="" style="display: flex;border-bottom: 0.2px solid #d6d6d6;justify-content: space-between;padding-bottom: 5px;">
+                    <p>Order ID: {{order_data.order.order_num}}</p>
+                    <p>Order Date: {{order_data.order.date_created}}</p>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th></th>
+                        <th>Price</th>
+                        <th>Order status</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in order_data.order_details %}
+                    <tr>
+                        <td><img style="height: 47px; width: 53px;" src="{{order.product.colour.colour_images.first.image.url}}"></td>
+                        <td>{{order.product.product.name|slice:":22"}}<br>{{order.product.name}}</td>
+                        <td>{{order.price}}</td>
+                        <td>
+                            {% if order.order_status == 'order_pending' %}
+                            <span style="font-size: 14px;color: #838d07;background: #f3f335;font-weight: 500;padding: 1.404rem;border-radius: 43px;">Order pending</span>
+                            {% elif order.order_status == 'order_confirmed' %}
+                            <span style="font-size: 14px;color: #078615;background: #6df85f;font-weight: 500;padding: 1.404rem;/* border: 1px solid; */border-radius: 43px;">Order confirmed</span>
+                            {% elif order.order_status == 'delivered' %}
+                            <span style="font-size: 14px;color: #078615;background: #6df85f;font-weight: 500;padding: 1.404rem;/* border: 1px solid; */border-radius: 43px;">Delivered</span>
+                            {% elif order.order_status == 'returned' %}
+                            <span style="font-size: 14px;color: #078615;background: #6df85f;font-weight: 500;padding: 1.404rem;/* border: 1px solid; */border-radius: 43px;">Returned</span>
+                            {% elif order.order_status == 'returned' %}
+                            <span style="font-size: 14px;color: #15a4a3;background: #68fff7;font-weight: 500;padding: 1.404rem;/* border: 1px solid; */border-radius: 43px;">Returned</span>
+                            {% elif order.order_status == 'cancelled' %}
+                            <span style="font-size: 14px;color: #a41515;background: #ff6868;font-weight: 500;padding: 1.404rem;/* border: 1px solid; */border-radius: 43px;">Cancelled</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.order_status == 'delivered' %}
+                                <a href="{% url 'return_request' order.id %}" style="border-radius: 12px;color: #15a4a3;font-weight: 500;padding: 1rem;background: #68fff7;">Return</a>
+                            {% elif order.order_status != 'returned' and order.order_status != 'cancelled'  %}
+                                <a href="{% url 'cancel_order' order.id %}" style="border-radius: 12px;color: #e03232;font-weight: 500;padding: 1rem;background: #ffb1b1;">Cancel</a>
+                            {% endif %}
+                        </td>
+                    </tr>
                     {% endfor %}
-                {% endfor %}
-                </tbody>
-            </table>
+
+
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
-
-
-
-
-
 
 
 {% endblock %}

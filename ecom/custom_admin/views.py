@@ -3,7 +3,7 @@ from .models import Admin
 from django.contrib.auth import authenticate
 from django.views.decorators.cache import never_cache
 from accounts.models import Profile
-from cart.models import Order
+from cart.models import Order, OrderDetail
 
 
 # Create your views here.
@@ -76,16 +76,17 @@ def order_details(request, id):
 
     return redirect('admin_login')
 
-def order_status_update(request, id):
+def order_status_update(request, ord_id, item_id):
     if 'username' in request.session:
-        order = Order.objects.get(id = id)
+        order = Order.objects.get(id = ord_id)
+        item = OrderDetail.objects.get(id = item_id)
 
         if request.method == 'POST':
             status = request.POST.get('order_status')
-            order.order_status = status
-            order.save()
+            item.order_status = status
+            item.save()
 
-            return redirect('order_details', id=id)
+            return redirect('order_details', id=ord_id)
 
         return render(request, 'custom_admin.html', {'order':order} )
     return redirect('admin_login')

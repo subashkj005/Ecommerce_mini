@@ -3,14 +3,17 @@ from django.views.decorators.cache import never_cache
 from products.models import *
 from accounts.models import *
 from cart.models import *
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.db import transaction
+from django.http import JsonResponse
+from django.conf import settings
+import razorpay
 # Create your views here.
 
 def homepage(request):
     categories = Category.objects.all()
 
-    products = Product.objects.prefetch_related('variants')
+    products = Product.objects.prefetch_related('variants')[:8]
     variants = []
 
     for product in products:
@@ -29,8 +32,72 @@ def productpage(request, id):
 
     return render(request, 'pages/product_page.html', {'variant':variant, 'all_products': all_products, 'variant_images':variant_images})
 
+
+
+def product_list(request):
+    categories = Category.objects.all()
+
+    selected_categories = request.GET.getlist('categories[]')
+    selected_categories = [int(cat_id) for cat_id in selected_categories if cat_id.isdigit()]
+
+    if not selected_categories:
+        products = Product.objects.filter(is_deleted=False)
+    else:
+        products = []
+        for cat_id in selected_categories:
+            category_products = Product.objects.filter(category__id=cat_id, is_deleted=False)
+            products.extend(category_products)
+
+    sort_by = request.GET.get('sortby')
+    if sort_by == 'low':
+        products = sorted(products, key=lambda p: p.variants.first().price)
+    elif sort_by == 'high':
+        products = sorted(products, key=lambda p: p.variants.first().price, reverse=True)
+
+    context = {
+        'categories': categories,
+        'products': products,
+        'cat_id': selected_categories,
+        'sort_by': sort_by,
+    }
+
+    return render(request, 'pages/product_listing.html', context)
+
+
+def category_page(request, id):
+    category = Category.objects.get(id=id)
+    categories = Category.objects.all()
+
+    selected_categories = request.GET.getlist('categories[]')
+    selected_categories = [int(cat_id) for cat_id in selected_categories if cat_id.isdigit()]
+
+    if not selected_categories:
+        products = Product.objects.filter(category=category,is_deleted=False)
+    else:
+        products = []
+        for cat_id in selected_categories:
+            category_products = Product.objects.filter(category__id=cat_id, is_deleted=False)
+            products.extend(category_products)
+
+    sort_by = request.GET.get('sortby')
+    if sort_by == 'low':
+        products = sorted(products, key=lambda p: p.variants.first().price)
+    elif sort_by == 'high':
+        products = sorted(products, key=lambda p: p.variants.first().price, reverse=True)
+
+    context = {
+        'categories': categories,
+        'products': products,
+        'cat_id': selected_categories,
+        'sort_by': sort_by,
+    }
+
+    return render(request, 'pages/product_listing.html', context)
+
+
+
 def test_page(request):
-    return render(request, 'pages/checkout.html')
+    return render(request, 'pages/return_reason.html')
 
 
 
@@ -43,61 +110,19 @@ def checkout(request):
         products = Cart.objects.filter(user=user)
         sub_total = Cart.objects.filter(user=user).aggregate(total=Sum('total'))
 
-        return render(request, 'pages/checkout.html', {'addresses':addresses, 'products':products, 'sub_total': sub_total['total']})
+        # Razorpay
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        payment = client.order.create({'amount': sub_total['total']*100, 'currency': 'INR', 'payment_capture': 1})
 
+        context = {
+            'addresses': addresses,
+            'products': products,
+            'sub_total': sub_total['total'],
+            'payment': payment
+        }
 
-from django.db import transaction
+        return render(request, 'pages/checkout.html', context)
 
-
-def order_confirm(request):
-
-    if 'phone_number' in request.session:
-        phone_number = request.session['phone_number']
-        user = Profile.objects.get(phone_number=phone_number)
-
-        if request.method == 'POST':
-            address_id = request.POST.get('selected_address')
-
-            products = Cart.objects.filter(user=user)
-
-            with transaction.atomic():
-                # Create the order
-                order = Order.objects.create(user=user)
-                if address_id:
-                    selected_address = ShippingAddress.objects.get(id=address_id)
-                    order.address = selected_address
-                    order.save()
-
-                # Process each product in the cart
-                for cart_item in products:
-                    variant = cart_item.variant
-
-                    # Create the order detail for the product
-                    order_detail = OrderDetail.objects.create(
-                        order=order,
-                        product=variant,
-                        quantity=cart_item.quantity,
-                        price=cart_item.variant.price,
-                        total_price=cart_item.variant.price * cart_item.quantity
-                    )
-
-                    # Reduce the quantity in the variant stock
-                    cart_item.variant.stock -= cart_item.quantity
-                    cart_item.variant.save()
-
-                    # Delete the product from the cart
-                    cart_item.delete()
-
-                order_total_price = OrderDetail.objects.filter(order=order).aggregate(total=Sum('total_price'))
-                order.total = order_total_price['total']
-                order.save()
-
-                order_num = order.order_num
-
-
-            return render(request, 'pages/order_confirm.html',{'order_number':order_num})
-
-    return HttpResponse('Invalid request')
 
 
 def address(request):
@@ -135,16 +160,16 @@ def profile_orders(request):
         user = Profile.objects.get(phone_number=phone_number)
 
         orders = Order.objects.filter(user=user)
-        orders_dict = {}
+        orders_list = {}
 
         for order in orders:
             order_details = OrderDetail.objects.filter(order=order)
-            orders_dict[order.id] = {
+            orders_list[order.id] = {
                 'order': order,
                 'order_details': order_details
             }
 
-        return render(request, 'pages/profile_orders.html', {'orders_dict': orders_dict})
+        return render(request, 'pages/profile_orders.html', {'orders_list': orders_list})
 
     return render(request, 'pages/profile_orders.html')
 

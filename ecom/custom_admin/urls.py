@@ -26,7 +26,7 @@ urlpatterns = [
     path('edit_variant<int:id>/', edit_variant, name='edit_variant'),
     path('orders', orders, name='orders'),
     path('order_details<int:id>/', order_details, name='order_details'),
-    path('order_status<int:id>/', order_status_update, name='order_status_update'),
+    path('order_status<int:ord_id>/<int:item_id>', order_status_update, name='order_status_update'),
 
 
 ]

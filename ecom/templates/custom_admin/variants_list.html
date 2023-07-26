@@ -33,10 +33,10 @@
                 <tbody>
                 {% for variant in variant_data %}
                 <tr>
-                    <td>{{ variant.product.name }}</td>
+                    <td>{{ variant.product.name|slice:":32" }}</td>
                     <td>{{ variant.product.category.name }}</td>
                     <td>{{ variant.colour.name }}</td>
-                    <td>{{ variant.name }}</td>
+                    <td>{{ variant.name|slice:":20" }}</td>
                     <td>Rs.{{ variant.price }}</td>
                     <td>{{ variant.stock }}</td>
                     <td>

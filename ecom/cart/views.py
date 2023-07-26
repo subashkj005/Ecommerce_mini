@@ -6,6 +6,9 @@ from django.db.models import Sum
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib import messages
+from django.db import transaction
+
+import razorpay
 
 # Create your views here.
 def cart_page(request):
@@ -174,8 +177,76 @@ def edit_profile(request):
     return redirect('user_login')
 
 
+# ----------------------------------Orders-----------------------------------------
+
+def order_confirm(request):
+
+    if 'phone_number' in request.session:
+        phone_number = request.session['phone_number']
+        user = Profile.objects.get(phone_number=phone_number)
+
+        if request.method == 'POST':
+            address_id = request.POST.get('selected_address')
+            payment_method = request.POST.get('payment_method')
+
+            products = Cart.objects.filter(user=user)
+
+            with transaction.atomic():
+                # Create the order
+                order = Order.objects.create(user=user)
+                if address_id:
+                    selected_address = ShippingAddress.objects.get(id=address_id)
+                    order.address = selected_address
+                    order.save()
+
+                # Process each product in the cart
+                for cart_item in products:
+                    variant = cart_item.variant
+
+                    # Create the order detail for the product
+                    order_detail = OrderDetail.objects.create(
+                        order=order,
+                        product=variant,
+                        quantity=cart_item.quantity,
+                        price=cart_item.variant.price,
+                        total_price=cart_item.variant.price * cart_item.quantity
+                    )
+
+                    # Reduce the quantity in the variant stock
+                    cart_item.variant.stock -= cart_item.quantity
+                    cart_item.variant.save()
+
+                    # Delete the product from the cart
+                    cart_item.delete()
+
+                order_total_price = OrderDetail.objects.filter(order=order).aggregate(total=Sum('total_price'))
+                order.total = order_total_price['total']
+                order.payment_type = payment_method
+                order.save()
+
+                order_num = order.order_num
 
 
+            return render(request, 'pages/order_confirm.html',{'order_number':order_num})
 
+    return HttpResponse('Invalid request')
+
+def cancel_order(request, id):
+    item = OrderDetail.objects.get(id=id)
+    if item.status != 'cancelled' and item.status != 'delivered':
+        item.order_status = 'cancelled'
+        item.save()
+
+    return redirect('profile_orders')
+
+def return_request(request, id):
+    item = OrderDetail.objects.get(id=id)
+    if request.method == 'POST':
+        item.order_status = 'returned'
+        item.save()
+        return redirect('profile_orders')
+
+    if item.order_status == 'delivered':
+        return render(request, 'pages/return_reason.html', {'item': item})
 
 

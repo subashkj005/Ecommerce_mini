@@ -80,31 +80,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <form class="form-group row" method="post" action="{% url 'order_status_update' order.id %}">
-                                    {% csrf_token %}
-                                    <label class="col-sm-3 col-form-label">Order Status</label>
-                                    <div class="col-sm-7 d-flex">
-                                        <select name="order_status" class="form-control text-white">
-                                            {% for status in order.ORDER_STATUS_CHOICES %}
-                                            <option value="{{ status.0 }}" {% if order.order_status == status.0 %}selected{% endif %}>{{ status.1 }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary ml-2">Update</button>
-                                </form>
-                            </div>
-                            <div class="col-md-6">
-
-                            </div>
-                        </div>
                     </div>
 
                 </div>
             </div>
             <div style="padding: 1px;margin-bottom: 4px;"></div>
-            <div class="table-responsive" style="background-color: #191c24;padding: 40px;">
+            <div class="table-responsive" style="background-color: #191c24;padding: 40px;" >
                 <h6>Products</h6>
                 <table class="table">
                     <thead>
@@ -113,16 +94,34 @@
                         <th>Quantity</th>
                         <th>Unit Price</th>
                         <th>Total Amount</th>
+                        <th>Order Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for item in order.order_items.all %}
-                    <tr>
-                        <td class="text-white">{{item.product.product.name}} {{item.product.name}} {{item.product.colour.name}}</td>
+                    <form method="post" action="{% url 'order_status_update' order.id item.id  %}">
+                        {% csrf_token %}
+                        <tr>
+                        <td class="text-white">{{item.product.product.name}}<br>{{item.product.name}} {{item.product.colour.name}}</td>
                         <td class="text-white">{{item.quantity}}</td>
                         <td class="text-white">Rs.{{item.price}}</td>
                         <td class="text-white">Rs.{{item.total_price}}</td>
+                        <td>
+                            {% if item.order_status == 'cancelled' %}
+                            <p class="text-white pt-2"> Cancelled </p>
+                            {% else %}
+                            <select name="order_status" class="form-control text-white">
+                                {% for status in item.ORDER_STATUS_CHOICES %}
+                                <option value="{{ status.0 }}" {% if item.order_status == status.0 %}selected{% endif %}>{{ status.1 }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </td>
+                        <td><button type="submit" class="btn btn-primary ml-2">Update</button></td>
+                            {% endif %}
                     </tr>
+                    </form>
+
                     {% endfor %}
                     </tbody>
                 </table>
