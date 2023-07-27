@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import *
 from products.views import *
+from offers.views import *
 
 
 
@@ -27,6 +28,10 @@ urlpatterns = [
     path('orders', orders, name='orders'),
     path('order_details<int:id>/', order_details, name='order_details'),
     path('order_status<int:ord_id>/<int:item_id>', order_status_update, name='order_status_update'),
+    path('create_offers', create_offers, name='create_offers'),
+    path('offers', offers, name='offers'),
+    path('update_offers<int:id>', update_offers, name='update_offers'),
+    path('offer_active<int:id>', offer_active, name='offer_active'),
 
 
 ]

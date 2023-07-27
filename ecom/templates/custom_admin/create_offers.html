@@ -1,0 +1,99 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% block offers-active %} active{% endblock %}
+
+
+{% block dashboard %}
+
+<div class="col-8 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Offers</h4>
+            <form method="post" class="form-sample" enctype="multipart/form-data" action="{% url 'create_offers' %}">
+                {% csrf_token %}
+                <p class="card-description">Create offers </p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Image</label>
+                            <div class="col-sm-9">
+                                <div class="input-group col-12">
+                                    <input type="file" class="form-control file-upload-info" name="image" placeholder="Upload Image" id="id_image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Start date</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="date" name="start_date" placeholder="Start date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Discount Rate (%) </label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="discount_percentage" min="0" max="100" step="any" pattern="\d+(\.\d{1,2})?" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">End date</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="date" name="end_date" placeholder="End date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Active Status</label>
+                            <div class="col-sm-4">
+                                <div class="custom-control custom-switch mt-1">
+                                    <input type="checkbox" class="custom-control-input" name="is_active" id="customSwitches">
+                                    <label class="custom-control-label" for="customSwitches"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Category</label>
+                            <div class="col-sm-9">
+                                <select class="form-control text-white" name="selected_category">
+                                    {% for category in categories %}
+                                        <option value="{{category.id}}">{{category.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="">
+                    <label for="exampleTextarea1">Description</label>
+                    <textarea class="form-control" id="exampleTextarea1" rows="4" name="description"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Create</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

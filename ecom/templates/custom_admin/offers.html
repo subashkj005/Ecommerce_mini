@@ -1,0 +1,167 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% block offers-active %} active{% endblock %}
+
+
+{% block dashboard %}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Offers</h4>
+            <p class="card-description">Status
+            </p>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th></th>
+                        <th>Category</th>
+                        <th>Rate</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for offer in offers %}
+                    <tr>
+                        <td class="text-white">{{offer.name}}</td>
+                        <td></td>
+                        <td class="text-white">{{offer.category.name}}</td>
+                        <td class="text-white">{{offer.discount_percentage}}%</td>
+                        <td class="text-white">{{offer.start_date}}</td>
+                        <td class="text-white">{{offer.end_date}}</td>
+                        <td style="padding-top: 0.98rem;">
+                            {% if offer.is_active == True %}
+                            <a type="button" class="btn btn-outline-success btn-fw" href="{% url 'offer_active' offer.id %}" style="min-width: 0;">Activate
+                            </a>
+                            {% else %}
+                            <a type="button" class="btn btn-outline-danger btn-fw" href="{% url 'offer_active' offer.id %}" style="min-width: 0;">Deactivate
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-icon-text" data-toggle="modal"
+                                    data-target="#offerCreateModal{{ offer.id }}">
+                                <i class="fa-solid fa-pen" style="color: #ffffff; font-size: 0.9rem; margin: 0;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---------------------Edit Offer Modal ----------------------------->
+
+{% for offer in offers %}
+<div id="offerCreateModal{{ offer.id }}" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="offerCreateModalTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content" style="max-width: 60rem;">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Offers</h4>
+                    <form method="post" class="form-sample" enctype="multipart/form-data"
+                          action="{% url 'update_offers' offer.id %}">
+                        {% csrf_token %}
+                        <p class="card-description">Edit offers </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="name" value="{{offer.name}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Image</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group col-12">
+                                            <input type="file" class="form-control file-upload-info" name="image"
+                                                   placeholder="Upload Image" id="id_image">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Start date</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="date" name="start_date"
+                                               placeholder="Start date" value="{{offer.start_date|date:'Y-m-d'}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Discount Rate (%) </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="discount_percentage" min="0"
+                                               max="100" step="any" pattern="\d+(\.\d{1,2})?" value="{{offer.discount_percentage}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">End date</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="date" name="end_date" placeholder="End date"
+                                               value="{{offer.end_date|date:'Y-m-d'}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Active Status</label>
+                                    <div class="col-sm-4">
+                                        <div class="custom-control custom-switch mt-1">
+                                            <input type="checkbox" class="custom-control-input" name="is_active" id="customSwitches" {% if offer.is_active == True %}checked{% endif %}>
+                                            <label class="custom-control-label" for="customSwitches"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Category</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control text-white" name="selected_category">
+                                            {% for category in categories %}
+                                            <option value="{{category.id}}" {% if category.id == offer.category.id %}selected{% endif %}>{{category.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="">
+                            <label for="exampleTextarea1">Description</label>
+                            <textarea class="form-control" id="exampleTextarea1" rows="4" name="description" value="{{offer.description}}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Update</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}

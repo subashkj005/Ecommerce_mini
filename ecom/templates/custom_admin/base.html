@@ -18,7 +18,10 @@
     <link rel="stylesheet" href="{% static 'custom_admin/assets/css/style.css' %}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{% static 'custom_admin/assets/images/favicon.png' %}" />
+    <!--fontawesome cdn-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- LineIcons cdn -->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <style>
   .description {
     display: -webkit-box;
@@ -113,6 +116,14 @@
                 <i class="mdi mdi-truck-delivery"></i>
               </span>
               <span class="menu-title">Orders</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items {% block offers-active %} {% endblock %}">
+            <a class="nav-link" href="{% url 'offers' %}">
+              <span class="menu-icon">
+                <i class="lni lni-offer" style="font-size: 18px;"></i>
+              </span>
+              <span class="menu-title">Offers</span>
             </a>
           </li>
         </ul>
