@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.views.decorators.cache import never_cache
+from django.core.paginator import Paginator
 from products.models import *
 from accounts.models import *
 from cart.models import *
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, F
 from django.db import transaction
 from django.http import JsonResponse
 from django.conf import settings
@@ -54,14 +54,21 @@ def product_list(request):
     elif sort_by == 'high':
         products = sorted(products, key=lambda p: p.variants.first().price, reverse=True)
 
+    paginator = Paginator(products, 8)
+    page = request.GET.get('page')
+    product_data = paginator.get_page(page)
+
     context = {
         'categories': categories,
-        'products': products,
+        'products': product_data,
         'cat_id': selected_categories,
         'sort_by': sort_by,
     }
 
+
+
     return render(request, 'pages/product_listing.html', context)
+
 
 
 def category_page(request, id):

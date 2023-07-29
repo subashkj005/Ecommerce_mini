@@ -69,7 +69,12 @@
                                     </div><!-- End .rating-container -->
 
                                     <div class="product-price">
-                                        Rs. {{variant.price}}
+                                        {% if variant.product.category.offers.first.is_valid and variant.product.category.offers.first.is_active %}
+                                            <span class="new-price">Rs.{{variant.price}}</span>
+                                            <span class="old-price"><s>{{variant.original_price}}</s></span>
+                                        {% else %}
+                                            Rs. {{variant.original_price}}
+                                        {% endif %}
                                     </div><!-- End .product-price -->
 
                                     <div class="details-filter-row details-row-size">
@@ -353,6 +358,17 @@
                 </div><!-- End .container -->
             </div><!-- End .page-content -->
         </main>
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,8 +1,7 @@
 from django.db import models
 import random
 import string
-import razorpay
-from django.contrib.auth.models import User
+from django.db.models import Sum
 from products.models import Variant
 from accounts.models import *
 
@@ -14,15 +13,25 @@ from accounts.models import *
 
 class Cart(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True, blank=True)
-    variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
+    variant = models.ForeignKey(Variant, on_delete=models.CASCADE, related_name='variants')
     quantity = models.PositiveIntegerField(default=1)
     total = models.PositiveIntegerField(default=0)
-    razor_pay_order_id = models.CharField(max_length=100, null=True, blank=True)
-    razor_pay_payment_id = models.CharField(max_length=100, null=True, blank=True)
-    razor_pay_payment_signature = models.CharField(max_length=100, null=True, blank=True)
+    discount = models.PositiveIntegerField(default=0)
+
+    @property
+    def calculate_discount(self):
+        return self.variant.original_price - self.variant.price
 
     def calculate_total_price(self):
         return self.variant.price * self.quantity
+
+    def calculate_total_quantity_discount(self):
+        return self.quantity * self.variant.discount
+
+
+    def total_discount_in_cart(self, user):
+        total_discount = Cart.objects.filter(user=user).aggregate(total=Sum('variant__discount'))['total']
+        return total_discount if total_discount else 0
 
     def __str__(self):
         return self.variant.product.name+"---"+self.variant.name+"---"+self.variant.colour.name

@@ -49,16 +49,28 @@
                                         </h3><!-- End .product-title -->
                                     </div><!-- End .product -->
                                 </td>
-                                <td class="price-col">Rs. {{item.variant.price}}</td>
+                                <td class="price-col">
+                                    {% if item.variant.product.category.offers.first.is_valid and item.variant.product.category.offers.first.is_active %}
+                                        <span class="new-price">Rs.{{item.variant.price}}</span>
+                                    {% else %}
+                                        Rs.{{item.variant.original_price}}
+                                    {% endif %}
+                                </td>
                                 <td class="selector-col">
                                     <div class="counter d-flex">
                                         <span class="down" data-cart-id="{{ item.id }}">-</span>
-                                        <input type="text" value="{{ item.quantity }}">
+                                        <input type="text" value="{{ item.quantity }}" data-max-stock="{{ item.variant.stock }}">
                                         <span class="up" data-cart-id="{{ item.id }}">+</span>
 
                                     </div>
                                 </td>
-                                <td class="total-col">Rs. {{item.total}}</td>
+                                <td class="total-col">
+                                    {% if item.variant.product.category.offers.first.is_valid and item.variant.product.category.offers.first.is_active %}
+                                        <span class="new-price">Rs.{{item.calculate_total_price}}</span>
+                                    {% else %}
+                                        Rs.{{item.calculate_total_price}}
+                                    {% endif %}
+                                </td>
                                 <td class="remove-col">
                                     <a href="{% url 'delete_cart' item.id %}" class="btn-remove"><i class="icon-close"></i></a>
                                 </td>
@@ -111,8 +123,14 @@
                                     </td>
                                     <td>Rs. 0.00</td>
                                 </tr><!-- End .summary-shipping-row -->
-
-
+                                <tr>
+                                    <td></td>
+                                    <td style="width: 100%;color: red;font-style: italic;font-weight: 600;">
+                                        {% if savings != 0 and savings != None %}
+                                        You Save: Rs.{{savings}}
+                                        {% endif %}
+                                    </td>
+                                </tr>
                                 <tr class="summary-total">
                                     <td>Total:</td>
                                     <td style="width:10rem;font-weight: 700;" >Rs. {{sub_total}}</td>

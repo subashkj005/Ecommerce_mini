@@ -8,7 +8,12 @@
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Offers</h4>
+            <div class="d-flex justify-content-between">
+                <h4 class="card-title">Offers</h4>
+                <span>
+                    <a class="btn btn-primary" href="{% url 'create_offers' %}">Create offer</a>
+                </span>
+            </div>
             <p class="card-description">Status
             </p>
             <div class="table-responsive">
@@ -35,12 +40,10 @@
                         <td class="text-white">{{offer.start_date}}</td>
                         <td class="text-white">{{offer.end_date}}</td>
                         <td style="padding-top: 0.98rem;">
-                            {% if offer.is_active == True %}
-                            <a type="button" class="btn btn-outline-success btn-fw" href="{% url 'offer_active' offer.id %}" style="min-width: 0;">Activate
-                            </a>
+                            {% if offer.is_active %}
+                            <a type="button" class="btn btn-outline-danger btn-fw" href="{% url 'offer_active' offer.id %}" style="min-width: 0;">Deactivate</a>
                             {% else %}
-                            <a type="button" class="btn btn-outline-danger btn-fw" href="{% url 'offer_active' offer.id %}" style="min-width: 0;">Deactivate
-                            </a>
+                            <a type="button" class="btn btn-outline-success btn-fw" href="{% url 'offer_active' offer.id %}" style="min-width: 0;">Activate</a>
                             {% endif %}
                         </td>
                         <td>

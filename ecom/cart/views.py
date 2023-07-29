@@ -8,15 +8,17 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.db import transaction
 
-import razorpay
 
 # Create your views here.
 def cart_page(request):
     if 'phone_number' in request.session:
         user = Profile.objects.get(phone_number=request.session['phone_number'])
-        user_cart = Cart.objects.filter(user=user)
+        user_carts = Cart.objects.filter(user=user)
+
         sub_total = Cart.objects.filter(user=user).aggregate(total=Sum('total'))
-        return render(request, 'pages/cart.html', {'cart': user_cart, 'sub_total': sub_total['total']})
+        savings = Cart.objects.filter(user=user).aggregate(total=Sum('discount'))
+
+        return render(request, 'pages/cart.html', {'cart': user_carts, 'sub_total': sub_total['total'], 'savings': savings['total']})
     return render(request, 'pages/cart.html')
 
 
@@ -31,11 +33,13 @@ def add_to_cart(request, id):
             if Cart.objects.filter(variant=variant).exists():
                 user_cart.quantity += 1
                 user_cart.total= user_cart.calculate_total_price()
+                user_cart.discount = user_cart.calculate_total_quantity_discount()
                 user_cart.save()
 
         except Cart.DoesNotExist:
             new_cart = Cart.objects.create(user=user, variant=variant, quantity=1)
             new_cart.total = new_cart.calculate_total_price()
+            new_cart.discount = variant.discount
             new_cart.save()
 
         response_data['success'] = True
@@ -51,29 +55,6 @@ def delete_cartItem(request, id):
             user_cart.delete()
     return redirect('cart_page')
 
-def cartItem_quantity_decre(request, id):
-    if 'phone_number' in request.session:
-        user = Profile.objects.get(phone_number=request.session['phone_number'])
-
-        user_cart = Cart.objects.get(id=id)
-        if user_cart:
-            user_cart.quantity -= 1
-            user_cart.total= user_cart.calculate_total_price()
-            user_cart.save()
-    return redirect('cart_page')
-
-def cartItem_quantity_incre(request, id):
-    if 'phone_number' in request.session:
-        user = Profile.objects.get(phone_number=request.session['phone_number'])
-
-        user_cart = Cart.objects.get(id=id)
-        if user_cart:
-            user_cart.quantity += 1
-            user_cart.total= user_cart.calculate_total_price()
-            user_cart.save()
-    return redirect('cart_page')
-
-
 def cartItem_quantity_update(request, id):
     if 'phone_number' in request.session:
         user = Profile.objects.get(phone_number=request.session['phone_number'])
@@ -83,6 +64,7 @@ def cartItem_quantity_update(request, id):
             new_quantity = int(request.GET.get('quantity'))
             user_cart.quantity = new_quantity
             user_cart.total = user_cart.calculate_total_price()
+            user_cart.discount = user_cart.calculate_total_quantity_discount()
             user_cart.save()
 
             response_data = {

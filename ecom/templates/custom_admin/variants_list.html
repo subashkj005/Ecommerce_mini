@@ -33,11 +33,11 @@
                 <tbody>
                 {% for variant in variant_data %}
                 <tr>
-                    <td>{{ variant.product.name|slice:":32" }}</td>
+                    <td>{{ variant.product.name|slice:":30" }}</td>
                     <td>{{ variant.product.category.name }}</td>
                     <td>{{ variant.colour.name }}</td>
-                    <td>{{ variant.name|slice:":20" }}</td>
-                    <td>Rs.{{ variant.price }}</td>
+                    <td>{{ variant.name|slice:":14" }}</td>
+                    <td>Rs.{{ variant.original_price }}</td>
                     <td>{{ variant.stock }}</td>
                     <td>
                         {% for image in variant.colour.colour_images.all %}

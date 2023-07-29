@@ -297,7 +297,9 @@
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="product product-2 ">
                                 <figure class="product-media">
-<!--                                    <span class="product-label label-circle label-sale">Sale</span>-->
+                                    {% if variant.product.category.offers.first.is_valid and variant.product.category.offers.first.is_active %}
+                                    <span class="product-label label-circle label-sale">Sale</span>
+                                    {% endif %}
                                     <a href="{% url 'product_page' variant.id %}">
                                         <img src="{{variant.colour.colour_images.first.image.url}}" alt="Product image" class="product-image">
                                     </a>
@@ -318,9 +320,12 @@
                                     </div><!-- End .product-cat -->
                                     <h3 class="product-title"><a href="product.html">{{variant.product.name}} - {{variant.name}}  ({{variant.colour.name}})</a></h3><!-- End .product-title -->
                                     <div class="product-price">
-                                        Rs. {{variant.price}}
-<!--                                        <span class="new-price"></span>-->
-<!--                                        <span class="old-price">Was $349.99</span>-->
+                                        {% if variant.product.category.offers.first.is_valid and variant.product.category.offers.first.is_active %}
+                                            <span >Rs.{{variant.price}}</span>
+                                            <span class="new-price" style="margin-left: 0.5rem;"><s>Rs.{{variant.original_price}}</s></span>
+                                        {% else %}
+                                            Rs. {{variant.original_price}}
+                                        {% endif %}
                                     </div><!-- End .product-price -->
                                     <div class="ratings-container">
                                         <div class="ratings">
@@ -330,9 +335,11 @@
                                     </div><!-- End .rating-container -->
 
                                     <div class="product-nav product-nav-dots">
+                                        {% if variant.product.colors.count != 1 %}
                                         {% for colour in variant.product.colors.all %}
                                         <a href="#" class="active" style="background: {{colour.color_code}}"><span class="sr-only">Color name</span></a>
                                         {% endfor %}
+                                        {% endif %}
                                     </div>
 
                                     <!-- End .product-nav -->

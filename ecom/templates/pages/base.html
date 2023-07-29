@@ -374,97 +374,97 @@
                                     <a href="{% url 'user_home' %}" class="sf-with-ul">Home</a>
                                 </li>
                                 <li>
-                                    <a href="{% static 'category.html' %}" class="sf-with-ul">Shop</a>
+                                    <a href="{% url 'product_list' %}" class="sf-with-ul">Shop</a>
 
-                                    <div class="megamenu megamenu-md" style="display: none;">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-8">
-                                                <div class="menu-col">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="menu-title">Shop with sidebar</div><!-- End .menu-title -->
-                                                            <ul>
-<!--                                                                <li><a href="{% static 'category-list.html' %}">Shop List</a></li>-->
-<!--                                                                <li><a href="{% static 'category-2cols.html' %}">Shop Grid 2 Columns</a></li>-->
-<!--                                                                <li><a href="{% static 'category.html' %}">Shop Grid 3 Columns</a></li>-->
-<!--                                                                <li><a href="{% static 'category-4cols.html' %}">Shop Grid 4 Columns</a></li>-->
-<!--                                                                <li><a href="{% static 'category-market.html' %}"><span>Shop Market<span class="tip tip-new">New</span></span></a></li>-->
-                                                            </ul>
+<!--                                    <div class="megamenu megamenu-md" style="display: none;">-->
+<!--                                        <div class="row no-gutters">-->
+<!--                                            <div class="col-md-8">-->
+<!--                                                <div class="menu-col">-->
+<!--                                                    <div class="row">-->
+<!--                                                        <div class="col-md-6">-->
+<!--                                                            <div class="menu-title">Shop with sidebar</div>&lt;!&ndash; End .menu-title &ndash;&gt;-->
+<!--                                                            <ul>-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'category-list.html' %}">Shop List</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'category-2cols.html' %}">Shop Grid 2 Columns</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'category.html' %}">Shop Grid 3 Columns</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'category-4cols.html' %}">Shop Grid 4 Columns</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'category-market.html' %}"><span>Shop Market<span class="tip tip-new">New</span></span></a></li>&ndash;&gt;-->
+<!--                                                            </ul>-->
 
-                                                            <div class="menu-title">Shop no sidebar</div><!-- End .menu-title -->
-                                                            <ul>
-<!--                                                                <li><a href="{% static 'category-boxed.html' %}"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>-->
-<!--                                                                <li><a href="{% static 'category-fullwidth.html' %}">Shop Fullwidth No Sidebar</a></li>-->
-                                                            </ul>
-                                                        </div><!-- End .col-md-6 -->
+<!--                                                            <div class="menu-title">Shop no sidebar</div>&lt;!&ndash; End .menu-title &ndash;&gt;-->
+<!--                                                            <ul>-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'category-boxed.html' %}"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'category-fullwidth.html' %}">Shop Fullwidth No Sidebar</a></li>&ndash;&gt;-->
+<!--                                                            </ul>-->
+<!--                                                        </div>&lt;!&ndash; End .col-md-6 &ndash;&gt;-->
 
-                                                        <div class="col-md-6">
-                                                            <div class="menu-title">Product Category</div><!-- End .menu-title -->
-                                                            <ul>
-<!--                                                                <li><a href="{% static 'product-category-boxed.html' %}">Product Category Boxed</a></li>-->
-<!--                                                                <li><a href="{% static 'product-category-fullwidth.html' %}"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>-->
-                                                            </ul>
-                                                            <div class="menu-title">More</div><!-- End .menu-title -->
-                                                            <ul>
-                                                                <li><a href="{% static 'cart.html' %}">Cart</a></li>
-                                                                <li><a href="{% static 'checkout.html' %}">Checkout</a></li>
-                                                                <li><a href="{% static 'wishlist.html' %}">Wishlist</a></li>
-                                                                <li><a href="{% static 'dashboard.html' %}">My Account</a></li>
-                                                                <li><a href="#">Lookbook</a></li>
-                                                            </ul>
-                                                        </div><!-- End .col-md-6 -->
-                                                    </div><!-- End .row -->
-                                                </div><!-- End .menu-col -->
-                                            </div><!-- End .col-md-8 -->
+<!--                                                        <div class="col-md-6">-->
+<!--                                                            <div class="menu-title">Product Category</div>&lt;!&ndash; End .menu-title &ndash;&gt;-->
+<!--                                                            <ul>-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'product-category-boxed.html' %}">Product Category Boxed</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                                <li><a href="{% static 'product-category-fullwidth.html' %}"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>&ndash;&gt;-->
+<!--                                                            </ul>-->
+<!--                                                            <div class="menu-title">More</div>&lt;!&ndash; End .menu-title &ndash;&gt;-->
+<!--                                                            <ul>-->
+<!--                                                                <li><a href="{% static 'cart.html' %}">Cart</a></li>-->
+<!--                                                                <li><a href="{% static 'checkout.html' %}">Checkout</a></li>-->
+<!--                                                                <li><a href="{% static 'wishlist.html' %}">Wishlist</a></li>-->
+<!--                                                                <li><a href="{% static 'dashboard.html' %}">My Account</a></li>-->
+<!--                                                                <li><a href="#">Lookbook</a></li>-->
+<!--                                                            </ul>-->
+<!--                                                        </div>&lt;!&ndash; End .col-md-6 &ndash;&gt;-->
+<!--                                                    </div>&lt;!&ndash; End .row &ndash;&gt;-->
+<!--                                                </div>&lt;!&ndash; End .menu-col &ndash;&gt;-->
+<!--                                            </div>&lt;!&ndash; End .col-md-8 &ndash;&gt;-->
 
-                                            <div class="col-md-4">
-                                                <div class="banner banner-overlay">
-                                                    <a href="{% static 'category.html' %}" class="banner banner-menu">
-                                                        <img src="{% static 'assets/images/menu/banner-1.jpg' %}" alt="Banner">
+<!--                                            <div class="col-md-4">-->
+<!--                                                <div class="banner banner-overlay">-->
+<!--                                                    <a href="{% static 'category.html' %}" class="banner banner-menu">-->
+<!--                                                        <img src="{% static 'assets/images/menu/banner-1.jpg' %}" alt="Banner">-->
 
-                                                        <div class="banner-content banner-content-top">
-                                                            <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div><!-- End .banner-title -->
-                                                        </div><!-- End .banner-content -->
-                                                    </a>
-                                                </div><!-- End .banner banner-overlay -->
-                                            </div><!-- End .col-md-4 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .megamenu megamenu-md -->
+<!--                                                        <div class="banner-content banner-content-top">-->
+<!--                                                            <div class="banner-title text-white">Last <br>Chance<br><span><strong>Sale</strong></span></div>&lt;!&ndash; End .banner-title &ndash;&gt;-->
+<!--                                                        </div>&lt;!&ndash; End .banner-content &ndash;&gt;-->
+<!--                                                    </a>-->
+<!--                                                </div>&lt;!&ndash; End .banner banner-overlay &ndash;&gt;-->
+<!--                                            </div>&lt;!&ndash; End .col-md-4 &ndash;&gt;-->
+<!--                                        </div>&lt;!&ndash; End .row &ndash;&gt;-->
+<!--                                    </div>&lt;!&ndash; End .megamenu megamenu-md &ndash;&gt;-->
                                 </li>
                                 <li>
                                     <a href="{% static 'product.html' %}" class="sf-with-ul">Product</a>
 
-                                    <div class="megamenu megamenu-sm" style="display: none;">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-6">
-                                                <div class="menu-col">
-                                                    <div class="menu-title">Product Details</div><!-- End .menu-title -->
-                                                    <ul>
-                                                        <li><a href="{% static 'product.html' %}">Default</a></li>
-                                                        <li><a href="{% static 'product-centered.html' %}">Centered</a></li>
-                                                        <li><a href="{% static 'product-extended.html' %}"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
-                                                        <li><a href="{% static 'product-gallery.html' %}">Gallery</a></li>
-                                                        <li><a href="{% static 'product-sticky.html' %}">Sticky Info</a></li>
-                                                        <li><a href="{% static 'product-sidebar.html' %}">Boxed With Sidebar</a></li>
-                                                        <li><a href="{% static 'product-fullwidth.html' %}">Full Width</a></li>
-                                                        <li><a href="{% static 'product-masonry.html' %}">Masonry Sticky Info</a></li>
-                                                    </ul>
-                                                </div><!-- End .menu-col -->
-                                            </div><!-- End .col-md-6 -->
+<!--                                    <div class="megamenu megamenu-sm" style="display: none;">-->
+<!--                                        <div class="row no-gutters">-->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="menu-col">-->
+<!--                                                    <div class="menu-title">Product Details</div>&lt;!&ndash; End .menu-title &ndash;&gt;-->
+<!--                                                    <ul>-->
+<!--                                                        <li><a href="{% static 'product.html' %}">Default</a></li>-->
+<!--                                                        <li><a href="{% static 'product-centered.html' %}">Centered</a></li>-->
+<!--                                                        <li><a href="{% static 'product-extended.html' %}"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>-->
+<!--                                                        <li><a href="{% static 'product-gallery.html' %}">Gallery</a></li>-->
+<!--                                                        <li><a href="{% static 'product-sticky.html' %}">Sticky Info</a></li>-->
+<!--                                                        <li><a href="{% static 'product-sidebar.html' %}">Boxed With Sidebar</a></li>-->
+<!--                                                        <li><a href="{% static 'product-fullwidth.html' %}">Full Width</a></li>-->
+<!--                                                        <li><a href="{% static 'product-masonry.html' %}">Masonry Sticky Info</a></li>-->
+<!--                                                    </ul>-->
+<!--                                                </div>&lt;!&ndash; End .menu-col &ndash;&gt;-->
+<!--                                            </div>&lt;!&ndash; End .col-md-6 &ndash;&gt;-->
 
-                                            <div class="col-md-6">
-                                                <div class="banner banner-overlay">
-                                                    <a href="{% static 'category.html' %}">
-                                                        <img src="{% static 'assets/images/menu/banner-2.jpg' %}" alt="Banner">
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="banner banner-overlay">-->
+<!--                                                    <a href="{% static 'category.html' %}">-->
+<!--                                                        <img src="{% static 'assets/images/menu/banner-2.jpg' %}" alt="Banner">-->
 
-                                                        <div class="banner-content banner-content-bottom">
-                                                            <div class="banner-title text-white">New Trends<br><span><strong>spring 2019</strong></span></div><!-- End .banner-title -->
-                                                        </div><!-- End .banner-content -->
-                                                    </a>
-                                                </div><!-- End .banner -->
-                                            </div><!-- End .col-md-6 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .megamenu megamenu-sm -->
+<!--                                                        <div class="banner-content banner-content-bottom">-->
+<!--                                                            <div class="banner-title text-white">New Trends<br><span><strong>spring 2019</strong></span></div>&lt;!&ndash; End .banner-title &ndash;&gt;-->
+<!--                                                        </div>&lt;!&ndash; End .banner-content &ndash;&gt;-->
+<!--                                                    </a>-->
+<!--                                                </div>&lt;!&ndash; End .banner &ndash;&gt;-->
+<!--                                            </div>&lt;!&ndash; End .col-md-6 &ndash;&gt;-->
+<!--                                        </div>&lt;!&ndash; End .row &ndash;&gt;-->
+<!--                                    </div>&lt;!&ndash; End .megamenu megamenu-sm &ndash;&gt;-->
                                 </li>
                                 <li>
                                     <a href="#" class="sf-with-ul">Pages</a>
@@ -536,22 +536,22 @@
                                 <li>
                                     <a href="{% static 'elements-list.html' %}" class="sf-with-ul">Elements</a>
 
-                                    <ul style="display: none;">
-                                        <li><a href="{% static 'elements-products.html' %}">Products</a></li>
-                                        <li><a href="{% static 'elements-typography.html' %}">Typography</a></li>
-                                        <li><a href="{% static 'elements-titles.html' %}">Titles</a></li>
-                                        <li><a href="{% static 'elements-banners.html' %}">Banners</a></li>
-                                        <li><a href="{% static 'elements-product-category.html' %}">Product Category</a></li>
-                                        <li><a href="{% static 'elements-video-banners.html' %}">Video Banners</a></li>
-                                        <li><a href="{% static 'elements-buttons.html' %}">Buttons</a></li>
-                                        <li><a href="{% static 'elements-accordions.html' %}">Accordions</a></li>
-                                        <li><a href="{% static 'elements-tabs.html' %}">Tabs</a></li>
-                                        <li><a href="{% static 'elements-testimonials.html' %}">Testimonials</a></li>
-                                        <li><a href="{% static 'elements-blog-posts.html' %}">Blog Posts</a></li>
-                                        <li><a href="{% static 'elements-portfolio.html' %}">Portfolio</a></li>
-                                        <li><a href="{% static 'elements-cta.html' %}">Call to Action</a></li>
-                                        <li><a href="{% static 'elements-icon-boxes.html' %}">Icon Boxes</a></li>
-                                    </ul>
+<!--                                    <ul style="display: none;">-->
+<!--                                        <li><a href="{% static 'elements-products.html' %}">Products</a></li>-->
+<!--                                        <li><a href="{% static 'elements-typography.html' %}">Typography</a></li>-->
+<!--                                        <li><a href="{% static 'elements-titles.html' %}">Titles</a></li>-->
+<!--                                        <li><a href="{% static 'elements-banners.html' %}">Banners</a></li>-->
+<!--                                        <li><a href="{% static 'elements-product-category.html' %}">Product Category</a></li>-->
+<!--                                        <li><a href="{% static 'elements-video-banners.html' %}">Video Banners</a></li>-->
+<!--                                        <li><a href="{% static 'elements-buttons.html' %}">Buttons</a></li>-->
+<!--                                        <li><a href="{% static 'elements-accordions.html' %}">Accordions</a></li>-->
+<!--                                        <li><a href="{% static 'elements-tabs.html' %}">Tabs</a></li>-->
+<!--                                        <li><a href="{% static 'elements-testimonials.html' %}">Testimonials</a></li>-->
+<!--                                        <li><a href="{% static 'elements-blog-posts.html' %}">Blog Posts</a></li>-->
+<!--                                        <li><a href="{% static 'elements-portfolio.html' %}">Portfolio</a></li>-->
+<!--                                        <li><a href="{% static 'elements-cta.html' %}">Call to Action</a></li>-->
+<!--                                        <li><a href="{% static 'elements-icon-boxes.html' %}">Icon Boxes</a></li>-->
+<!--                                    </ul>-->
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
@@ -1207,51 +1207,55 @@
 
     <!--Script for adding, decreasing quantity -->
     <script>
-    $(document).ready(function() {
-      $('.down').click(function(e) {
-        e.preventDefault();
-        var cartId = $(this).data('cart-id');
-        var quantityInput = $(this).siblings('input');
-        var currentQuantity = parseInt(quantityInput.val());
+      $(document).ready(function() {
+        $('.down').click(function(e) {
+          e.preventDefault();
+          var cartId = $(this).data('cart-id');
+          var quantityInput = $(this).siblings('input');
+          var currentQuantity = parseInt(quantityInput.val());
 
-        if (currentQuantity > 1) {
-          quantityInput.val(currentQuantity - 1);
-          updateCart(cartId, currentQuantity - 1);
-        }
-      });
-
-      $('.up').click(function(e) {
-        e.preventDefault();
-        var cartId = $(this).data('cart-id');
-        var quantityInput = $(this).siblings('input');
-        var currentQuantity = parseInt(quantityInput.val());
-
-        quantityInput.val(currentQuantity + 1);
-        updateCart(cartId, currentQuantity + 1);
-      });
-
-      function updateCart(cartId, newQuantity) {
-        $.ajax({
-          url: 'quantity_update/' + cartId + '/',
-          type: 'GET',
-          data: {
-            quantity: newQuantity
-          },
-          success: function(response) {
-            // Refresh the page to fetch updated data
-            location.reload();
-          },
-          error: function(xhr, status, error) {
-            alert('Error occurred while updating cart.');
-            console.log(xhr.responseText);
+          if (currentQuantity > 1) {
+            quantityInput.val(currentQuantity - 1);
+            updateCart(cartId, currentQuantity - 1);
           }
         });
-      }
-    });
 
+        $('.up').click(function(e) {
+          e.preventDefault();
+          var cartId = $(this).data('cart-id');
+          var quantityInput = $(this).siblings('input');
+          var currentQuantity = parseInt(quantityInput.val());
+          var maxStock = parseInt(quantityInput.data('max-stock'));
 
+          if (currentQuantity < maxStock) {
+            quantityInput.val(currentQuantity + 1);
+            updateCart(cartId, currentQuantity + 1);
+          } else {
+            alert('Cannot add more than available stock.');
+          }
+        });
 
+        function updateCart(cartId, newQuantity) {
+          $.ajax({
+            url: 'quantity_update/' + cartId + '/',
+            type: 'GET',
+            data: {
+              quantity: newQuantity
+            },
+            success: function(response) {
+              // Refresh the page to fetch updated data
+              location.reload();
+            },
+            error: function(xhr, status, error) {
+              alert('Error occurred while updating cart.');
+              console.log(xhr.responseText);
+            }
+          });
+        }
+      });
     </script>
+
+
 
     <script>
         $(document).ready(function() {
@@ -1326,6 +1330,9 @@
         window.location.href = newUrl;
     });
 </script>
+
+
+
 
 
 

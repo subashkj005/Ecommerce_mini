@@ -1,9 +1,11 @@
+import os
+from decimal import Decimal
 from django.db import models
 from django.apps import AppConfig
 from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.conf import settings
-import os
+
 
 
 
@@ -46,12 +48,16 @@ class Variant(models.Model):
     name = models.CharField(max_length=50)
     stock = models.IntegerField()
     price = models.FloatField()
+    original_price = models.DecimalField(max_digits=10,decimal_places=2,default=0, null=True, blank=True)
+    discount = models.PositiveIntegerField(default=0)
     is_deleted = models.BooleanField(default=False)
 
+    def calculate_discount_price(self, offer_rate):
+        variant_price = Decimal(str(self.price))
+        return variant_price * offer_rate/100
 
     def __str__(self):
         return self.name
-
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')

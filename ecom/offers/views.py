@@ -1,6 +1,8 @@
 from decimal import Decimal
+from django.db.models import F
+from django.contrib import messages
 from django.shortcuts import render, redirect
-from products.models import Category
+from products.models import *
 from offers.models import Offers
 
 # Create your views here.
@@ -21,6 +23,11 @@ def create_offers(request):
         discount_percentage = Decimal(request.POST.get('discount_percentage','0.00'))
         # Selecting category
         category = Category.objects.get(id=selected_category)
+        # Check whether any offers already exists
+        check_category_exists = Offers.objects.filter(category=category)
+        if check_category_exists:
+            messages.error(request, 'Already a offer assigned to this category')
+            return redirect('create_offers')
 
         offer = Offers.objects.create(
             name=name,
@@ -33,7 +40,18 @@ def create_offers(request):
             image=image
         )
 
-    return redirect('offers')
+        if is_active:
+            # Fetch the variants that need to be updated using the related name
+            variants_to_update = Variant.objects.filter(product__category=category)
+
+            # Update the variants in a single query using F Object
+            variants_to_update.update(
+                price=F('original_price') - F('original_price') * discount_percentage / 100,
+                discount=F('original_price') * discount_percentage / 100
+            )
+
+        return redirect('offers')
+    return render(request, 'custom_admin/create_offers.html', {'categories':categories})
 
 def offers(request):
     if 'username' in request.session:
@@ -68,14 +86,39 @@ def update_offers(request,id):
         offer.description = description
     offer.save()
 
+    if is_active:
+        # Fetch the variants that need to be updated using the related name
+        variants_to_update = Variant.objects.filter(product__category=category)
+
+        # Update the variants in a single query using F Object
+        variants_to_update.update(
+            price=F('original_price') - F('original_price') * discount_percentage / 100,
+            discount=F('original_price') * discount_percentage / 100
+        )
+
     return redirect('offers')
+
 
 def offer_active(request, id):
     offer = Offers.objects.get(id=id)
-    if offer.is_active == True:
-        offer.is_active = False
-    else:
+    category = offer.category
+    discount_percentage = offer.discount_percentage
+
+    if not offer.is_active:
+        variants_to_update = Variant.objects.filter(product__category=category)
+        variants_to_update.update(
+            price=F('original_price') - F('original_price') * discount_percentage / 100,
+            discount=F('original_price') * discount_percentage / 100
+        )
         offer.is_active = True
+    else:
+        variants_to_update = Variant.objects.filter(product__category=category)
+        variants_to_update.update(
+            price=F('original_price'),
+            discount=0
+        )
+        offer.is_active = False
+
     offer.save()
 
     return redirect('offers')

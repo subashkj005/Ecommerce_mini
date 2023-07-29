@@ -68,18 +68,8 @@ def edit_products(request, id):
     if request.method == 'POST':
         product.name = request.POST.get('name')
         product.category = Category.objects.get(id=request.POST.get('category'))
-        product.price = request.POST.get('price')
-        product.stock = request.POST.get('stock')
         product.description = request.POST.get('description')
         product.save()
-
-
-        new_images = request.FILES.getlist('images')
-        if new_images:
-            product.images.all().delete()
-            for image in new_images:
-                product_image = ProductImage(product=product, image=image)
-                product_image.save()
 
         return redirect('product')
 
@@ -148,7 +138,7 @@ def add_variant(request):
         product = Product.objects.get(id=product_id)
         colour = Color.objects.get(id=variant_colour)
 
-        variant = Variant.objects.create(product=product, colour=colour, name=variant_name, price=variant_price, stock=variant_stock)
+        variant = Variant.objects.create(product=product, colour=colour, name=variant_name, price=variant_price, original_price=variant_price, stock=variant_stock)
 
         # Adding Images
 
@@ -177,6 +167,7 @@ def edit_variant(request, id):
         variant = Variant.objects.get(id=id)
         variant.name = variant_name
         variant.price = price
+        variant.original_price = price
         variant.stock = stock
         variant.colour = v_colour
         variant.save()
