@@ -102,6 +102,8 @@ def update_offers(request,id):
 def offer_active(request, id):
     offer = Offers.objects.get(id=id)
     category = offer.category
+
+
     discount_percentage = offer.discount_percentage
 
     if not offer.is_active:

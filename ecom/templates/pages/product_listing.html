@@ -44,7 +44,7 @@
                 			</div><!-- End .toolbox -->
 
                             <div class="products mb-3 products-container">
-                                <div class="row justify-content-center">
+                                <div class="row justify-content-center" id="filteredProducts">
 									{% for product in products %}
                                     <div class="col-6 col-md-4 col-lg-4 col-xl-3 product" data-category="{{ product.category.id }}" data-product="{{ product.name }}">
                                         <div class="product product-7 text-center">
@@ -96,7 +96,7 @@
                             </div><!-- End .products -->
 
 
-                			<nav aria-label="Page navigation">
+                			<nav aria-label="Page navigation" id="initialPaginationContainer">
 								<ul class="pagination justify-content-center">
 									{% if products.has_previous %}
 									<li class="page-item">
@@ -155,7 +155,8 @@
 												{% for category in categories %}
 												<div class="filter-item">
 													<div class="custom-control custom-checkbox">
-														<input type="checkbox" class="custom-control-input category-checkbox" data-category-id="{{ category.id }}" name="categories[]" id="cat-{{ category.id }}" {% if category.id in cat_id %}checked{% endif %}>
+														<input type="checkbox" class="custom-control-input category-checkbox" data-filter="category" value="{{ category.id }}" name="categories[]" id="cat-{{ category.id }}" {% if category.id in cat_id %}checked{% endif %}>
+														{% csrf_token %}
 														<label class="custom-control-label" for="cat-{{ category.id }}">{{ category.name }}</label>
 													</div><!-- End .custom-checkbox -->
 													<span class="item-count">{{ category.product_count }}</span>
@@ -181,6 +182,77 @@
                 </div><!-- End .container -->
             </div><!-- End .page-content -->
         </main>
+
+
+		<template id="product-template">
+			<div class="col-6 col-md-4 col-lg-4 col-xl-3 product">
+				<div class="product product-7 text-center">
+					<figure class="product-media">
+<!--                                                <span class="product-label label-new">New</span>-->
+						<a href="#">
+							<img  alt="Product image" class="product-image">
+						</a>
+
+						<div class="product-action-vertical">
+							<a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+							<a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+						</div><!-- End .product-action-vertical -->
+
+						<div class="product-action">
+							<a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+						</div><!-- End .product-action -->
+					</figure><!-- End .product-media -->
+
+					<div class="product-body">
+						<div class="product-cat">
+							<span class="product-category"></span>  <!--Category Name-->
+						</div><!-- End .product-cat -->
+						<h3 class="product-title">
+							<a href="#">
+								<span class="product-name"></span> <!--Product name-->
+								<span class="product-color"></span> <!-- Product Colour Name -->
+							</a>
+						</h3><!-- End .product-title -->
+						<div class="product-price">
+							 <span >
+								<span class="offer-price"></span> <!--Offer price-->
+							</span>
+							 <span class="new-price" style="margin-left: 0.5rem;">
+								<s><span class="offer-orginal-price"></span></s> <!--Original price-->
+							</span>
+							 <!--Else-->
+								<span class="offer-price-two"></span> <!--offer price-->
+
+						</div><!-- End .product-price -->
+						<div class="ratings-container">
+							<div class="ratings">
+								<div class="ratings-val" style="width: 50%;"></div><!-- End .ratings-val -->
+							</div><!-- End .ratings -->
+							<span class="ratings-text">( 2 Reviews )</span>
+						</div><!-- End .rating-container -->
+
+						<!-- End .product-nav -->
+					</div><!-- End .product-body -->
+				</div><!-- End .product -->
+			</div>
+		</template>
+
+		<template id="paginationTemplate">
+			<nav aria-label="Page navigation">
+				<ul class="pagination justify-content-center" id="paginationContainer">
+					<!-- Pagination links will be inserted here -->
+				</ul>
+			</nav>
+		</template>
+
+
+
+<!-- Product filter Script		 -->
+<script src="{% static 'custom_js/product_filter.js' %}"></script>
+<script>
+	// Set the CSRF token in a JavaScript variable
+	var csrfToken = "{{ csrf_token }}";
+</script>
 
 
 <script src="{% static 'assets/js/nouislider.min.js' %}"></script>

@@ -5,9 +5,11 @@ from accounts.models import *
 from cart.models import *
 from django.db.models import Sum, Count, F
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 import razorpay
+import json
+from django.template.loader import render_to_string
 # Create your views here.
 
 def homepage(request):
@@ -37,22 +39,8 @@ def productpage(request, id):
 def product_list(request):
     categories = Category.objects.all()
 
-    selected_categories = request.GET.getlist('categories[]')
-    selected_categories = [int(cat_id) for cat_id in selected_categories if cat_id.isdigit()]
+    products = Product.objects.filter(is_deleted=False)
 
-    if not selected_categories:
-        products = Product.objects.filter(is_deleted=False)
-    else:
-        products = []
-        for cat_id in selected_categories:
-            category_products = Product.objects.filter(category__id=cat_id, is_deleted=False)
-            products.extend(category_products)
-
-    sort_by = request.GET.get('sortby')
-    if sort_by == 'low':
-        products = sorted(products, key=lambda p: p.variants.first().price)
-    elif sort_by == 'high':
-        products = sorted(products, key=lambda p: p.variants.first().price, reverse=True)
 
     paginator = Paginator(products, 8)
     page = request.GET.get('page')
@@ -61,15 +49,58 @@ def product_list(request):
     context = {
         'categories': categories,
         'products': product_data,
-        'cat_id': selected_categories,
-        'sort_by': sort_by,
     }
-
-
-
+    
     return render(request, 'pages/product_listing.html', context)
 
 
+
+def filter_products(request):
+    if request.method == 'POST':
+        try:
+            # Get the raw JSON data from the request body
+            json_data = request.body.decode('utf-8')
+
+            # Parse the JSON data into a Python dictionary
+            data_dict = json.loads(json_data)
+
+            # Access the selected category IDs from the 'categories' key as a list
+            category_ids_list = data_dict.get('categories', [])
+
+            if category_ids_list:
+                products = Product.objects.filter(category__id__in=category_ids_list, is_deleted=False)
+            else:
+                products = Product.objects.filter(is_deleted=False)
+                
+            # Pagination
+            paginator = Paginator(products, 8)
+            page_number = request.GET.get('page')
+            product_page = paginator.get_page(page_number)
+
+            # Prepare the product data to send as JSON
+            product_data = [
+                {
+                    'name': product.name,
+                    'category_name':product.category.name,
+                    'colour_name':product.colors.first().name,
+                    'offer_price': product.variants.first().price,
+                    'original_price':product.variants.first().original_price,
+                    'image_url': product.images.first().image.url,
+                    'has_offer': product.category.offers.exists() and product.category.offers.first().is_valid and product.category.offers.first().is_active,
+                }
+                for product in products
+            ]
+
+            response_data = {
+                'products': product_data
+            }
+            
+            return JsonResponse(response_data)
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+    else:
+        # Handle other HTTP methods if needed
+        return JsonResponse({'error': 'Invalid method'}, status=405)
 
 def category_page(request, id):
     category = Category.objects.get(id=id)

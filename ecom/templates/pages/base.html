@@ -1149,8 +1149,11 @@
     <script src="{% static 'assets/js/jquery.elevateZoom.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    razorpay
+
+<!--    razorpay-->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <!-- Script for Quantity selector -->
@@ -1283,53 +1286,8 @@
         });
     </script>
 
-    <!--Script for filtering products-->
-    <script>
-        // Add an event listener to the category checkboxes
-        const categoryCheckboxes = document.querySelectorAll('.category-checkbox');
-        categoryCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                const selectedCategories = [];
-                categoryCheckboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        selectedCategories.push(checkbox.getAttribute('data-category-id'));
-                    }
-                });
 
-                const params = new URLSearchParams({ 'categories[]': selectedCategories });
-                const currentUrl = window.location.href.split('?')[0];
-                const newUrl = `${currentUrl}?${params.toString()}`;
 
-                window.location.href = newUrl;
-            });
-        });
-    </script>
-
-<!--Sorting the product-->
-    <script>
-    // Add an event listener to the sorting select element
-    const sortSelect = document.getElementById('sortby');
-    sortSelect.addEventListener('change', function () {
-        const selectedSortOption = sortSelect.value;
-
-        // Get the selected category checkboxes
-        const categoryCheckboxes = document.querySelectorAll('.category-checkbox:checked');
-        const selectedCategories = Array.from(categoryCheckboxes).map(checkbox => checkbox.getAttribute('data-category-id'));
-
-        const params = new URLSearchParams();
-        params.append('sortby', selectedSortOption);
-        if (selectedCategories.length > 0) {
-            params.append('categories', selectedCategories.join(','));
-        }
-
-        // Make the AJAX request with the new URL
-        const currentUrl = window.location.href.split('?')[0];
-        const newUrl = `${currentUrl}?${params.toString()}`;
-
-        // Redirect to the new URL with the selected options
-        window.location.href = newUrl;
-    });
-</script>
 
 
 
