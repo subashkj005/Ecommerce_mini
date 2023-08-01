@@ -34,7 +34,22 @@ def productpage(request, id):
 
     return render(request, 'pages/product_page.html', {'variant':variant, 'all_products': all_products, 'variant_images':variant_images})
 
+def search_products(request):
+    if request.method == 'POST':
+        categories = Category.objects.all()
+        search = request.POST.get('search')
 
+        if search:
+            products = Product.objects.filter(name__icontains=search)
+        else:
+            products = []
+            
+        context = {
+        'categories': categories,
+        'products': products,
+        }
+               
+    return render(request, 'pages/product_listing.html', context)
 
 def product_list(request):
     categories = Category.objects.all()
