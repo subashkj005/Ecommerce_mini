@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.db import models
 from django.apps import AppConfig
 from django.db.models.signals import pre_delete, pre_save
+from django.utils import timezone
 from django.dispatch import receiver
 from django.conf import settings
 
@@ -14,6 +15,9 @@ from django.conf import settings
 class Category(models.Model):
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to='categories_images')
+    is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now)
+
 
     class Meta:
         ordering = ('name',)
@@ -28,6 +32,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     description = models.TextField(blank=True, null=True)
     is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
@@ -51,6 +56,7 @@ class Variant(models.Model):
     original_price = models.DecimalField(max_digits=10,decimal_places=2,default=0, null=True, blank=True)
     discount = models.PositiveIntegerField(default=0)
     is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def calculate_discount_price(self, offer_rate):
         variant_price = Decimal(str(self.price))

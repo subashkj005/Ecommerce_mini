@@ -1,0 +1,40 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+
+
+
+{% block dashboard %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title" style="font-size: 1.5rem;">Sales Report</h4>
+            <span>
+                <a class="btn btn-primary" href="#">Generate PDF</a>
+            </span>
+        </div>
+        <p class="card-description" style="font-weight: 600;color: #e8e8e8;">FROM : 02/07/2023  TO: 10/07/2023</p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Sales</th>
+                        <th>Total Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

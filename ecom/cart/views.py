@@ -31,10 +31,12 @@ def add_to_cart(request, id):
         try:
             user_cart = Cart.objects.get(user=user, variant=variant)
             if Cart.objects.filter(variant=variant).exists():
-                user_cart.quantity += 1
-                user_cart.total= user_cart.calculate_total_price()
-                user_cart.discount = user_cart.calculate_total_quantity_discount()
-                user_cart.save()
+                # Checks if the variant stock quantity
+                if variant.stock > user_cart.quantity:
+                    user_cart.quantity += 1
+                    user_cart.total = user_cart.calculate_total_price()
+                    user_cart.discount = user_cart.calculate_total_quantity_discount()
+                    user_cart.save()
 
         except Cart.DoesNotExist:
             new_cart = Cart.objects.create(user=user, variant=variant, quantity=1)
@@ -215,7 +217,7 @@ def order_confirm(request):
 
 def cancel_order(request, id):
     item = OrderDetail.objects.get(id=id)
-    if item.status != 'cancelled' and item.status != 'delivered':
+    if item.order_status != 'cancelled' and item.order_status != 'delivered':
         item.order_status = 'cancelled'
         item.save()
 

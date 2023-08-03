@@ -125,8 +125,11 @@
 
 
                                     <div class="product-details-action">
+                                        {% if variant.stock == 0 %}
+                                        <a href="#" class="btn-product" style="background: #ff5959;border-color: #ff5959;"><span style="color: white;font-size: 1.5rem;">Out of Stock</span></a>
+                                        {% else %}
                                         <a href="#" class="btn-product btn-cart" id="add-to-cart-btn" data-variant-id="{{ variant.id }}"><span>Add to Cart</span></a>
-
+                                        {% endif %}
 
                                         <div class="details-action-wrapper">
                                             <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
@@ -369,8 +372,8 @@
 
 
 
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'custom_js/add_to_cart.js' %}"></script>
 
 <!--Variant option changer-->
 <!--<script>-->

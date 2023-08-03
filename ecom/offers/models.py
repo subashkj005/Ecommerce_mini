@@ -12,6 +12,7 @@ class Offers(models.Model):
     discount_percentage = models.DecimalField(max_digits=4, decimal_places=2)
     is_active = models.BooleanField(default=False)
     image = models.ImageField(upload_to='offer_images/', blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         verbose_name_plural = 'Offers'

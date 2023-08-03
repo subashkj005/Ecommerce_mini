@@ -47,14 +47,12 @@
                         {% endfor %}
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal"
-                                data-target="#variantEditModal{{ variant.id }}">
+                        <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal" data-target="#variantEditModal{{ variant.id }}">
                             <i class="fa-solid fa-pen" style="color: #ffffff; font-size: 0.9rem; margin: 0;"></i>
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger btn-icon-text" data-toggle="modal"
-                                data-target="#exampleModalCenter{{ i.id }}">
+                        <button type="button" class="btn btn-danger btn-icon-text" data-toggle="modal" data-target="#variantDelete{{ variant.id }}">
                             <i class="fa-solid fa-trash" style="color: #ffffff; font-size: 0.9rem; margin: 0;"></i>
                         </button>
                     </td>
@@ -173,8 +171,29 @@
         </div>
     </div>
 </div>
+{% endfor %}
 
-
+<!-----------------Modal for deleting Product------------------>
+{% for variant in variant_data %}
+<div id="variantDelete{{variant.id}}" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="variantDeleteTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Delete Product</h4>
+                    <p class="card-description"> Do you want to delete the product
+                    <div class="text-yellow">{{ variant.product.name|slice:":30" }} {{ variant.colour.name }} {{ variant.name|slice:":14" }}</div>
+                    </p>
+                    <form class="forms-sample">
+                        <a type="submit" class="btn btn-danger mr-2" href="{% url 'variant_delete' variant.id %}">Delete</a>
+                        <button class="btn btn-dark" data-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
 
 

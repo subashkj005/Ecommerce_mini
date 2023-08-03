@@ -101,8 +101,8 @@ def delete_product(request,id):
     return redirect('product')
 
 def variant_page(request):
-    variants = Variant.objects.all()
-    categories = Category.objects.all()
+    variants = Variant.objects.filter(is_deleted=False)
+    categories = Category.objects.filter(is_deleted=False)
     return render(request, 'custom_admin/variants_list.html', {'variant_data': variants, 'category_data': categories})
 
 
@@ -176,15 +176,18 @@ def edit_variant(request, id):
             product.description = description
             product.save()
 
-
         if images:
             for image in images:
                 variant_image = ProductImage(product=product, color=v_colour, image=image)
                 variant_image.save()
 
-
-
         return redirect('variant_page')
+
+def variant_delete(request, id):
+    variant = Variant.objects.get(id=id)
+    variant.is_deleted = True
+    variant.save()
+    return redirect('variant_page')
 
 
 

@@ -8,6 +8,7 @@ from cart.views import *
 urlpatterns = [
     path('', homepage, name='user_home'),
     path('product<int:id>', productpage, name='product_page'),
+    path('product_list/product<int:id>/', productpage, name='product_detail'),
     path('category_page<int:id>/',category_page,name='category_page'),
     path('product_list/', product_list, name='product_list'),
     path('product_list/filter-products', filter_products, name='filter_products'),

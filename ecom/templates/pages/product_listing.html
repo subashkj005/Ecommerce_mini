@@ -50,7 +50,7 @@
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
 <!--                                                <span class="product-label label-new">New</span>-->
-                                                <a href="#">
+                                                <a href="{% url 'product_page' product.variants.first.id %}">
                                                     <img src="{{product.images.first.image.url}}" alt="Product image" class="product-image">
                                                 </a>
 
@@ -68,7 +68,7 @@
                                                 <div class="product-cat">
                                                     <a href="#">{{product.category.name}}</a>
                                                 </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="#">{{product.name}} {{product.colors.first.name}}</a></h3><!-- End .product-title -->
+                                                <h3 class="product-title"><a href="{% url 'product_page' product.variants.first.id %}">{{product.name}} {{product.colors.first.name}}</a></h3><!-- End .product-title -->
                                                 <div class="product-price">
 													{% if product.category.offers.first.is_valid and product.category.offers.first.is_active %}
 													 <span >Rs.{{product.variants.first.price}}</span>
@@ -189,7 +189,7 @@
 				<div class="product product-7 text-center">
 					<figure class="product-media">
 						<span class="product-label label-circle label-sale"></span>
-						<a href="#">
+						<a href="/" class="product-link">
 							<img  alt="Product image" class="product-image">
 						</a>
 

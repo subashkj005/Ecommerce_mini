@@ -91,3 +91,19 @@ def order_status_update(request, ord_id, item_id):
         return render(request, 'custom_admin.html', {'order':order} )
     return redirect('admin_login')
 
+
+
+# Reports
+
+def filter_reports(request):
+    if request.method == 'POST':
+        selected_report = request.POST.get('selected_report')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+
+
+    return render(request, 'custom_admin/filter_report.html')
+
+def reports(request):
+    return render(request, 'custom_admin/reports.html')
+

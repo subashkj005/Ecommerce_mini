@@ -98,6 +98,7 @@ def filter_products(request):
                     'name': product.name,
                     'category_name':product.category.name,
                     'colour_name':product.colors.first().name,
+                    'variant_id': product.variants.first().id,
                     'offer_price': product.variants.first().price,
                     'original_price':product.variants.first().original_price,
                     'image_url': product.images.first().image.url,
@@ -212,7 +213,7 @@ def profile_orders(request):
         phone_number = request.session['phone_number']
         user = Profile.objects.get(phone_number=phone_number)
 
-        orders = Order.objects.filter(user=user)
+        orders = Order.objects.filter(user=user).order_by('-id')
         orders_list = {}
 
         for order in orders:
