@@ -81,6 +81,14 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
+          <li class="nav-item menu-items {% block dashboard-reports %} {% endblock %}">
+            <a class="nav-link" href="{% url 'filter_reports' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-file-document"></i>
+              </span>
+              <span class="menu-title">Reports</span>
+            </a>
+          </li>
           <li class="nav-item menu-items {% block users-active %} {% endblock %} ">
             <a class="nav-link" href="{% url 'users' %}">
               <span class="menu-icon">

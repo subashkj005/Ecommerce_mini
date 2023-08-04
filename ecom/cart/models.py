@@ -76,6 +76,7 @@ class OrderDetail(models.Model):
     total_price = models.DecimalField(max_digits=10,decimal_places=2, default=0)
     order_status = models.CharField(max_length=100, choices=ORDER_STATUS_CHOICES, default='order_pending')
     is_returned = models.BooleanField(default=False)
+    is_delivered = models.BooleanField(default=False)
 
     def __str__(self):
         return self.order.user.name+"---"+self.product.product.name+"---"+self.order_status

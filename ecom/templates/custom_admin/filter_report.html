@@ -10,12 +10,13 @@
                     <div class="card-body">
                       <h4 class="card-title">Reports</h4>
 
-                      <form method="post"  class="forms-sample">
+                      <form method="post"  class="forms-sample" action="{% url 'filter_reports' %}">
                         {% csrf_token %}
                         <div class="form-group">
                           <label >Options</label>
                           <select class="form-control text-white" name="selected_report">
                               <option value="sales">Sales</option>
+                              <option value="orders">Orders</option>
                           </select>
                         </div>
                         <div class="form-group">

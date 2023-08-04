@@ -151,7 +151,7 @@ def category_page(request, id):
 
 
 def test_page(request):
-    return render(request, 'pages/return_reason.html')
+    return render(request, 'pdf/sales-report_pdf.html')
 
 
 

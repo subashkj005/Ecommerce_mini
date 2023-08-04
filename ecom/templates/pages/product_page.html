@@ -111,17 +111,33 @@
                                                 <ul class="d-flex">
                                                     {% for model in variant.colour.variant_colours.all %}
                                                         {% with model_id=model.id %}
+                                                        {% if model.is_deleted == False %}
                                                     <li style="margin-right: 1.5rem;">
                                                         <a href="{% url 'product_page' model_id %}" style="padding: 1.0rem;font-weight: 500;border: {% if model_id == variant.id %}1.8px solid #73daff96; background-color: #33c9ff96;{% else %}1.8px solid #c1c1c1;{% endif %}">
                                                             {{ model.name }}
                                                         </a>
                                                     </li>
+                                                        {% endif %}
                                                         {% endwith %}
                                                     {% endfor %}
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
+                                    {% if variant.stock|length > 6 %}
+                                    <div class="product-variant-details mb-2">
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                                <p style="margin-right: 0.5rem;font-weight: 400;color: #e03939;">Limited stocks : </p>
+                                                <ul class="d-flex">
+                                                    <li style="margin-right: 1.5rem;">
+                                                        <p style="font-weight: 400;color: #e03939;">{{ variant.stock}} &nbsp;Hurry..!</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
 
 
                                     <div class="product-details-action">

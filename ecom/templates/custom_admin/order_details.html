@@ -109,6 +109,8 @@
                         <td>
                             {% if item.order_status == 'cancelled' %}
                             <p class="text-white pt-2"> Cancelled </p>
+                            {% elif item.order_status == 'delivered' %}
+                            <p class="text-white pt-2"> Delivered </p>
                             {% else %}
                             <select name="order_status" class="form-control text-white">
                                 {% for status in item.ORDER_STATUS_CHOICES %}

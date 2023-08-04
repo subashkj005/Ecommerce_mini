@@ -40,8 +40,12 @@ urlpatterns = [
     path('update_offers<int:id>', update_offers, name='update_offers'),
     path('offer_active<int:id>', offer_active, name='offer_active'),
     # Report
-    path('filter_reports', filter_reports, name='filter_reports'),
-    path('reports', reports, name='reports'),
+
+    # Add the URL pattern for the filter_reports view
+    path('filter_reports/', filter_reports, name='filter_reports'),
+    # Add the URL pattern for the generate_custom_pdf view
+
+    path('pdf-form/', generate_pdf, name='generate_pdf'),
 
 
 ]

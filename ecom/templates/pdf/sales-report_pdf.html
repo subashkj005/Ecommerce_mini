@@ -1,0 +1,107 @@
+{% load static %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: lightblue;
+  padding: 70px;
+}
+
+
+.heading {
+  text-align: right;
+}
+.title{
+   text-align: left;
+}
+.table td{
+  border-top: 1px solid #000000;
+  padding:2px;
+  text-align: center;
+  font-size:13px;
+}
+.card-description{
+  font-size:14px;
+}
+.table th{
+  padding:2px;
+  text-align: center;
+  font-size:13px;
+}
+
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.date {
+  font-size: 14px;
+  color: #555;
+}
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="title">
+        <h1>Nexo Electronics</h1>
+    </div>
+    <div class="heading">
+      <h1>SALES REPORT</h1>
+    </div>
+  </div>
+<div class="card">
+    <div class="card-body">
+
+        <p class="card-description" style="font-weight: 600;color: #000000;">FROM :&nbsp; {{start_date}}  &nbsp;&nbsp;TO:&nbsp; {{end_date}}</p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                {% with total_products=order.order_items.all.count %}
+                {% for product in order.order_items.all %}
+                <tr>
+                    {% if forloop.first %}
+                    <td rowspan="{{ total_products }}">{{ forloop.parentloop.counter }}</td>
+                    <td rowspan="{{ total_products }}">{{ order.date_created|date:"d M Y" }}</td>
+                    {% endif %}
+                    <td>{{ product.product.product.name }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price }}</td>
+                    {% with total=product.quantity|mul:product.price %}
+                    <td>{{ total }}</td>
+                    {% endwith %}
+                </tr>
+                {% endfor %}
+                {% endwith %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

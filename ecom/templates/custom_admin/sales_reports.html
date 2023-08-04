@@ -1,0 +1,58 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block dashboard %}
+
+<form class="card" method="post" action="{% url 'generate_pdf' %}">
+    {% csrf_token %}
+    <div class="card-body" >
+        <div class="d-flex justify-content-between">
+            <h4 class="card-title" style="font-size: 1.5rem;">Sales Report</h4>
+            <span>
+                <button class="btn btn-primary" type="submit">Generate PDF</button>
+            </span>
+        </div>
+        <p class="card-description" style="font-weight: 600;color: #e8e8e8;">FROM :&nbsp; {{start_date}}  &nbsp;&nbsp;TO:&nbsp; {{end_date}}</p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                {% with total_products=order.order_items.all.count %}
+                {% for product in order.order_items.all %}
+                <tr>
+                    {% if forloop.first %}
+                    <td rowspan="{{ total_products }}">{{ forloop.parentloop.counter }}</td>
+                    <td rowspan="{{ total_products }}">{{ order.date_created|date:"d M Y" }}</td>
+                    {% endif %}
+                    <td>{{ product.product.product.name }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price }}</td>
+                    {% with total=product.quantity|mul:product.price %}
+                    <td>{{ total }}</td>
+                    {% endwith %}
+                </tr>
+                {% endfor %}
+                {% endwith %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <input type="hidden" name="start_date" value="{{start_date}}">
+        <input type="hidden" name="end_date" value="{{end_date}}">
+
+    </div>
+</form>
+
+{% endblock %}
