@@ -55,8 +55,7 @@
                                                 </a>
 
                                                 <div class="product-action-vertical">
-                                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable" id="wishlist-btn" data-product-id="{{ product.variants.first.id }}"><span>add to wishlist</span></a>
                                                 </div><!-- End .product-action-vertical -->
 
                                                 <div class="product-action">
@@ -94,6 +93,13 @@
 
                                 </div><!-- End .row -->
                             </div><!-- End .products -->
+
+							<!-- Added to Wishlist Notification -->
+							<div class="popup-container">
+                				<div class="popup" id="wishlistPopup">
+                    				Added to wishlist !
+                				</div>
+            				</div>
 
 
                 			<nav aria-label="Page navigation" id="initialPaginationContainer">

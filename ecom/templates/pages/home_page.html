@@ -305,12 +305,11 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                                        <a href="#" class="btn-product-icon btn-wishlist" id="wishlist-btn" data-product-id="{{ variant.id }}" title="Add to wishlist"></a>
                                     </div><!-- End .product-action -->
 
                                     <div class="product-action">
-                                        <a href="#" data-product="{{variant.id}}" data-action="add" class="btn-product btn-cart add-btn update-cart" title="Add to cart"><span>add to cart</span></a>
-                                        <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
+                                        <a href="{% url 'add_to_cart_sub' variant.id %}" data-product="{{variant.id}}" data-action="add" class="btn-product btn-cart add-btn update-cart" title="Add to cart"><span>add to cart</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -352,6 +351,14 @@
                     </div><!-- End .row -->
                 </div><!-- End .products -->
             </div><!-- End .container -->
+
+            <div class="popup-container">
+                <div class="popup" id="wishlistPopup">
+                    Added to wishlist !
+                </div>
+            </div>
+
+
 
             <div class="mb-6"></div><!-- End .mb-6 -->
 

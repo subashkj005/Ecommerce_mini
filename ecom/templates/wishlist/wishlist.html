@@ -1,0 +1,68 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<main>
+    {% include 'pages/page_header.html' with page_title="Wishlist" sub_title="Shop" %}
+    <div class="page-content">
+        <div class="container">
+            {% if wishlist %}
+            <table class="table table-wishlist table-mobile">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Stock Status</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for item in wishlist %}
+                	<tr>
+                    <td class="product-col">
+                        <div class="product">
+                            <figure class="product-media">
+                                <a href="{% url 'product_page' item.variant.id %}">
+                                    <img src="{{item.variant.colour.colour_images.first.image.url}}" alt="Product image">
+                                </a>
+                            </figure>
+
+                            <h3 class="product-title">
+                                <a href="{% url 'product_page' item.variant.id %}">{{item.variant.product.name}}</a>
+                            </h3><!-- End .product-title -->
+                        </div><!-- End .product -->
+                    </td>
+                    <td class="price-col">Rs.{{item.variant.price}}</td>
+                    {% if item.variant.stock > 0 %}
+                    <td class="stock-col"><span class="in-stock">In stock</span></td>
+                    {% else %}
+                    <td class="stock-col"><span class="out-of-stock">Out of stock</span></td>
+                    {% endif %}
+                    <td class="action-col">
+                        {% if item.variant.stock > 0 %}
+                        <a class="btn btn-block btn-outline-primary-2" href="{% url 'wishlist_to_cart' item.id %}"><i class="icon-cart-plus"></i>Add to Cart
+                        </a>
+                        {% else %}
+                        <button class="btn btn-block btn-outline-primary-2 disabled">Out of Stock</button>
+                        {% endif %}
+                    </td>
+                    <td class="remove-col">
+                        <a href="{% url 'delete_wishlist_item' item.id %}" class="btn-remove"><i class="icon-close"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table><!-- End .table table-wishlist -->
+            {% else %}
+            <div class="empty-wishlist" style="display: flex;justify-content: center;">
+                <img src="/static/assets/images/wishlist-empty.jpg" >
+            </div>
+            {% endif %}
+        </div><!-- End .container -->
+    </div>
+</main>
+
+{% endblock %}

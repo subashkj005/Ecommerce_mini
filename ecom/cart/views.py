@@ -7,13 +7,13 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.db import transaction
+from django.http import HttpResponse
 
 
-# Create your views here.
 def cart_page(request):
     if 'phone_number' in request.session:
         user = Profile.objects.get(phone_number=request.session['phone_number'])
-        user_carts = Cart.objects.filter(user=user)
+        user_carts = Cart.objects.filter(user=user).order_by('-id')
 
         sub_total = Cart.objects.filter(user=user).aggregate(total=Sum('total'))
         savings = Cart.objects.filter(user=user).aggregate(total=Sum('discount'))
@@ -47,6 +47,32 @@ def add_to_cart(request, id):
         response_data['success'] = True
 
     return JsonResponse(response_data)
+
+def add_to_cart_sub(request, id):
+    if 'phone_number' in request.session:
+        user = Profile.objects.get(phone_number=request.session['phone_number'])
+        variant = Variant.objects.get(id=id)
+        try:
+            user_cart = Cart.objects.get(user=user, variant=variant)
+            if Cart.objects.filter(variant=variant).exists():
+                # Checks if the variant stock quantity
+                if variant.stock > user_cart.quantity:
+                    user_cart.quantity += 1
+                    user_cart.total = user_cart.calculate_total_price()
+                    user_cart.discount = user_cart.calculate_total_quantity_discount()
+                    user_cart.save()
+
+        except Cart.DoesNotExist:
+            new_cart = Cart.objects.create(user=user, variant=variant, quantity=1)
+            new_cart.total = new_cart.calculate_total_price()
+            new_cart.discount = variant.discount
+            new_cart.save()
+
+        cart = cart_page(request)
+
+        # Prepare the response and return it
+        return HttpResponse(cart)
+
 
 def delete_cartItem(request, id):
     if 'phone_number' in request.session:

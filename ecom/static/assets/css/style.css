@@ -8123,7 +8123,7 @@ p {
 }
 
 .btn-wishlist:before {
-    content: '\f234'
+   content: '\f234'
 }
 
 .product-body .btn-wishlist {
