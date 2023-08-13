@@ -129,6 +129,14 @@
               <span class="menu-title">Orders</span>
             </a>
           </li>
+          <li class="nav-item menu-items {% block coupons-active %} {% endblock %}">
+            <a class="nav-link" href="{% url 'coupon_page' %}">
+              <span class="menu-icon">
+                <i class="mdi mdi-ticket-percent" style="font-size: 18px;"></i>
+              </span>
+              <span class="menu-title">Coupons</span>
+            </a>
+          </li>
           <li class="nav-item menu-items {% block offers-active %} {% endblock %}">
             <a class="nav-link" href="{% url 'offers' %}">
               <span class="menu-icon">
@@ -334,20 +342,21 @@
 
     <!--Additional -->
 
-    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
-    <script src="{% static 'assets/vendors/chart.js/Chart.min.js' %}"></script>
-    <script src="{% static 'assets/vendors/progressbar.js/progressbar.min.js' %}"></script>
-    <script src="{% static 'assets/vendors/jvectormap/jquery-jvectormap.min.js' %}"></script>
-    <script src="{% static 'assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
-    <script src="{% static 'assets/vendors/owl-carousel-2/owl.carousel.min.js' %}"></script>
+<!--    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>-->
+<!--    <script src="{% static 'assets/vendors/chart.js/Chart.min.js' %}"></script>-->
+<!--    <script src="{% static 'assets/vendors/progressbar.js/progressbar.min.js' %}"></script>-->
+<!--    <script src="{% static 'assets/vendors/jvectormap/jquery-jvectormap.min.js' %}"></script>-->
+<!--    <script src="{% static 'assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>-->
+<!--    <script src="{% static 'assets/vendors/owl-carousel-2/owl.carousel.min.js' %}"></script>-->
 
-    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
-    <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
-    <script src="{% static 'assets/js/misc.js' %}"></script>
-    <script src="{% static 'assets/js/settings.js' %}"></script>
-    <script src="{% static 'assets/js/todolist.js' %}"></script>
+<!--    <script src="{% static 'assets/js/off-canvas.js' %}"></script>-->
+<!--    <script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>-->
+<!--    <script src="{% static 'assets/js/misc.js' %}"></script>-->
+<!--    <script src="{% static 'assets/js/settings.js' %}"></script>-->
+<!--    <script src="{% static 'assets/js/todolist.js' %}"></script>-->
+<!--    <script src="{% static 'assets/js/jquery-3.7.0.js'%}"></script>-->
 
-    <script src="{% static 'assets/js/dashboard.js' %}"></script>
+<!--    <script src="{% static 'assets/js/dashboard.js' %}"></script>-->
     <script>
   function handleImageUpload(categoryId) {
     var imageUpload = document.getElementById('imageUpload' + categoryId);

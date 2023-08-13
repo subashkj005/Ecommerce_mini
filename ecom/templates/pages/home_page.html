@@ -309,7 +309,7 @@
                                     </div><!-- End .product-action -->
 
                                     <div class="product-action">
-                                        <a href="{% url 'add_to_cart_sub' variant.id %}" data-product="{{variant.id}}" data-action="add" class="btn-product btn-cart add-btn update-cart" title="Add to cart"><span>add to cart</span></a>
+                                        <a href="#" id="add-to-cart-{{ variant.id }}" class="btn-product btn-cart add-btn update-cart" title="Add to cart" onclick="addToCart(event, {{ variant.id }})"><span>Add to Cart</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -317,7 +317,7 @@
                                     <div class="product-cat">
                                         <a href="">{{variant.product.category.name}}</a>
                                     </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="product.html">{{variant.product.name}} - {{variant.name}}  ({{variant.colour.name}})</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a href="{% url 'product_page' variant.id %}">{{variant.product.name}} - {{variant.name}}  ({{variant.colour.name}})</a></h3><!-- End .product-title -->
                                     <div class="product-price">
                                         {% if variant.product.category.offers.first.is_valid and variant.product.category.offers.first.is_active %}
                                             <span >Rs.{{variant.price}}</span>
@@ -336,7 +336,7 @@
                                     <div class="product-nav product-nav-dots">
                                         {% if variant.product.colors.count != 1 %}
                                         {% for colour in variant.product.colors.all %}
-                                        <a href="#" class="active" style="background: {{colour.color_code}}"><span class="sr-only">Color name</span></a>
+                                        <a href="{% url 'product_page' colour.variant_colours.first.id %}" class="active" style="background: {{colour.color_code}}"><span class="sr-only">Color name</span></a>
                                         {% endfor %}
                                         {% endif %}
                                     </div>
@@ -357,7 +357,11 @@
                     Added to wishlist !
                 </div>
             </div>
-
+            <div class="popup-container">
+                <div class="popup" id="cartPopup">
+                    Added to Cart !
+                </div>
+            </div>
 
 
             <div class="mb-6"></div><!-- End .mb-6 -->
@@ -451,4 +455,5 @@
                 </div><!-- End .container -->
             </div><!-- End .icon-boxes-container -->
         </main>
+
 {% endblock %}

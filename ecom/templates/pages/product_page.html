@@ -148,7 +148,7 @@
                                         {% endif %}
 
                                         <div class="details-action-wrapper">
-                                            <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                            <a href="#" class="btn-product btn-wishlist" id="wishlist-btn" data-product-id="{{ variant.id }}" title="Wishlist"><span>Add to Wishlist</span></a>
 
                                         </div><!-- End .details-action-wrapper -->
                                     </div><!-- End .product-details-action -->
@@ -176,6 +176,14 @@
                             </div><!-- End .col-md-6 -->
                         </div><!-- End .row -->
                     </div><!-- End .product-details-top -->
+
+                    <!--Add to wishlist pop up -->
+                    <div class="popup-container">
+                        <div class="popup" id="wishlistPopup">
+                            Added to wishlist !
+                        </div>
+                    </div>
+                    <!--End of add to wishlist pop up -->
 
                     <div class="product-details-tab">
                         <ul class="nav nav-pills justify-content-center" role="tablist">
@@ -333,17 +341,17 @@
                                 </div><!-- End .product-cat -->
                                 <h3 class="product-title">
                                     <a href="product.html">
-                                        {{product.name}}
+                                        {{product.name}}<br>{{product.variants.first.name}}
                                     </a>
                                 </h3>
                                 <!-- End .product-title -->
                                 <div class="product-price">
-                                    ₹{{product.price}}
+                                    ₹{{product.variants.first.price}}
                                 </div>
                                 <!-- End .product-price -->
                                 <div class="ratings-container">
                                     <div class="ratings">
-                                        <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                                        <div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
                                     </div><!-- End .ratings -->
                                     <span class="ratings-text">( 5 Reviews )</span>
                                 </div>

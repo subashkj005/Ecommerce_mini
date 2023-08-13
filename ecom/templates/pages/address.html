@@ -4,8 +4,6 @@
 {% block address_active %}active{% endblock %}
 {% block profile %}
 <div>
-    <p>The following addresses will be used on the checkout page by default.</p>
-
     <div class="col-lg-6">
         <a type="button" data-toggle="modal" data-target="#addAddressModal">
             <div class="card card-dashboard">
@@ -21,7 +19,7 @@
     <div class="row">
 
         {% for address in addresses %}
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="card card-dashboard">
                 <div class="card-body">
                     <h3 class="card-title">Billing Address</h3><!-- End .card-title -->
@@ -32,14 +30,14 @@
                         {{address.zip_code}}, {{address.country}}<br>
                         {{address.user.phone_number}}<br>
                         {{address.user.email}}<br>
-                        <a href="#">Edit <i class="icon-edit"></i></a>
+                        <a href="#" data-toggle="modal" data-target="#editAddressModal{{address.id}}">Edit <i class="icon-edit"></i></a>
                     </p>
                     <div class="d-flex">
-                        <a href="{% url 'delete_address' address.id %}"><i class="fa-regular fa-trash" style="color: #990f0f;"></i></a>
+                        <a href="{% url 'delete_address' address.id %}"><i class="fa-solid fa-trash" style="color: #c50202;"></i></a>
                         {% if address.default_address %}
                         <a href="#" class="font-weight-bold ml-3">Default</a>
                         {% else %}
-                        <a href="#" class="ml-3">Set as Default</a>
+                        <a href="{% url 'set_default_address' address.id %}" class="ml-3">Set as Default</a>
                         {% endif %}
                     </div>
                 </div><!-- End .card-body -->
@@ -118,7 +116,70 @@
             </div>
         </div>
 
-        <!---End of Modal for Address Edit-->
+        <!---End of Modal for Address add-->
+
+        <!---Modal for Address edit-->
+        {% for address in addresses %}
+        <div class="modal fade" id="editAddressModal{{address.id}}" tabindex="-1" role="dialog"
+             aria-labelledby="editAddressModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="padding: 30px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAddressModalLabel">Edit Address</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{% url 'edit_address' address.id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" class="form-control" value="{{address.address}}" id="addressInput"
+                                       name="address" required>
+                            </div>
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" class="form-control" id="cityInput"
+                                       name="city" value="{{address.city}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" class="form-control" id="stateInput"
+                                       name="state" value="{{address.state}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Zip Code</label>
+                                <input type="text" class="form-control" id="zipCodeInput"
+                                       name="zip_code" value="{{address.zip_code}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Country</label>
+                                <input type="text" class="form-control" id="countryInput"
+                                       name="country" value="{{address.country}}" required>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"
+                                        name="default_address" {% if address.default_address %}checked{% endif %}>
+                                <label class="form-check-label" for="defaultAddressCheck">Set
+                                    as Default Address</label>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Close
+                                </button>
+                                <button type="submit" class="btn btn-primary">Save changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!---End of Modal for Address edit-->
 
 
         <!-- End .col-lg-6 -->

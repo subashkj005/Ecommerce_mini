@@ -1,4 +1,5 @@
 (function($) {
+console.log('chartist js')
   //simple line
   'use strict';
   if ($('#ct-chart-line').length) {

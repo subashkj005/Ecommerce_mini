@@ -1,0 +1,36 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% block coupons-active %} active{% endblock %}
+
+{% block dashboard %}
+
+<div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Create offer</h4>
+
+                    <form class="forms-sample" method="post" >
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label for="exampleInputUsername1">Coupon code</label>
+                        <input type="text" class="form-control" id="exampleInputUsername1" name="code" placeholder="Enter Coupon code" required="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Discount</label>
+                        <input type="number" class="form-control" id="exampleInputEmail1" name="discount" placeholder="Discount Amount" required="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Minimum Amount</label>
+                        <input type="number" class="form-control" id="exampleInputPassword1" name="min_amount" placeholder="Mininum Amount" required="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputConfirmPassword1">Valid To</label>
+                        <input class="form-control" type="date" name="valid_to" placeholder="End date" required="">
+                      </div>
+                      <button type="submit" class="btn btn-primary mr-2">Create</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+{% endblock %}

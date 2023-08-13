@@ -40,12 +40,14 @@ urlpatterns = [
     path('update_offers<int:id>', update_offers, name='update_offers'),
     path('offer_active<int:id>', offer_active, name='offer_active'),
     # Report
-
-    # Add the URL pattern for the filter_reports view
     path('filter_reports/', filter_reports, name='filter_reports'),
-    # Add the URL pattern for the generate_custom_pdf view
-
     path('pdf-form/', generate_pdf, name='generate_pdf'),
+    # Coupons
+    path('coupon_page', coupon_page, name='coupon_page'),
+    path('create_coupon', create_coupon, name='create_coupon'),
+    path('edit_coupon<int:id>/', edit_coupon, name='edit_coupon'),
+    path('coupon_activate<int:id>/', coupon_activate, name='coupon_activate'),
+
 
 
 ]

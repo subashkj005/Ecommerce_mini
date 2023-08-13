@@ -52,7 +52,10 @@ def wishlist_to_cart(request, id):
         cart, created = Cart.objects.get_or_create(user=user, variant=variant)
 
         if created:
-            pass
+            # If the user cart have applied with a coupon
+            cart_items = Cart.objects.filter(user=user, coupon__isnull=False)
+            if cart_items:
+                cart.coupon = cart_items.first().coupon
         else:
             if variant.stock > 0:
                 cart.quantity += 1

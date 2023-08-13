@@ -1,6 +1,8 @@
+from django.utils import timezone
 from django.db import models
 from django.utils import timezone
 from products.models import Category
+from accounts.models import Profile
 
 
 class Offers(models.Model):
@@ -16,11 +18,38 @@ class Offers(models.Model):
 
     class Meta:
         verbose_name_plural = 'Offers'
+
     def __str__(self):
         return self.name
+
     @property
     def is_valid(self):
         now = timezone.now().date()
         return self.start_date <= now <= self.end_date
 
 
+class Coupons(models.Model):
+    code = models.CharField(max_length=10)
+    discount = models.IntegerField()
+    min_amount = models.IntegerField()
+    valid_to = models.DateField()
+    is_active = models.BooleanField(default=True)
+    is_deleted = models.BooleanField(default=False)
+
+    @property
+    def is_valid(self):
+        now = timezone.now().date()
+        return self.is_active and self.valid_to >= now
+
+    def __str__(self):
+        return self.code
+
+    class Meta:
+        verbose_name_plural = 'Coupons'
+
+class UsedCoupons(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    coupons = models.ForeignKey(Coupons, on_delete=models.CASCADE, related_name='user_coupons')
+
+    class Meta:
+        verbose_name_plural = 'Used Coupons'

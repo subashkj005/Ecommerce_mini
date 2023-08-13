@@ -1,5 +1,6 @@
 {% extends 'pages/base.html' %}
 {% load static %}
+{% load mathfilters %}
 
 
 {% block content %}
@@ -86,7 +87,7 @@
                                 <tr class="summary-subtotal">
                                     <td>Subtotal:</td>
                                     <td></td>
-                                    <td>Rs.{{sub_total}}</td>
+                                    <td>Rs.{{sub_total}}{% if products.first.coupon and products.first.coupon.is_valid%}<br><span style="color: #ef837b;">-{{products.first.coupon.discount}}{% endif %}</span></td>
                                 </tr><!-- End .summary-subtotal -->
                                 <tr>
                                     <td>Shipping:</td>
@@ -96,7 +97,12 @@
                                 <tr class="summary-total">
                                     <td>Total:</td>
                                     <td></td>
-                                    <td>Rs.{{sub_total}}</td>
+                                    <td>
+                                        {% if products.first.coupon and products.first.coupon.is_valid %}
+                                        <span style="color: #ef837b;">Rs.{{sub_total|sub:products.first.coupon.discount}}</span>
+                                        {% else %}
+                                        Rs.{{sub_total}}</td>
+                                        {% endif %}
                                 </tr><!-- End .summary-total -->
                                 </tbody>
                             </table><!-- End .table table-summary -->

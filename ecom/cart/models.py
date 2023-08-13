@@ -4,6 +4,7 @@ import string
 from django.db.models import Sum
 from products.models import Variant
 from accounts.models import *
+from offers.models import Coupons
 
 
 
@@ -17,6 +18,7 @@ class Cart(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     total = models.PositiveIntegerField(default=0)
     discount = models.PositiveIntegerField(default=0)
+    coupon = models.ForeignKey(Coupons, on_delete=models.CASCADE, null=True, blank=True)
 
     @property
     def calculate_discount(self):
@@ -77,6 +79,7 @@ class OrderDetail(models.Model):
     order_status = models.CharField(max_length=100, choices=ORDER_STATUS_CHOICES, default='order_pending')
     is_returned = models.BooleanField(default=False)
     is_delivered = models.BooleanField(default=False)
+    delivered_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.order.user.name+"---"+self.product.product.name+"---"+self.order_status

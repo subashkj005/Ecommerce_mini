@@ -78,6 +78,7 @@ TEMPLATES = [
                 # Custom context_processor for cart items count
                 'cart.context_processors.cart_item_count',
                 'cart.context_processors.user_name',
+                'cart.context_processors.wishlist_count',
             ],
         },
     },

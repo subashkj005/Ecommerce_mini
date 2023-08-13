@@ -7,21 +7,12 @@
 {% block profile %}
 <div>
     <p>Hello {% if user %}<span class="font-weight-normal text-dark">{{user.name}}</span>{% else %}(not <span
-            class="font-weight-normal text-dark">User</span>? <a href="#">Log in</a>){% endif %}</p>
+            class="font-weight-normal text-dark">User</span>? <a href="{% url 'user_login' %}">Log in</a>){% endif %}</p>
     <br>
-    From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent
-    orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a
-        href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
+    From your account dashboard you can view your <a href="{% url 'profile_orders' %}" class="">recent
+    orders</a>, manage your <a href="{% url 'address' %}" >shipping and billing addresses</a>, and <a
+        href="{% url 'account_details' %}" >edit your password and account details</a>.</p>
 
-
-    {% if messages %}
-    <ul class="messages alert alert-danger">
-        {% for message in messages %}
-        <li
-        {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
 
 
 </div>

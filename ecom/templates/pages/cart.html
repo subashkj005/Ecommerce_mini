@@ -1,4 +1,5 @@
 {% extends 'pages/base.html' %}
+{% load mathfilters %}
 {% load static %}
 {% block content %}
 
@@ -80,11 +81,12 @@
                             </tbody>
                         </table><!-- End .table table-wishlist -->
 
-                        <div class="cart-bottom">
+                        <div class="cart-bottom" style="margin-bottom: 2rem;">
                             <div class="cart-discount">
-                                <form action="#">
+                                <form method="post" action="apply_coupon">
+                                    {% csrf_token %}
                                     <div class="input-group">
-                                        <input type="text" class="form-control" required="" placeholder="coupon code">
+                                        <input type="text" class="form-control" name="entered_coupon" required="" placeholder="coupon code">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-primary-2" type="submit"><i
                                                     class="icon-long-arrow-right"></i></button>
@@ -92,10 +94,63 @@
                                     </div><!-- End .input-group -->
                                 </form>
                             </div><!-- End .cart-discount -->
-
                             <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i
                                     class="icon-refresh"></i></a>
                         </div><!-- End .cart-bottom -->
+                        <!--Coupon tag for showing applied coupons -->
+                        {% if cart.first.coupon %}
+                        {% if cart.first.coupon.is_valid %}
+                        <div class="cart-bottom" style="margin-bottom: 2rem;">
+                            <div class="cart-discount">
+                                <div class="coupon-tag">
+                                    <div class="input-group">
+                                        <div class="coupon">{{cart.first.coupon.code}}  <span style="font-weight: 300;">coupon</span></div>
+                                        <div class="input-group-append">
+                                            <a href="{% url 'delete_cart_coupon' %}" class="btn btn-outline-danger" style="border: 1px solid #ba2020;border-radius: 4px;"><i class="fa-solid fa-xmark" style="color: #c21414;font-size: 2rem;"></i></a>
+                                        </div><!-- .End .input-group-append -->
+                                    </div><!-- End .input-group -->
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="cart-bottom" style="margin-bottom: 2rem;">
+                            <div class="cart-discount">
+                                <div class="coupon-tag">
+                                    <div class="input-group">
+                                        <div class="coupon-expired">{{cart.first.coupon.code}}  <span style="font-weight: 300;">coupon expired</span></div>
+                                        <div class="input-group-append">
+                                            <a href="{% url 'delete_cart_coupon' %}" class="btn btn-outline-danger" style="border: 1px solid #ba2020;border-radius: 4px;"><i class="fa-solid fa-xmark" style="color: #c21414;font-size: 2rem;"></i></a>
+                                        </div><!-- .End .input-group-append -->
+                                    </div><!-- End .input-group -->
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+
+                        <!--Coupon messages-->
+                        <div class="cart-bottom">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if 'error' in message.tags %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="color: #d00000;background-color: #ffb5b5;border: 2px solid #e21d1d;margin-top: 1.2rem;width: 30%;border-radius: 9px;">
+                                            <strong>{{ message }}</strong>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true" style="font-weight: 500;display: inline-block;line-height: 1;font-size: 2.2rem;color: black;">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% elif 'success' in message.tags %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="color: #1ba301;background-color: #baffb5;border: 2px solid #049b00;margin-top: 1.2rem;width: 30%;border-radius: 9px;">
+                                            <strong>{{ message }}</strong>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true" style="font-weight: 500;display: inline-block;line-height: 1;font-size: 2.2rem;color: black;">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <!--End of coupon messages-->
                     </div><!-- End .col-lg-9 -->
                     <aside class="col-lg-3">
                         <div class="summary summary-cart">
@@ -107,6 +162,19 @@
                                     <td>Subtotal:</td>
                                     <td style="width:10rem;font-weight: 700;">Rs. {{sub_total}}</td>
                                 </tr><!-- End .summary-subtotal -->
+                                <tr>
+                                    <td></td>
+                                    <td style="width: 100%;">
+                                        <p style="color: #ef837b;font-weight: 500;">
+                                            {% if cart.first.coupon and cart.first.coupon.is_valid %}
+                                            Coupon Discount : Rs.{{cart.first.coupon.discount}}
+                                            {% endif %}
+                                            {% if savings != 0 and savings != None %}
+                                            <br>
+                                            Offer Discount : Rs.{{savings}}</p>
+                                            {% endif %}
+                                    </td>
+                                </tr>
                                 <tr class="summary-shipping">
                                     <td>Shipping:</td>
                                     <td>&nbsp;</td>
@@ -116,24 +184,20 @@
                                     <td>
                                         <div class="custom-control custom-radio">
                                             <input type="radio" id="free-shipping" name="shipping"
-                                                   class="custom-control-input">
+                                                   class="custom-control-input" checked>
                                             <label class="custom-control-label" for="free-shipping">Free
                                                 Shipping</label>
                                         </div><!-- End .custom-control -->
                                     </td>
                                     <td>Rs. 0.00</td>
                                 </tr><!-- End .summary-shipping-row -->
-                                <tr>
-                                    <td></td>
-                                    <td style="width: 100%;color: red;font-style: italic;font-weight: 600;">
-                                        {% if savings != 0 and savings != None %}
-                                        You Save: Rs.{{savings}}
-                                        {% endif %}
-                                    </td>
-                                </tr>
                                 <tr class="summary-total">
                                     <td>Total:</td>
-                                    <td style="width:10rem;font-weight: 700;" >Rs. {{sub_total}}</td>
+                                    {% if cart.first.coupon and cart.first.coupon.is_valid %}
+                                    <td style="width:10rem;font-weight: 700;color: #ef837b;" >Rs. {{ sub_total|sub:cart.first.coupon.discount }}/-</td>
+                                    {% else %}
+                                    <td style="width:10rem;font-weight: 700;" >Rs. {{sub_total}}/-</td>
+                                    {% endif %}
                                 </tr><!-- End .summary-total -->
                                 </tbody>
                             </table><!-- End .table table-summary -->
@@ -142,7 +206,7 @@
                                 CHECKOUT</a>
                         </div><!-- End .summary -->
 
-                        <a href="category.html"
+                        <a href="{% url 'user_home' %}"
                            class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i
                                 class="icon-refresh"></i></a>
                     </aside><!-- End .col-lg-3 -->

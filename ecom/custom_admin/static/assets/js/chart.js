@@ -3,6 +3,7 @@ $(function() {
    * -------
    * Data and config for chartjs
    */
+   console.log('chartjs')
   'use strict';
   var data = {
     labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
@@ -86,7 +87,7 @@ $(function() {
     }
   };
 
-  
+
   var doughnutPieData = {
     datasets: [{
       data: [30, 40, 30],

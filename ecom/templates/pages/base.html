@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.css" integrity="sha512-Z0kTB03S7BU+JFU0nw9mjSBcRnZm2Bvm0tzOX9/OuOuz01XQfOpa0w/N9u6Jf2f1OAdegdIPWZ9nIZZ+keEvBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- Line Icons-->
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/nexo-tab-icon-32.png' %}">
@@ -163,6 +166,38 @@
 
     </style>
 
+    <!--Css for Coupon tag -->
+    <style>
+        .coupon{
+        padding: 5px;
+        height: 40px;
+        background: #76ff70;
+        border-radius: 3px;
+        clip-path: polygon(85% 0, 100% 50%, 85% 100%, 0 100%, 0 0);
+        margin-right: 1rem;
+        font-weight: 600;
+        color: #007e21;
+        border: 3px solid #62ff8fc4;
+        position: relative;
+        width: 15rem;
+        }
+        .coupon-expired{
+        padding: 5px;
+        height: 40px;
+        background: #d4d4d4;
+        border-radius: 3px;
+        clip-path: polygon(85% 0, 100% 50%, 85% 100%, 0 100%, 0 0);
+        margin-right: 1rem;
+        font-weight: 600;
+        color: #767676;
+        border: 3px solid #cacacac4;
+        position: relative;
+        width: 20rem;
+        }
+    </style>
+
+
+
 
 </head>
 
@@ -265,7 +300,7 @@
 								        <a class="nav-link" href="{% url 'profile' %}" >Dashboard</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link">Orders</a>
+								        <a class="nav-link" href="{% url 'profile_orders' %}">Orders</a>
 								    </li>
 								    <li class="nav-item">
 								        <a class="nav-link" href="{% url 'account_details' %}">Account Details</a>
@@ -283,7 +318,7 @@
                                     <i class="icon-heart-o"></i>
 
                                     <!-- Wishlist icon counter ---------->
-<!--                                    <span class="wishlist-count badge">0</span>-->
+                                    <span class="wishlist-count badge">{{wishlist_count}}</span>
 
 
 
@@ -1163,6 +1198,10 @@
   </div>
 </div>
 
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Plugins JS File -->
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
@@ -1187,8 +1226,7 @@
     <script src="{% static 'assets/js/jquery.elevateZoom.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
 
     <!--razorpay-->
@@ -1294,71 +1332,136 @@
         });
     </script>
 
-<!--Wishlist-->
+    <!--Script for adding to wishlist-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const wishlistBtns = document.querySelectorAll('#wishlist-btn');
+        const wishlistPopup = document.getElementById('wishlistPopup');
 
-<!--&lt;!&ndash; Add this after the link tag for the Bootstrap CSS &ndash;&gt;-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>-->
-
-<!--<script>-->
-<!--    document.addEventListener('DOMContentLoaded', function() {-->
-<!--        const wishlistBtns = document.querySelectorAll('#wishlist-btn');-->
-<!--        wishlistBtns.forEach(function(btn) {-->
-<!--            btn.addEventListener('click', function(event) {-->
-<!--                event.preventDefault();-->
-<!--                const productId = this.getAttribute('data-product-id');-->
-<!--                fetch(`/add_to_wishlist/${productId}/`)-->
-<!--                    .then(response => response.json())-->
-<!--                    .then(data => {-->
-<!--                        // Check if the response contains a success message-->
-<!--                        if (data.message === 'Product added to wishlist successfully') {-->
-<!--                            // Show the toast message-->
-<!--                            const wishlistToast = document.getElementById('wishlistToast');-->
-<!--                            const toast = new bootstrap.Toast(wishlistToast);-->
-<!--                            toast.show();-->
-<!--                        }-->
-<!--                    })-->
-<!--                    .catch(error => {-->
-<!--                        console.error("AJAX request error:", error);-->
-<!--                    });-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const wishlistBtns = document.querySelectorAll('#wishlist-btn');
-    const wishlistPopup = document.getElementById('wishlistPopup');
-
-    wishlistBtns.forEach(function(btn) {
-        btn.addEventListener('click', function(event) {
-            event.preventDefault();
-            const productId = this.getAttribute('data-product-id');
-            fetch(`/add_to_wishlist/${productId}/`)
-                .then(response => response.json())
-                .then(data => {
-                    // Check if the response contains a success message
-                    if (data.message === 'Product added to wishlist successfully') {
-                        // Show the success pop-up
-                        wishlistPopup.style.display = 'block';
-                        setTimeout(function() {
-                            wishlistPopup.style.display = 'none';
-                        }, 3000); // Hide the pop-up after 3 seconds (adjust as needed)
-                    } else if (data.message === 'Variant already in wishlist') {
-                        // Show the exist pop-up (if needed)
-                        // You can implement similar logic for other messages as well
-                    } else if (data.message === 'Please log in to add to wishlist') {
-                        // Show the login pop-up (if needed)
-                    }
-                })
-                .catch(error => {
-                    console.error("AJAX request error:", error);
-                });
+        wishlistBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(event) {
+                event.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+                fetch(`/add_to_wishlist/${productId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Check if the response contains a success message
+                        if (data.message === 'Product added to wishlist successfully') {
+                            // Show the success pop-up
+                            wishlistPopup.style.display = 'block';
+                            setTimeout(function() {
+                                wishlistPopup.style.display = 'none';
+                                // Reload the page after the popup is hidden
+                                location.reload();
+                            }, 2000); // Hide the pop-up after 2 seconds (adjust as needed)
+                        } else if (data.message === 'Variant already in wishlist') {
+                            // Show the exist pop-up (if needed)
+                            // You can implement similar logic for other messages as well
+                        } else if (data.message === 'Please log in to add to wishlist') {
+                            // Show the login pop-up (if needed)
+                        }
+                    })
+                    .catch(error => {
+                        console.error("AJAX request error:", error);
+                    });
+            });
         });
     });
-});
+    </script>
 
+
+<!--<script>-->
+<!--$(document).ready(function() {-->
+<!--    $('#add-to-cart-btn').click(function(e) {-->
+<!--      e.preventDefault();-->
+<!--      var variantId = $(this).data('variant-id');-->
+
+<!--      $.ajax({-->
+<!--        url: '/add_to_cart/' + variantId + '/',-->
+<!--        type: 'GET',-->
+<!--        success: function(response) {-->
+<!--          // Show custom success notification-->
+<!--          $('#cart-notification').text('Item added to Cart').fadeIn().delay(2000).fadeOut();-->
+
+<!--          // Refresh the page after success-->
+<!--          location.reload();-->
+<!--        },-->
+<!--        error: function(xhr, status, error) {-->
+<!--          alert('Error occurred while adding item to cart.');-->
+<!--          console.log(xhr.responseText);-->
+<!--        }-->
+<!--      });-->
+<!--    });-->
+<!--  });-->
+<!--  </script>-->
+
+
+
+
+
+
+<!--Working add to cart for homepage-->
+
+<!--<script>-->
+<!--    function addToCart(event, variantId) {-->
+<!--        event.preventDefault();-->
+
+<!--        fetch(`/add_to_cart/${variantId}/`)-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                if (data.success) {-->
+<!--                    // Show a custom pop-up message on success-->
+<!--                    const customPopup = document.createElement('div');-->
+<!--                    customPopup.classList.add('popup-container');-->
+<!--                    customPopup.innerHTML = `-->
+<!--                        <div class="popup">-->
+<!--                            <p class="popup-message">${data.message}</p>-->
+<!--                        </div>-->
+<!--                    `;-->
+<!--                    document.body.appendChild(customPopup);-->
+
+<!--                    // Remove the custom pop-up after a few seconds-->
+<!--                    setTimeout(function() {-->
+<!--                        document.body.removeChild(customPopup);-->
+<!--                    }, 3000); // Hide the pop-up after 3 seconds (adjust as needed)-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error("AJAX request error:", error);-->
+<!--            });-->
+<!--    }-->
+<!--</script>-->
+
+<!-- Include the JavaScript code defining the addToCart function -->
+<script>
+    function addToCart(event, variantId) {
+        event.preventDefault();
+
+        fetch(`/add_to_cart/${variantId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                    // Show a custom pop-up message on success
+                    const customPopup = document.getElementById('cartPopup');
+                    customPopup.style.display = "block"; // Use a class name for the container
+
+
+                    // Remove the custom pop-up after a few seconds
+                    setTimeout(function() {
+                       customPopup.style.display = "none";
+                    }, 3000); // Hide the pop-up after 3 seconds (adjust as needed)
+                }
+            })
+            .catch(error => {
+                console.error("AJAX request error:", error);
+            });
+    }
 </script>
+
+
+
+
 
 
 

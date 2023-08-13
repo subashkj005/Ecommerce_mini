@@ -22,13 +22,14 @@ def homepage(request):
         first_variant = product.variants.first()
         if first_variant:
             variants.append(first_variant)
-
+    print(categories)
+    print(variants)
     return render(request, 'pages/home_page.html', {'category_data': categories, 'variant_data': variants})
 
 def productpage(request, id):
-    all_products = Product.objects.all()[:5]
 
     variant = Variant.objects.get(id=id)
+    all_products = Product.objects.filter(category__id=variant.product.category.id)[:5]
     variant_images = variant.colour.colour_images.all()
 
 
@@ -164,9 +165,17 @@ def checkout(request):
         products = Cart.objects.filter(user=user)
         sub_total = Cart.objects.filter(user=user).aggregate(total=Sum('total'))
 
+        if not products:
+            return redirect('cart_page')
+
+        if products.first().coupon:
+            amount = sub_total['total']-products.first().coupon.discount
+        else:
+            amount = sub_total['total']
+
         # Razorpay
         client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-        payment = client.order.create({'amount': sub_total['total']*100, 'currency': 'INR', 'payment_capture': 1})
+        payment = client.order.create({'amount': amount*100, 'currency': 'INR', 'payment_capture': 1})
 
         context = {
             'addresses': addresses,

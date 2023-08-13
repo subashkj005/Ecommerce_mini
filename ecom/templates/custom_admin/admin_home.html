@@ -12,6 +12,73 @@
                 </ol>
               </nav>
             </div>
+
+            <div class="row">
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Today's Sales</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0">{% if daily_sales_amount %}Rs. {{daily_sales_amount}}{% else %} Rs.0 {% endif %}</h2>
+<!--                          <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>-->
+                        </div>
+                        <h6 class="text-muted font-weight-normal">No. of product sales: {{daily_sales_count}}</h6>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-chart-areaspline text-primary ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Today's Orders</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0">{{daily_orders_count}} <p> orders</p></h2>
+<!--                          <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p>-->
+                        </div>
+<!--                        <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6>-->
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-package-variant-closed text-danger ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Today's Revenue</h5>
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h2 class="mb-0">Rs.{{this_month_monthly_revenue}}</h2>
+                          {% if last_month_monthly_revenue_diff > 0 %}
+                          <p class="text-success ml-2 mb-0 font-weight-medium">+{{last_month_monthly_revenue_diff}}% </p>
+                          {% elif last_month_monthly_revenue_diff == 0 %}
+                          <p class="text-danger ml-2 mb-0 font-weight-medium">{{last_month_monthly_revenue_diff}}% </p>
+                          {% else %}
+                          <p class="text-danger ml-2 mb-0 font-weight-medium">-{{last_month_monthly_revenue_diff}}% </p>
+                          {% endif %}
+                        </div>
+                        <h6 class="text-muted font-weight-normal">Since last month</h6>
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-cash-usd text-success ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="row">
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
@@ -23,14 +90,103 @@
               </div>
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
-                  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                    <h4 class="card-title">Bar chart</h4>
-                    <canvas id="barChart" style="height: 301px; display: block; width: 602px;" width="1204" height="602" class="chartjs-render-monitor"></canvas>
+                  <div class="card-body">
+                    <div class="chartjs-size-monitor">
+                      <div class="chartjs-size-monitor-expand">
+                        <div class="">
+
+                        </div>
+                      </div>
+                      <div class="chartjs-size-monitor-shrink">
+                        <div class="">
+
+                        </div>
+                      </div>
+                    </div>
+                    <h4 class="card-title">Area chart</h4>
+                    <canvas id="areaChart" style="height: 233px; display: block; width: 467px;" width="934" height="466" class="chartjs-render-monitor"></canvas>
                   </div>
                 </div>
               </div>
             </div>
 
+
+<!--<script src="{% static 'assets/js/chartist.js' %}"></script>-->
+<!--<script src="{% static 'assets/js/chart.js' %}"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+<script>
+var weeklySalesData = [];  // An array to store the sales data for each week
+
+// Use the provided weekly_sales data from the context
+var weeklySales = {{ weekly_sales | safe }};
+weeklySales.forEach(function(week) {
+  weeklySalesData.push(week.sales);
+});
+
+var areaData = {
+  labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],  // Update with appropriate labels
+  datasets: [{
+    label: 'Sales Amount',
+    data: weeklySalesData,
+    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+    borderColor: 'rgba(75, 192, 192, 1)',
+    borderWidth: 1,
+    fill: true,
+  }]
+};
+
+ borderColor: [
+      'rgba(255,99,132,1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(255, 159, 64, 1)'
+    ],
+    borderWidth: 1,
+    fill: true, // Set to true to fill the area under the line
+  }]
+};
+
+var areaOptions = {
+  plugins: {
+    filler: {
+      propagate: true
+    }
+  },
+  scales: {
+    yAxes: [{
+      gridLines: {
+        color: "rgba(204, 204, 204,0.1)"
+      }
+    }],
+    xAxes: [{
+      gridLines: {
+        color: "rgba(204, 204, 204,0.1)"
+      }
+    }]
+  }
+};
+
+// Create the Area chart
+if ($("#areaChart").length) {
+  var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
+  var areaChart = new Chart(areaChartCanvas, {
+    type: 'line',
+    data: areaData,
+    options: areaOptions
+  });
+}
+</script>
+
+
+
 {% endblock %}
 
 {% block dashboard-active %} active {% endblock %}
+
+
