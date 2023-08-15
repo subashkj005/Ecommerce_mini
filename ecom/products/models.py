@@ -1,11 +1,15 @@
 import os
 from decimal import Decimal
 from django.db import models
+from django.apps import apps
+from django.db.models import Count
 from django.apps import AppConfig
 from django.db.models.signals import pre_delete, pre_save
 from django.utils import timezone
 from django.dispatch import receiver
 from django.conf import settings
+
+
 
 
 
@@ -61,6 +65,25 @@ class Variant(models.Model):
     def calculate_discount_price(self, offer_rate):
         variant_price = Decimal(str(self.price))
         return variant_price * offer_rate/100
+    
+    @property
+    def product_rating_percentage(self):
+        from reviews.models import Reviews
+        reviews = Reviews.objects.filter(variant=self)
+        if reviews:
+            ratings = 0
+            count = 0
+            for review in reviews:
+                ratings += review.rating
+                count+=5
+            return (ratings/count)*100
+        return 0
+    
+    @property
+    def product_ratings_count(self):
+        from reviews.models import Reviews
+        return Reviews.objects.filter(variant=self).aggregate(total_count=Count('id'))['total_count']
+            
 
     def __str__(self):
         return self.name
@@ -76,9 +99,16 @@ class ProductImage(models.Model):
 @receiver(pre_delete, sender=ProductImage)
 def delete_image_file(sender, instance, **kwargs):
     if instance.image:
-        print('-----Instance Found------')
         file_path = os.path.join(settings.MEDIA_ROOT, str(instance.image))
         if os.path.exists(file_path):
-            print('------File Removed------')
             os.remove(file_path)
+            
+class UserPurchasedProducts(models.Model):
+    # Use strings in ForeignKey to avoid circular import reference error
+    # Import apps from django.db for this use
+    user = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
+    variants = models.ForeignKey('products.Variant', on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name_plural = 'User purchased products'
 

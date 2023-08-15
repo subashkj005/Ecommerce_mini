@@ -88,19 +88,20 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="entered_coupon" required="" placeholder="coupon code">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-primary-2" type="submit"><i
-                                                    class="icon-long-arrow-right"></i></button>
+                                            <button class="btn btn-outline-primary-2" type="submit">
+                                                <i class="icon-long-arrow-right"></i></button>
                                         </div><!-- .End .input-group-append -->
                                     </div><!-- End .input-group -->
                                 </form>
                             </div><!-- End .cart-discount -->
-                            <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i
-                                    class="icon-refresh"></i></a>
+                            <strong style="position: absolute;right: 0;margin-top: 1rem;padding-right:1rem;">AVAILABLE COUPONS</strong>
                         </div><!-- End .cart-bottom -->
+
                         <!--Coupon tag for showing applied coupons -->
+                        <div class="cart-bottom" style="margin-bottom: 2rem;display: flex;justify-content: space-between;position: relative;">
                         {% if cart.first.coupon %}
                         {% if cart.first.coupon.is_valid %}
-                        <div class="cart-bottom" style="margin-bottom: 2rem;">
+
                             <div class="cart-discount">
                                 <div class="coupon-tag">
                                     <div class="input-group">
@@ -111,9 +112,9 @@
                                     </div><!-- End .input-group -->
                                 </div>
                             </div>
-                        </div>
+
                         {% else %}
-                        <div class="cart-bottom" style="margin-bottom: 2rem;">
+
                             <div class="cart-discount">
                                 <div class="coupon-tag">
                                     <div class="input-group">
@@ -124,9 +125,27 @@
                                     </div><!-- End .input-group -->
                                 </div>
                             </div>
+                        {% endif %}
+                        {% endif %}
+
+
+                            <div class="col-xl-4 pr-0" style="right: 0;position: absolute;top: 0;">
+                                {% for coupon in coupons %}
+                                {% if coupon.is_valid and cart.first.coupon.code != coupon.code %}
+                                <a style="display: flex;align-content: flex-end;">
+                                    <button class="btn btn-outline-dark mb-1">{{coupon.code}} <i class="lni lni-ticket"></i></button>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+
+
                         </div>
-                        {% endif %}
-                        {% endif %}
+
+
+
+
+
 
                         <!--Coupon messages-->
                         <div class="cart-bottom">

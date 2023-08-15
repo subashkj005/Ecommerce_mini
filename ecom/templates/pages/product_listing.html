@@ -79,9 +79,9 @@
                                                 </div><!-- End .product-price -->
                                                 <div class="ratings-container">
                                                     <div class="ratings">
-                                                        <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                                                        <div class="ratings-val" style="width: {{product.variants.first.product_rating_percentage}}%;"></div><!-- End .ratings-val -->
                                                     </div><!-- End .ratings -->
-                                                    <span class="ratings-text">( 2 Reviews )</span>
+                                                    <span class="ratings-text">( {{product.variants.first.product_ratings_count}} Reviews )</span>
                                                 </div><!-- End .rating-container -->
 
                                                 <!-- End .product-nav -->

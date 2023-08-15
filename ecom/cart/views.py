@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from products.models import *
 from accounts.models import *
+from offers.models import *
 from cart.models import *
 from offers.models import *
 from django.db.models import Sum
@@ -18,12 +19,19 @@ def cart_page(request):
 
         sub_total = Cart.objects.filter(user=user).aggregate(total=Sum('total'))
         savings = Cart.objects.filter(user=user).aggregate(total=Sum('discount'))
+        coupons = Coupons.objects.filter(is_active=True, is_deleted=False)
 
         if not user_carts:
             sub_total['total'] = 0
 
-        return render(request, 'pages/cart.html',
-                      {'cart': user_carts, 'sub_total': sub_total['total'], 'savings': savings['total']})
+        context = {
+            'cart': user_carts,
+            'sub_total': sub_total['total'],
+            'savings': savings['total'],
+            'coupons': coupons
+
+        }
+        return render(request, 'pages/cart.html', context)
     return render(request, 'pages/cart.html')
 
 
@@ -291,6 +299,11 @@ def order_confirm(request):
                         price=variant.price,
                         total_price=variant.price * cart_item.quantity
                     )
+                    
+                    # Add the product to the user purchased list if not in the list  
+                    existing_purchase = UserPurchasedProducts.objects.filter(user=user, variants=variant).first()
+                    if not existing_purchase:
+                        product = UserPurchasedProducts.objects.create(user=user, variants=variant)
 
                     # Reduce the quantity in the variant stock
                     variant.stock -= cart_item.quantity

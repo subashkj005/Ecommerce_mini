@@ -55,13 +55,13 @@
               <div class="col-sm-4 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h5>Today's Revenue</h5>
+                    <h5>Monthly Revenue</h5>
                     <div class="row">
                       <div class="col-8 col-sm-12 col-xl-8 my-auto">
                         <div class="d-flex d-sm-block d-md-flex align-items-center">
-                          <h2 class="mb-0">Rs.{{this_month_monthly_revenue}}</h2>
+                          <h2 class="mb-0">Rs.{% if this_month_monthly_revenue is None %}0{% else %}{{this_month_monthly_revenue}}{% endif %}</h2>
                           {% if last_month_monthly_revenue_diff > 0 %}
-                          <p class="text-success ml-2 mb-0 font-weight-medium">+{{last_month_monthly_revenue_diff}}% </p>
+                          <p class="text-success ml-2 mb-0 font-weight-medium">+{{ last_month_monthly_revenue_diff|floatformat:2 }}% </p>
                           {% elif last_month_monthly_revenue_diff == 0 %}
                           <p class="text-danger ml-2 mb-0 font-weight-medium">{{last_month_monthly_revenue_diff}}% </p>
                           {% else %}
@@ -82,9 +82,11 @@
             <div class="row">
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
-                  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                    <h4 class="card-title">Doughnut chart</h4>
-                    <canvas id="doughnutChart" style="height: 301px; display: block; width: 602px;" width="1204" height="602" class="chartjs-render-monitor"></canvas>
+                  <div class="card-body">
+                    <h4 class="card-title">Weekly Orders</h4>
+                    <div class="chart-container">
+                        <canvas id="orderChart"></canvas>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -118,72 +120,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 
+
+
 <script>
-var weeklySalesData = [];  // An array to store the sales data for each week
 
-// Use the provided weekly_sales data from the context
-var weeklySales = {{ weekly_sales | safe }};
-weeklySales.forEach(function(week) {
-  weeklySalesData.push(week.sales);
-});
+    var ctx = document.getElementById('orderChart').getContext('2d');
 
-var areaData = {
-  labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],  // Update with appropriate labels
-  datasets: [{
-    label: 'Sales Amount',
-    data: weeklySalesData,
-    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-    borderColor: 'rgba(75, 192, 192, 1)',
-    borderWidth: 1,
-    fill: true,
-  }]
-};
-
- borderColor: [
-      'rgba(255,99,132,1)',
-      'rgba(54, 162, 235, 1)',
-      'rgba(255, 206, 86, 1)',
-      'rgba(75, 192, 192, 1)',
-      'rgba(153, 102, 255, 1)',
-      'rgba(255, 159, 64, 1)'
-    ],
-    borderWidth: 1,
-    fill: true, // Set to true to fill the area under the line
-  }]
-};
-
-var areaOptions = {
-  plugins: {
-    filler: {
-      propagate: true
-    }
-  },
-  scales: {
-    yAxes: [{
-      gridLines: {
-        color: "rgba(204, 204, 204,0.1)"
-      }
-    }],
-    xAxes: [{
-      gridLines: {
-        color: "rgba(204, 204, 204,0.1)"
-      }
-    }]
-  }
-};
-
-// Create the Area chart
-if ($("#areaChart").length) {
-  var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
-  var areaChart = new Chart(areaChartCanvas, {
-    type: 'line',
-    data: areaData,
-    options: areaOptions
-  });
-}
+    // Fetch order data from the backend
+    fetch('{% url "order_chart_data" %}')
+        .then(response => response.json())
+        .then(data => {
+            var orderChart = new Chart(ctx, {
+                type: 'line', // Use 'line' type for area chart
+                data: {
+                    labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    datasets: [{
+                        label: "Number of Orders",
+                        data: data.order_data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        fill: 'start'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching order data:", error);
+        });
 </script>
-
-
 
 {% endblock %}
 

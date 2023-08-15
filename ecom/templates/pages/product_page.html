@@ -63,9 +63,9 @@
 
                                     <div class="ratings-container">
                                         <div class="ratings">
-                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                            <div class="ratings-val" style="width: {{variant.product_rating_percentage}}%;"></div><!-- End .ratings-val -->
                                         </div><!-- End .ratings -->
-                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                        <a class="ratings-text" href="#product-review-link" id="review-link">( {{variant.product_ratings_count}} Reviews )</a>
                                     </div><!-- End .rating-container -->
 
                                     <div class="product-price">
@@ -195,7 +195,7 @@
                                 <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping &amp; Returns</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (2)</a>
+                                <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews ({{review_count}})</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -217,58 +217,58 @@
                             </div><!-- .End .tab-pane -->
                             <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
                                 <div class="reviews">
-                                    <h3>Reviews (2)</h3>
+                                    <h3>Reviews ({{review_count}})</h3>
+                                    {% for review in reviews %}
                                     <div class="review">
                                         <div class="row no-gutters">
                                             <div class="col-auto">
-                                                <h4><a href="#">Samanta J.</a></h4>
+                                                <h4><a href="#">{{review.user.name}}</a></h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings">
-                                                        <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                                        <div class="ratings-val" style="width: 
+                                                        {% if review.rating == 1%}20%
+                                                        {% elif review.rating == 2%}40%
+                                                        {% elif review.rating == 3%}60%
+                                                        {% elif review.rating == 4%}80%
+                                                        {% elif review.rating == 5%}100%
+                                                        {% endif %};"></div><!-- End .ratings-val -->
                                                     </div><!-- End .ratings -->
                                                 </div><!-- End .rating-container -->
-                                                <span class="review-date">6 days ago</span>
                                             </div><!-- End .col -->
                                             <div class="col">
-                                                <h4>Good, perfect size</h4>
-
                                                 <div class="review-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus cum dolores assumenda asperiores facilis porro reprehenderit animi culpa atque blanditiis commodi perspiciatis doloremque, possimus, explicabo, autem fugit beatae quae voluptas!</p>
+                                                    <p>{{review.review}}</p>
                                                 </div><!-- End .review-content -->
-
-                                                <div class="review-action">
-                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful (2)</a>
-                                                    <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                                </div><!-- End .review-action -->
                                             </div><!-- End .col-auto -->
                                         </div><!-- End .row -->
                                     </div><!-- End .review -->
-
+                                    {% endfor %}
+                                    {% if user_product_purchase_status %}
                                     <div class="review">
-                                        <div class="row no-gutters">
-                                            <div class="col-auto">
-                                                <h4><a href="#">John Doe</a></h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                </div><!-- End .rating-container -->
-                                                <span class="review-date">5 days ago</span>
-                                            </div><!-- End .col -->
+                                        <form class="row no-gutters" method="post" action="{% url 'add_review' variant.id %}">
+                                            {% csrf_token %}
                                             <div class="col">
-                                                <h4>Very good</h4>
-
+                                                <h4>Write a review </h4>
                                                 <div class="review-content">
-                                                    <p>Sed, molestias, tempore? Ex dolor esse iure hic veniam laborum blanditiis laudantium iste amet. Cum non voluptate eos enim, ab cumque nam, modi, quas iure illum repellendus, blanditiis perspiciatis beatae!</p>
+                                                    <textarea rows="3" name="review" style="width: 100%;border: 1px solid #98999b;"></textarea>
                                                 </div><!-- End .review-content -->
-
-                                                <div class="review-action">
-                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful (0)</a>
-                                                    <a href="#"><i class="icon-thumbs-down"></i>Unhelpful (0)</a>
-                                                </div><!-- End .review-action -->
+                                                <div class="rating-box">
+                                                    <header>How was your experience?</header>
+                                                    <div class="stars">
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                        <i class="fa-solid fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" id="ratingInput" name="rating" value="">
+                                                <button class="btn-primary" type="submit">Submit</button>
+                                                <!-- End .review-action -->
                                             </div><!-- End .col-auto -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .review -->
+                                        </form><!-- End .row -->
+                                    </div>
+                                    {% endif %}
                                 </div><!-- End .reviews -->
                             </div><!-- .End .tab-pane -->
                         </div><!-- End .tab-content -->
@@ -320,14 +320,12 @@
                                 <div class="product product-7 text-center">
                             <figure class="product-media">
                                 <span class="product-label label-new">New</span>
-                                <a href="{% url 'product_page' product.id %}">
+                                <a href="{% url 'product_page' product.variants.first.id %}">
                                     <img src="{{product.images.first.image.url}}" alt="Product image" class="product-image">
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                                    <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable" id="wishlist-btn" data-product-id="{{ product.variants.first.id }}"><span>add to wishlist</span></a>
                                 </div><!-- End .product-action-vertical -->
 
                                 <div class="product-action">
@@ -340,7 +338,7 @@
                                     <a href="#">{{product.category.name}}</a>
                                 </div><!-- End .product-cat -->
                                 <h3 class="product-title">
-                                    <a href="product.html">
+                                    <a href="{% url 'product_page' product.variants.first.id %}">
                                         {{product.name}}<br>{{product.variants.first.name}}
                                     </a>
                                 </h3>
@@ -351,9 +349,9 @@
                                 <!-- End .product-price -->
                                 <div class="ratings-container">
                                     <div class="ratings">
-                                        <div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
+                                        <div class="ratings-val" style="width: {{product.variants.first.product_rating_percentage}}%;"></div><!-- End .ratings-val -->
                                     </div><!-- End .ratings -->
-                                    <span class="ratings-text">( 5 Reviews )</span>
+                                    <span class="ratings-text">( {{product.variants.first.product_ratings_count}} Reviews )</span>
                                 </div>
                                 <!-- End .rating-container -->
 
@@ -399,15 +397,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{% static 'custom_js/add_to_cart.js' %}"></script>
 
-<!--Variant option changer-->
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-<!--        $('#size').change(function() {-->
-<!--            var modelId = $(this).val();-->
-<!--            var url = "{".replace('model_id', modelId);-->
-<!--            window.location.href = url;-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
+    <!---Script for ratings star -->
+    <script>
+        const stars = document.querySelectorAll(".stars i");
+
+    stars.forEach((star, index1) => {
+    star.addEventListener("click", () => {
+        stars.forEach((star, index2) => {
+        index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
+        });
+
+        const selectedStars = document.querySelectorAll(".stars i.active").length;
+        document.getElementById("ratingInput").value = selectedStars;
+    });
+    });
+    </script> 
 
 {% endblock %}

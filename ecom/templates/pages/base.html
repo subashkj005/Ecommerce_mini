@@ -40,6 +40,8 @@
     <link rel="stylesheet" href="{% static 'assets/css/skins/skin-demo-4.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/demos/demo-4.css' %}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+
     <!-- Css for quantity selector   -->
     <style>
         .counter {
@@ -194,6 +196,32 @@
         position: relative;
         width: 20rem;
         }
+    </style>
+
+    <!--Css for product page ratings -->
+    <style>
+  .rating-box {
+  position: relative;
+  border-radius: 25px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+  .rating-box .stars {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 0.8rem;
+}
+  .stars i {
+  color: #e6e6e6;
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-bottom: 0.8rem;
+}
+  .stars i.active {
+  color: #ff9c1a;
+}
     </style>
 
 

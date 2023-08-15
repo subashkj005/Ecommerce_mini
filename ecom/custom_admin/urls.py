@@ -9,6 +9,8 @@ urlpatterns = [
     path('', admin_login, name='admin_login'),
     path('logout/', admin_logout, name='admin_logout'),
     path('home/', admin_home, name='home'),
+    # Chart
+    path('order_chart_data/', get_order_data, name='order_chart_data'),
     # Users
     path('users/', users, name="users"),
     path('user_status<int:id>', user_status, name="user_status"),

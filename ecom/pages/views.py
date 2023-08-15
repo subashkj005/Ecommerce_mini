@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from products.models import *
 from accounts.models import *
 from cart.models import *
+from reviews.models import Reviews
 from django.db.models import Sum, Count, F
 from django.db import transaction
 from django.http import JsonResponse, HttpResponse
@@ -27,13 +28,24 @@ def homepage(request):
     return render(request, 'pages/home_page.html', {'category_data': categories, 'variant_data': variants})
 
 def productpage(request, id):
-
+    if 'phone_number' in request.session:
+        user = Profile.objects.get(phone_number=request.session['phone_number'])
     variant = Variant.objects.get(id=id)
     all_products = Product.objects.filter(category__id=variant.product.category.id)[:5]
     variant_images = variant.colour.colour_images.all()
-
-
-    return render(request, 'pages/product_page.html', {'variant':variant, 'all_products': all_products, 'variant_images':variant_images})
+    variant_reviews = Reviews.objects.filter(variant = variant)
+    review_count = Reviews.objects.filter(variant = variant).aggregate(total_reviews=Count('id'))
+    user_product_purchase_status = UserPurchasedProducts.objects.filter(user=user, variants=variant).exists()
+    
+    context = {
+        'variant':variant,
+        'all_products': all_products,
+        'variant_images':variant_images,
+        'reviews': variant_reviews,
+        'review_count':review_count['total_reviews'],
+        'user_product_purchase_status':user_product_purchase_status
+    }
+    return render(request, 'pages/product_page.html', context)
 
 def search_products(request):
     if request.method == 'POST':

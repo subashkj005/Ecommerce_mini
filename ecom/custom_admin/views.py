@@ -2,15 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from accounts.models import Profile
 from cart.models import Order, OrderDetail
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from xhtml2pdf import pisa
 import io
 from django.utils import timezone
-from django.db import models
-from django.db.models import Sum, F, Count
-from datetime import datetime, timedelta
-from django.db.models.functions import Extract
-from django.db.models.functions import ExtractWeekDay
+from django.db.models import Sum, Count
+from datetime import timedelta, datetime, time
+
+
 
 
 def admin_login(request):
@@ -38,84 +37,21 @@ def admin_login(request):
     return render(request, 'custom_admin/admin_login.html')
 
 
-# def admin_home(request):
-#     if 'username' in request.session:
-#         return render(request, 'custom_admin/admin_home.html')
-#
-#     return redirect('admin_login')
+def get_order_data(request):
+    today = timezone.now()
+    seven_days_ago = today - timedelta(days=6)
 
-# import json
-# def get_last_week_dates():
-#     today = datetime.now(timezone.utc)
-#     # Calculate the date for last Sunday
-#     last_sunday = today - timedelta(days=today.weekday() + 1)
-#     # Calculate the date for next Saturday
-#     next_saturday = last_sunday + timedelta(days=6)
-#     return last_sunday, next_saturday
-#
-#
-# def admin_home(request):
-#     if 'username' in request.session:
-#         last_sunday, next_saturday = get_last_week_dates()
-#
-#         delivered_orders = Order.objects.filter(
-#             date_created__gte=last_sunday,
-#             date_created__lte=next_saturday,
-#             order_items__is_delivered=True
-#         )
-#
-#         data = delivered_orders.annotate(
-#             day_of_week=ExtractWeekDay('date_created'),
-#             earnings=Sum(F('order_items__quantity') * F('order_items__price'))
-#         ).values('day_of_week').order_by('day_of_week')
-#
-#         weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-#         earnings_by_day = [0] * 7
-#
-#         for item in data:
-#             day_of_week = item['day_of_week']
-#             earnings = item.get('earnings', 0)  # Use get() to handle missing 'earnings'
-#             earnings_by_day[day_of_week] = earnings
-#
-#         # Convert earnings_by_day to a JSON string
-#         earnings_by_day_json = json.dumps(earnings_by_day)
-#
-#         context = {
-#             'weekdays': weekdays,
-#             'earnings_by_day_json': earnings_by_day_json,  # Pass the JSON data to the template
-#         }
-#
-#         return render(request, 'custom_admin/admin_home.html', context)
-#     else:
-#         return redirect('admin_login')
+    orders_by_day = Order.objects.filter(
+        date_created__range=(seven_days_ago, today)
+    ).values('date_created__day').annotate(order_count=Count('id'))
 
-from django.utils import timezone
-from datetime import timedelta
-from django.db.models import Sum, F, Value
-from django.db.models.functions import ExtractWeek, ExtractYear
-def calculate_weekly_sales():
-    today = timezone.now().date()
-    one_week_ago = today - timedelta(days=7)
+    order_data = [0] * 7  # Initialize with zeros for all days of the week
 
-    weekly_sales = OrderDetail.objects.filter(
-        order__delivered_date__range=[one_week_ago, today],
-        order__order_status='delivered',
-        order__delivered_date__week_day__in=[0, 1, 2, 3, 4, 5, 6]  # All days
-    ).annotate(
-        week=ExtractWeek('order__delivered_date'),
-        year=ExtractYear('order__delivered_date')
-    ).values('week', 'year').annotate(sales=Sum('total_price'))
+    for order in orders_by_day:
+        day = (order['date_created__day'] + 6) % 7  # Adjust for array indexing
+        order_data[day] = order['order_count']
 
-    return weekly_sales
-
-
-
-
-
-from django.db.models import Sum
-from django.db.models.functions import TruncWeek
-import json
-from datetime import timedelta
+    return JsonResponse({'order_data': order_data})
 
 
 def admin_home(request):
@@ -132,19 +68,33 @@ def admin_home(request):
             delivered_amount=Sum('total_price'))
         # Count of daily Orders
         daily_orders_count = OrderDetail.objects.filter(delivered_date=today).aggregate(orders_count=Count('order'))
+
         # Monthly Revenue
-        this_month_monthly_revenue = OrderDetail.objects.filter(order_status='delivered',
-                                                                order__date_created__month=month).aggregate(
-            monthly_revenue=Sum('total_price'))
+        this_month_monthly_revenue = OrderDetail.objects.filter(
+            order_status='delivered',
+            order__date_created__month=month
+        ).aggregate(monthly_revenue=Sum('total_price'))
+
+        # Incase whether monthly revenue return None in case of no revenue
+        if this_month_monthly_revenue is None:
+            this_month_monthly_revenue['monthly_revenue'] = 0
+
         first_day_of_current_month = current_date.replace(day=1)
         last_day_of_previous_month = first_day_of_current_month - timezone.timedelta(days=1)
         first_day_of_previous_month = last_day_of_previous_month.replace(day=1)
-        last_month_monthly_revenue = OrderDetail.objects.filter(order_status='delivered', order__date_created__range=(
-        first_day_of_previous_month, last_day_of_previous_month)).aggregate(monthly_revenue=Sum('total_price'))
-        last_month_monthly_revenue_diff = ((this_month_monthly_revenue['monthly_revenue'] - last_month_monthly_revenue[
-            'monthly_revenue']) / last_month_monthly_revenue['monthly_revenue']) * 100
+        last_month_monthly_revenue = OrderDetail.objects.filter(
+            order_status='delivered',
+            order__date_created__range=(
+                first_day_of_previous_month,
+                last_day_of_previous_month)).aggregate(monthly_revenue=Sum('total_price'))
 
-        # weekly_sales = calculate_weekly_sales()
+        if this_month_monthly_revenue['monthly_revenue'] is not None and last_month_monthly_revenue[
+            'monthly_revenue'] is not None:
+            last_month_monthly_revenue_diff = ((this_month_monthly_revenue['monthly_revenue'] -
+                                                last_month_monthly_revenue['monthly_revenue']) /
+                                               last_month_monthly_revenue['monthly_revenue']) * 100
+        else:
+            last_month_monthly_revenue_diff = 0
 
         context = {
             'daily_sales_count': daily_sales_count['delivered_count'],
@@ -152,7 +102,6 @@ def admin_home(request):
             'daily_orders_count': daily_orders_count['orders_count'],
             'this_month_monthly_revenue': this_month_monthly_revenue['monthly_revenue'],
             'last_month_monthly_revenue_diff': last_month_monthly_revenue_diff,
-            # 'weekly_sales': weekly_sales,
         }
 
         return render(request, 'custom_admin/admin_home.html', context)
@@ -186,8 +135,14 @@ def admin_logout(request):
 
 def orders(request):
     if 'username' in request.session:
-        orders = Order.objects.all().order_by('date_created')
-        return render(request, 'custom_admin/orders.html', {'orders': orders})
+        all_orders = Order.objects.all().order_by('-date_created')
+        # Filter the orders except delivered or cancelled or returned
+        filtered_orders = []
+        for order in all_orders:
+            if order.order_items.exclude(order_status__in=['delivered', 'cancelled', 'returned']).exists():
+                filtered_orders.append(order)
+
+        return render(request, 'custom_admin/orders.html', {'orders': filtered_orders})
 
     return redirect('admin_login')
 
@@ -234,11 +189,18 @@ def filter_reports(request):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
 
+        # Get the datetime with the maximum time value (end of the day) for the given start date and end date
+        start_date_strp = datetime.strptime(start_date, '%Y-%m-%d')
+        end_date_strp = datetime.strptime(end_date, '%Y-%m-%d')
+
+        start_date_with_time = start_date_strp.replace(hour=23, minute=59, second=59)
+        end_date_with_time = end_date_strp.replace(hour=23, minute=59, second=59)
+
         if selected_report == 'sales':
             # OrderItems where delivered
             delivered_orders = OrderDetail.objects.filter(
-                order__date_created__gte=start_date,
-                order__date_created__lte=end_date,
+                order__date_created__gte=start_date_with_time,
+                order__date_created__lte=end_date_with_time,
                 is_delivered=True
             )
             context = {
@@ -251,7 +213,10 @@ def filter_reports(request):
             return render(request, 'custom_admin/sales_reports.html', context)
 
         if selected_report == 'orders':
-            orders = Order.objects.filter(date_created__gte=start_date, date_created__lte=end_date)
+            orders = Order.objects.filter(
+                date_created__gte=start_date_with_time,
+                date_created__lte=end_date_with_time
+            )
 
             context = {
                 # Creating list of orders with delivered items only

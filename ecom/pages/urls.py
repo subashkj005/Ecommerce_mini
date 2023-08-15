@@ -5,6 +5,7 @@ from .views import *
 from cart.views import *
 from wishlist.views import *
 from offers.views import *
+from reviews.views import *
 
 
 urlpatterns = [
@@ -52,6 +53,9 @@ urlpatterns = [
     # Coupons
     path('apply_coupon', apply_coupon, name='apply_coupon'),
     path('delete_cart_coupon', delete_cart_coupon, name='delete_cart_coupon'),
+    
+    # Reviews
+    path('add_review<int:id>', add_review, name='add_review'),
 
     # Test case
     path('test', test_page, name='test_page'),
