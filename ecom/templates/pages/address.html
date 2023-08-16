@@ -116,6 +116,8 @@
             </div>
         </div>
 
+
+
         <!---End of Modal for Address add-->
 
         <!---Modal for Address edit-->
@@ -185,6 +187,35 @@
         <!-- End .col-lg-6 -->
     </div><!-- End .row -->
 </div>
+
+        <!--Pagination-->
+        <nav aria-label="Page navigation example" style="display: flex; align-content: center; justify-content: center;">
+            <ul class="pagination">
+                {% if address_page.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ address_page.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+        
+                {% for num in address_page.paginator.page_range %}
+                    <li class="page-item {% if num == address_page.number %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+        
+                {% if address_page.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ address_page.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
 
 
 {% endblock %}

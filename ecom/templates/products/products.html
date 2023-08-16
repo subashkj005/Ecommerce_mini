@@ -7,16 +7,41 @@
 
 {% block dashboard %}
 
+<div class="page-header">
+    <h3 class="page-title">Products</h3>
+    <div style="display: flex;">
+        <form class="filter" method="post" style="display: flex; margin-right: 5rem;">
+            {% csrf_token %}
+            <div class="col-sm-12 d-flex">
+                <label class="p-1">Filter</label>
+                <select class="form-control text-white" name="category">
+                    {% for category in category_data %}
+                    <option class="text-white">{{category.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn-primary" style="border-radius: 5px;" type="submit">Apply</button>
+        </form>
+        <form class="wrap" method="post">
+            {% csrf_token %}
+            <div class="search" style="display: flex;">
+                <input type="text" name="search" class="searchTerm" placeholder="  Search" style="border: 1px solid #ffffff; color: white; background: #ffffff00; margin-right: 1rem; border-radius: 4px;">
+                <button type="submit" class="btn" style="background: #ec1071db; height: 36px;">
+                    <i class="fa fa-search" style="font-size: 1.2rem;"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-body">
         <div class="d-flex justify-content-between">
-            <h4 class="card-title">Products</h4>
+            <p class="card-description">Edit and Add products</p>
             <span>
                 <a class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add Products</a>
             </span>
         </div>
-        <p class="card-description">Edit and Add products
-        </p>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -52,6 +77,36 @@
         </div>
     </div>
 </div>
+
+<!--Pagination-->
+<nav aria-label="Page navigation example" style="display: flex; align-content: center; justify-content: center; padding: 1.5rem;">
+    <ul class="pagination">
+        {% if product_data.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product_data.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% for num in product_data.paginator.page_range %}
+            <li class="page-item {% if num == product_data.number %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+        {% endfor %}
+
+        {% if product_data.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ product_data.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
 
 
 <!----------------------Edit Product Modal New----------------------------->

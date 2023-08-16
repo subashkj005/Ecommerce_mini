@@ -15,6 +15,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.http import HttpResponse
 import datetime
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 def homepage(request):
@@ -212,8 +213,18 @@ def address(request):
         user = Profile.objects.get(phone_number=phone_number)
 
         addresses = ShippingAddress.objects.filter(user=user)
+        
+        paginator = Paginator(addresses, 4)  
 
-        return render(request, 'pages/address.html', {'addresses':addresses})
+        page = request.GET.get('page')
+        try:
+            address_page = paginator.page(page)
+        except PageNotAnInteger:
+            address_page = paginator.page(1)
+        except EmptyPage:
+            address_page = paginator.page(paginator.num_pages)
+
+        return render(request, 'pages/address.html', {'addresses':address_page, 'address_page':address_page})
 
     return render(request, 'pages/address.html',{'user': None})
 
@@ -241,18 +252,30 @@ def profile_orders(request):
         user = Profile.objects.get(phone_number=phone_number)
 
         orders = Order.objects.filter(user=user).order_by('-id')
+        
+        paginator = Paginator(orders, 3)  
+
+        page = request.GET.get('page')
+        try:
+            orders_page = paginator.page(page)
+        except PageNotAnInteger:
+            orders_page = paginator.page(1)
+        except EmptyPage:
+            orders_page = paginator.page(paginator.num_pages)
+
         orders_list = {}
 
-        for order in orders:
+        for order in orders_page:
             order_details = OrderDetail.objects.filter(order=order)
             orders_list[order.id] = {
                 'order': order,
                 'order_details': order_details
             }
 
-        return render(request, 'pages/profile_orders.html', {'orders_list': orders_list})
+        return render(request, 'pages/profile_orders.html', {'orders_list': orders_list, 'orders_page': orders_page})
 
     return render(request, 'pages/profile_orders.html')
+
 
 def prdouct_order_status(request, id):
     if 'phone_number' in request.session:

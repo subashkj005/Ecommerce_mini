@@ -110,8 +110,16 @@ def admin_home(request):
 
 
 def users(request):
-    user = Profile.objects.all()
-    return render(request, 'custom_admin/users.html', {'users': user})
+    if 'username' in request.session:
+        user = Profile.objects.all()
+        
+        if request.method == 'POST':
+            search = request.POST.get('search')
+            if search:
+                user = Profile.objects.filter(name__startswith=search)
+        
+        return render(request, 'custom_admin/users.html', {'users': user})
+    return redirect('admin_login')
 
 
 def user_status(request, id):

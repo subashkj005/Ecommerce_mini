@@ -7,6 +7,15 @@
 <div class="content-wrapper">
             <div class="page-header">
               <h3 class="page-title"> Users </h3>
+              <form class="wrap" method="post">
+                {% csrf_token %}
+                <div class="search" style="display: flex;">
+                   <input type="text" name="search" class="searchTerm" placeholder="  Search" style="border: 1px solid #ffffff;color: white;background: #ffffff00;margin-right: 1rem;border-radius: 4px;">
+                   <button type="submit" class="btn" style="background: #ec1071db;height: 36px;">
+                     <i class="fa fa-search" style="font-size: 1.2rem;"></i>
+                  </button>
+                </div>
+            </form>
             </div>
                 <div class="card">
                   <div class="card-body">

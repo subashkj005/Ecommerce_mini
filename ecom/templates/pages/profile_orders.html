@@ -69,6 +69,36 @@
     </div>
 </div>
 
+<!--Pagination-->
+<nav aria-label="Page navigation example" style="display: flex; align-content: center; justify-content: center;">
+    <ul class="pagination">
+        {% if orders_page.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ orders_page.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+        {% endif %}
+
+        {% for num in orders_page.paginator.page_range %}
+            <li class="page-item {% if num == orders_page.number %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+        {% endfor %}
+
+        {% if orders_page.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ orders_page.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+
 
 <!--Script for clicking a entire row as a anchor-->
 <script>

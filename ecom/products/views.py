@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
@@ -56,6 +57,26 @@ def product_page(request):
     if 'username' in request.session:
         all_category = Category.objects.all()
         products = Product.objects.filter(is_deleted=False)
+        
+        if request.method == 'POST':
+            category = request.POST.get('category')
+            search = request.POST.get('search')
+            
+            if category:
+                products = Product.objects.filter(category__name=category, is_deleted=False)
+            
+            if search:
+                products = Product.objects.filter(name__startswith=search, is_deleted=False)
+                
+        paginator = Paginator(products, 8)  
+
+        page = request.GET.get('page')
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
 
         return render(request,'products/products.html', {'product_data': products, 'category_data': all_category })
     return render(request, 'custom_admin/admin_login.html')
@@ -101,9 +122,31 @@ def delete_product(request,id):
     return redirect('product')
 
 def variant_page(request):
-    variants = Variant.objects.filter(is_deleted=False)
-    categories = Category.objects.filter(is_deleted=False)
-    return render(request, 'custom_admin/variants_list.html', {'variant_data': variants, 'category_data': categories})
+    if 'username' in request.session:
+        variants = Variant.objects.filter(is_deleted=False)
+        categories = Category.objects.filter(is_deleted=False)
+        if request.method == 'POST':
+            category = request.POST.get('category')
+            search = request.POST.get('search')
+            
+            if category:
+                variants = Variant.objects.filter(product__category__name=category, is_deleted=False)
+            
+            if search:
+                variants = Variant.objects.filter(product__name__startswith=search, is_deleted=False)
+                
+        paginator = Paginator(variants, 8)  
+
+        page = request.GET.get('page')
+        try:
+            variants = paginator.page(page)
+        except PageNotAnInteger:
+            variants = paginator.page(1)
+        except EmptyPage:
+            variants = paginator.page(paginator.num_pages)
+                
+        return render(request, 'custom_admin/variants_list.html', {'variant_data': variants, 'categories': categories, 'variants':variants})
+    return redirect('admin_login')
 
 
 def add_variant_page(request):
