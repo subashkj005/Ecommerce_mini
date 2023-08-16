@@ -10,10 +10,11 @@ def add_review(request, id):
         if request.method == 'POST':
             review = request.POST.get('review')
             rating = request.POST.get('rating')
+            variant = Variant.objects.get(id=id)
             
             user_review, created = Reviews.objects.get_or_create(
                 user=user,
-                variant=Variant.objects.get(id=id),
+                product=variant.product,
                 review=review,
                 rating=rating
             )

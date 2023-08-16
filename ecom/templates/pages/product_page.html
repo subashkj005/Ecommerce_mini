@@ -243,7 +243,7 @@
                                         </div><!-- End .row -->
                                     </div><!-- End .review -->
                                     {% endfor %}
-                                    {% if user_product_purchase_status %}
+                                    {% if user_product_purchase_status and not has_user_given_review %}
                                     <div class="review">
                                         <form class="row no-gutters" method="post" action="{% url 'add_review' variant.id %}">
                                             {% csrf_token %}
@@ -344,7 +344,12 @@
                                 </h3>
                                 <!-- End .product-title -->
                                 <div class="product-price">
-                                    ₹{{product.variants.first.price}}
+                                    {% if variant.product.category.offers.first.is_valid and variant.product.category.offers.first.is_active %}
+                                            <span >Rs.{{variant.price}}</span>
+                                            <span class="new-price" style="margin-left: 0.5rem;"><s>Rs.{{variant.original_price}}</s></span>
+                                        {% else %}
+                                            Rs. {{variant.original_price}}
+                                        {% endif %}
                                 </div>
                                 <!-- End .product-price -->
                                 <div class="ratings-container">

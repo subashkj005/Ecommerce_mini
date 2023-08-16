@@ -69,7 +69,7 @@ class Variant(models.Model):
     @property
     def product_rating_percentage(self):
         from reviews.models import Reviews
-        reviews = Reviews.objects.filter(variant=self)
+        reviews = Reviews.objects.filter(product=self.product)
         if reviews:
             ratings = 0
             count = 0
@@ -82,7 +82,10 @@ class Variant(models.Model):
     @property
     def product_ratings_count(self):
         from reviews.models import Reviews
-        return Reviews.objects.filter(variant=self).aggregate(total_count=Count('id'))['total_count']
+        review_count = Reviews.objects.filter(product=self.product).aggregate(total_count=Count('id'))['total_count']
+        if review_count:
+            return review_count
+        return 0
             
 
     def __str__(self):
@@ -107,7 +110,7 @@ class UserPurchasedProducts(models.Model):
     # Use strings in ForeignKey to avoid circular import reference error
     # Import apps from django.db for this use
     user = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
-    variants = models.ForeignKey('products.Variant', on_delete=models.CASCADE)
+    products = models.ForeignKey('products.Product', on_delete=models.CASCADE)
     
     class Meta:
         verbose_name_plural = 'User purchased products'

@@ -3,7 +3,7 @@ from products.models import *
 from accounts.models import Profile
 
 class Reviews(models.Model):
-    variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     review = models.TextField(max_length=200)
     rating = models.IntegerField()

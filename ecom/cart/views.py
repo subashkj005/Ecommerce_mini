@@ -301,9 +301,9 @@ def order_confirm(request):
                     )
                     
                     # Add the product to the user purchased list if not in the list  
-                    existing_purchase = UserPurchasedProducts.objects.filter(user=user, variants=variant).first()
+                    existing_purchase = UserPurchasedProducts.objects.filter(user=user, products=variant.product).first()
                     if not existing_purchase:
-                        product = UserPurchasedProducts.objects.create(user=user, variants=variant)
+                        product = UserPurchasedProducts.objects.create(user=user, products=variant.product)
 
                     # Reduce the quantity in the variant stock
                     variant.stock -= cart_item.quantity
