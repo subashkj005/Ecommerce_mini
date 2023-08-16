@@ -1,0 +1,111 @@
+{% extends 'pages/profile_base.html' %}
+{% load static %}
+
+{% block account_active %} active {% endblock %}
+{% block profile %}
+
+<div >
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+        </div>
+        <div class="table-responsive">
+            <form class="card px-3" method="post" action="{% url 'generate_pdf_invoice' %}">
+                {% csrf_token %}
+                <div class="card-header bg-white">
+                    <div class="row justify-content-between">
+                        <div class="col">
+                            <p class="text-muted"> Order ID <span class="font-weight-bold text-dark">{{order_item.order.order_num}}</span>
+                            </p>
+                            <p class="text-muted"> Place On <span class="font-weight-bold text-dark">{{order_item.order.date_created|date}}</span> </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="media flex-column flex-sm-row">
+                        <div class="media-body ">
+                            <h5 class="bold">{{order_item.product.product.name}} {{order_item.product.name}}<br>{{order_item.product.colour.name}}</h5>
+                            <p class="text-muted"> Qt: {{order_item.quantity}}</p>
+                            <h4 class="mt-3 mb-4 bold"> <span class="mt-5">₹</span> {{order_item.price}} <span
+                                    class="small text-muted"> via ({% if order_item.order.payment_type == 'cash_on_delivery' %}COD{% elif order_item.order.payment_type == 'online_payment' %}Online{% endif %}) </span></h4>
+                            <input type="hidden" name="order_id" value="{{order_item.id}}">
+                        </div><img class="align-self-center img-fluid" src="{{order_item.product.colour.colour_images.first.image.url}}"
+                            width="180 " height="180">
+                    </div>
+                </div>
+                <div class="row px-3">
+                    <div class="col-12 col-md-12 hh-grayBox pt45 pb20">
+                        <div class="row justify-content-between">
+                            <div class="order-tracking">
+                                <span class="is-complete"></span>
+                                <p>Order requested<br><span>{{order_item.order.date_created|date}}</span></p>
+                            </div>
+                            <div class="order-tracking">
+                                <span class="is-complete"></span>
+                                <p>Order confirmed</p>
+                            </div>
+                            <div class="order-tracking">
+                                <span class="is-complete"></span>
+                                <p>Shipped</p>
+                            </div>
+                            <div class="order-tracking">
+                                <span class="is-complete"></span>
+                                <p>Delivered<br><span>{{order_item.delivered_date|date}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer  bg-white px-sm-3 pt-sm-4 px-0">
+                    <div class="row text-center  ">
+                        
+                        <div class="col my-auto" >
+                            <button class="btn btn-primary" type="submit">Download Invoice</button>
+                        </div>  
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
+
+
+
+<!--Script for showing dynamic order status-->
+<input type="hidden" id="orderStatus" value="{{order_item.order_status}}">
+<script>
+    const orderTrackers = document.querySelectorAll(".order-tracking");
+    const orderStatusInput = document.getElementById("orderStatus");
+
+    function updateOrderStatus(index) {
+        for (let i = 0; i <= index; i++) {
+            orderTrackers[i].classList.add("completed");
+        }
+    }
+
+    function setOrderStatusTimeouts(status) {
+        switch (status) {
+            case "order_pending":
+                setTimeout(() => { updateOrderStatus(0); }, 500);
+                break;
+            case "order_confirmed":
+                setTimeout(() => { updateOrderStatus(0); }, 500);
+                setTimeout(() => { updateOrderStatus(1); }, 1000);
+                break;
+            case "shipped":
+                setTimeout(() => { updateOrderStatus(0); }, 500);
+                setTimeout(() => { updateOrderStatus(1); }, 1000);
+                setTimeout(() => { updateOrderStatus(2); }, 1500);
+                break;
+            case "delivered":
+                setTimeout(() => { updateOrderStatus(0); }, 500);
+                setTimeout(() => { updateOrderStatus(1); }, 1000);
+                setTimeout(() => { updateOrderStatus(2); }, 1500);
+                setTimeout(() => { updateOrderStatus(3); }, 2000);
+                break;
+            default:
+                break;
+        }
+    }
+
+    const currentOrderStatus = orderStatusInput.value;
+    setOrderStatusTimeouts(currentOrderStatus);
+</script>
+{% endblock %}

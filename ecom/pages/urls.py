@@ -43,6 +43,8 @@ urlpatterns = [
     path('order_confirm', order_confirm, name='order_confirm'),
     path('cancel_order<int:id>/', cancel_order, name='cancel_order'),
     path('return_request<int:id>/', return_request, name='return_request'),
+    path('prdouct_order_status<int:id>', prdouct_order_status, name='prdouct_order_status'),
+    path('generate_pdf_invoice', generate_pdf_invoice, name='generate_pdf_invoice'),
 
     # Wishlist
     path('wishlist', wishlist, name='wishlist'),

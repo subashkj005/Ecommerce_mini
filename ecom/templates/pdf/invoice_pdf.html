@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .invoice {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        address {
+            font-style: normal;
+            margin: 0;
+            padding: 5px 0;
+        }
+        img {
+            max-width: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+        article {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+        .cut, .add {
+            font-weight: bold;
+            cursor: pointer;
+        }
+        aside h1 {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice">
+        <header>
+            <h1>Invoice</h1>
+            <address contenteditable>
+               <h3>Nexo E-commerce</h3><br>
+               <img src="static/assets/images/nexo-logo-without-bg.jpg" style="height:80px;width: 200px;">
+            </address>
+        </header>
+        <article>
+        
+            <address contenteditable>
+                BILLING ADDRESS<br><br>
+                {{order.order.address.user.name}}<br>
+                {{order.order.address.address}},<br>
+                {{order.order.address.city}}, {{order.address.state}},<br>
+                {{order.order.address.zip_code}}, {{order.address.country}}<br>
+                {{order.order.address.user.phone_number}}<br>
+                {{order.order.address.user.email}}<br>
+            </address>
+            <table>
+                <tr>
+                    <th>Invoice #</th>
+                    <td>{{order.order.order_num}}</td>
+                </tr>
+                <tr>
+                    <th>Date,Time</th>
+                    <td>{{order.order.date_created}}</td>
+                </tr>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Unit Rate</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a class="cut"></a>{{ order.product.product.name }}<br>{{order.product.name}}<br>{{order.product.colour.name}}</td>
+                        <td>{{ order.price}}</td>
+                        <td>{{ order.quantity }}</td>
+                        <td>{{ order.total_price }}</td>
+                </tbody>
+            </table>
+            <table>
+                <tr>
+                    <th>Total</th>
+                    <td>Rs.{{order.total_price}}</td>
+                </tr>
+                <tr>
+                    <th>Amount Paid</th>
+                    <td>Rs.{{order.total_price}}</td>
+                </tr>
+            </table>
+        </article>
+        <aside>
+                DECLARATION *<br>      
+                The goods sold are intended for end user consumption and not for resale..
+            </div>
+            <img src="static/assets/images/sold-out-seal.jpg" style="width:250px; height: 180px; background-color: #ffffff;">
+        </aside>
+    </div>
+</body>
+</html>

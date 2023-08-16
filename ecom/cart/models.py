@@ -66,6 +66,7 @@ class OrderDetail(models.Model):
     ORDER_STATUS_CHOICES = (
         ('order_pending', 'Order_Pending'),
         ('order_confirmed', 'Order_Confirmed'),
+        ('shipped', 'Shipped'),
         ('delivered', 'Delivered'),
         ('returned', 'Returned'),
         ('cancelled', 'Cancelled'),

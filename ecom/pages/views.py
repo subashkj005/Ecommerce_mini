@@ -11,6 +11,10 @@ from django.conf import settings
 import razorpay
 import json
 from django.template.loader import render_to_string
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.http import HttpResponse
+import datetime
 # Create your views here.
 
 def homepage(request):
@@ -166,7 +170,7 @@ def category_page(request, id):
 
 
 def test_page(request):
-    return render(request, 'wishlist/wishlist.html')
+    return render(request, 'pages/product_order_status.html')
 
 
 
@@ -250,3 +254,34 @@ def profile_orders(request):
 
     return render(request, 'pages/profile_orders.html')
 
+def prdouct_order_status(request, id):
+    if 'phone_number' in request.session:
+        user = Profile.objects.get(phone_number=request.session['phone_number'])
+        order_item = OrderDetail.objects.get(id=id)
+        
+        return render(request, 'pages/product_order_status.html', {'order_item':order_item})
+    return redirect('user_login')
+
+def generate_pdf_invoice(request):
+    template_path = 'pdf/invoice_pdf.html'
+    
+    if request.method=='POST':
+        order_item = OrderDetail.objects.get(id=request.POST.get('order_id'))
+        
+        context = {'order': order_item } 
+
+    template = get_template(template_path)
+    html = template.render(context)
+    
+    now = datetime.datetime.now()
+    order_id = order_item.order.order_num
+    filename = f'Invoice_{order_id}_{now.strftime("%Y%m%d%H%M%S")}.pdf'
+
+    # Create the PDF response
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename="{filename}"'
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF')
+    return response
