@@ -3,7 +3,7 @@ from django.views.decorators.cache import never_cache
 from .models import *
 import random
 from twilio.rest import Client
-
+import re
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import LoginForm
@@ -51,6 +51,8 @@ def user_login(request):
         form = LoginForm()
 
     return render(request, 'accounts/login.html', {'form': form})
+
+
 def login_otp(request):
 
     user = request.session.get('user')
@@ -66,18 +68,15 @@ def login_otp(request):
 
         else:
             context = 'Invalid OTP'
-            return render(request, 'accounts/otp.html', {'otp_err': context})
+            return render(request, 'accounts/login_otp.html', {'otp_err': context})
 
-    return render(request, 'accounts/login_otp.html')
+    return redirect('user_login')
+ 
     
-    
-
-
-
 def send_otp(otp):
 
     account_sid = 'AC8e5d47f05c224aa88a156759e1fae3c6'
-    auth_token = 'ead1c9bbf49fd338e510b6d8a99c1710'
+    auth_token = 'dc265a5cace4fcb7be65839fc581a759'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
@@ -100,17 +99,39 @@ def signup(request):
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
+        # Custom Validation Checks
+        name_regex = r"^[A-Z][a-z]*$"
+        email_regex = r"^\w+@gmail\.com$"
+        phone_regex = r"^\d{10}$"
+        password_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+
+        if not re.match(name_regex, name):
+            messages.error(request, 'Name should start with a capital letter and only contain letters.')
+            return redirect('signup')
+
+        if not re.match(email_regex, email):
+            messages.error(request, 'Email should be in the format user@gmail.com')
+            return render(request, 'accounts/signup.html')
+
+        if not re.match(phone_regex, phone_number):
+            messages.error(request, 'Phone number should be exactly 10 digits')
+            return render(request, 'accounts/signup.html')
+
+        if not re.match(password_regex, password):
+            messages.error(request, 'Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.')
+            return render(request, 'accounts/signup.html')
+
         check_phone = Profile.objects.filter(phone_number=phone_number).first()
 
         if check_phone:
-            context = {'message': 'Phone number already registered'}
-            return render(request, 'accounts/signup.html', context)
+            messages.error(request, 'Phone number already registered')
+            return render(request, 'accounts/signup.html')
 
         if password == confirm_password:
             otp = str(random.randint(1000, 9999))
-            send_otp(otp)
+            # send_otp(otp)
             print('--------------------')
-            print('OTP IS '+otp)
+            print('OTP IS ' + otp)
             print('--------------------')
 
             request.session['user_details'] = {
@@ -123,8 +144,8 @@ def signup(request):
 
             return render(request, 'accounts/otp.html')
         else:
-            context = {'pass_err': 'Passwords do not match'}
-            return render(request, 'accounts/signup.html', context)
+            messages.error(request, 'Passwords do not match')
+            return render(request, 'accounts/signup.html')
 
     return render(request, 'accounts/signup.html')
 

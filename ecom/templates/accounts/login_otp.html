@@ -4,97 +4,108 @@
 {% block content %}
 <main class="main">
 
-            <div class="login-page bg-image pt-2 pb-2 pt-md-6 pb-md-6 pt-lg-5 pb-lg-5" style="background-image: url('{% static 'assets/images/backgrounds/login-bg.png' %}')">
-            	<div class="container">
-            		<div class="form-box">
-            			<div class="form-tab">
-	            			<ul class="nav nav-pills nav-fill" role="tablist">
-							    <li class="nav-item">
-							        <a class="nav-link active" id="register-tab-2" data-toggle="tab" href="{% static '#register-2' %}" role="tab" aria-controls="register-2" aria-selected="true">Register</a>
-							    </li>
-							</ul>
-                            <div class="wrapper-otp">
-                                  <header>
-                                    <i class="bx bxs-check-shield"></i>
-                                  </header>
-                                  <h4 class="text-center" >Enter OTP Code sent to {{ phone }}</h4>
-                                  <form method="POST" action="{% url 'login-otp' %}">
-                                    {% csrf_token %}
-                                    <div class="input-field">
-                                      <input type="number" name="otp1" id="otp1">
-                                      <input type="number" name="otp2" id="otp2" disabled="">
-                                      <input type="number" name="otp3" id="otp3" disabled="">
-                                      <input type="number" name="otp4" id="otp4" disabled="">
-                                    </div>
-                                      <input class="btn btn-primary" type="submit" value="verify otp" style="margin-top: 1.6rem; border-radius: 4px;">
-                                  </form>
-                                </div>
-<!--                            {% if otp_err %}-->
-                                <div class="alert alert-danger">
-                                    {{ otp_err }}
-                                </div>
-<!--                            {% endif %}-->
+  <div class="login-page bg-image pt-2 pb-2 pt-md-6 pb-md-6 pt-lg-5 pb-lg-5"
+    style="background-image: url('{% static 'assets/images/backgrounds/nexo-login-bg.jpg' %}')">
+    <div class="container">
+      <div class="form-box">
+        <div class="form-tab">
+          <ul class="nav nav-pills nav-fill" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="register-tab-2" data-toggle="tab" href="{% static '#register-2' %}"
+                role="tab" aria-controls="register-2" aria-selected="true">Register</a>
+            </li>
+          </ul>
+          <div class="wrapper-otp">
+            <header>
+              <i class="bx bxs-check-shield"></i>
+            </header>
+            <h4 class="text-center">Enter OTP Code sent to {{ phone }}</h4>
+            <form method="POST" action="{% url 'login-otp' %}">
+              {% csrf_token %}
+              <div class="input-field">
+                <input type="number" name="otp1" id="otp1">
+                <input type="number" name="otp2" id="otp2" disabled="">
+                <input type="number" name="otp3" id="otp3" disabled="">
+                <input type="number" name="otp4" id="otp4" disabled="">
+              </div>
+              <input class="btn btn-primary" type="submit" value="verify otp"
+                style="margin-top: 1.6rem; border-radius: 4px;">
+            </form>
+            {% if otp_err %}
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="color: #d00000;background-color: #ffb5b5;border: 2px solid #e21d1d;margin-top: 1.2rem;width: 60%;border-radius: 9px;">
+            <strong>{{otp_err}}</strong>
+              
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true" style="font-weight: 500;display: inline-block;line-height: 1;font-size: 2.2rem;color: black;">&times;</span>
+            </button>
+            </div>
+					{% endif %}
+          </div>
+          
+          
+        
 
-							<!-- End .tab-content -->
-						</div><!-- End .form-tab -->
-            		</div><!-- End .form-box -->
-            	</div><!-- End .container -->
-            </div><!-- End .login-page section-bg -->
-        </main>
-        <!-- End .main -->
+          <!-- End .tab-content -->
+        </div><!-- End .form-tab -->
+      </div><!-- End .form-box -->
+    </div><!-- End .container -->
+  </div><!-- End .login-page section-bg -->
+</main>
+<!-- End .main -->
+
+
+
+
+
 <!--    Script for Otp box-->
-    <script>
-     const inputs = document.querySelectorAll("input"),
-     button = document.querySelector("#otpBtn");
+<script>
+  const inputs = document.querySelectorAll(".input-field input"),
+    button = document.querySelector(".btn");
 
-    // iterate over all inputs
-    inputs.forEach((input, index1) => {
-      input.addEventListener("keyup", (e) => {
-        // This code gets the current input element and stores it in the currentInput variable
-        // This code gets the next sibling element of the current input element and stores it in the nextInput variable
-        // This code gets the previous sibling element of the current input element and stores it in the prevInput variable
-        const currentInput = input,
-          nextInput = input.nextElementSibling,
-          prevInput = input.previousElementSibling;
+  inputs.forEach((input, index1) => {
+    input.addEventListener("keyup", (e) => {
+      const currentInput = input,
+        nextInput = input.nextElementSibling,
+        prevInput = input.previousElementSibling;
 
-        // if the value has more than one character then clear it
-        if (currentInput.value.length > 1) {
-          currentInput.value = "";
-          return;
-        }
-        // if the next input is disabled and the current value is not empty
-        //  enable the next input and focus on it
-        if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
-          nextInput.removeAttribute("disabled");
-          nextInput.focus();
-        }
+      if (currentInput.value.length > 1) {
+        currentInput.value = "";
+        return;
+      }
 
-        // if the backspace key is pressed
-        if (e.key === "Backspace") {
-          // iterate over all inputs again
-          inputs.forEach((input, index2) => {
-            // if the index1 of the current input is less than or equal to the index2 of the input in the outer loop
-            // and the previous element exists, set the disabled attribute on the input and focus on the previous element
-            if (index1 <= index2 && prevInput) {
-              input.setAttribute("disabled", true);
-              input.value = "";
-              prevInput.focus();
-            }
-          });
+      if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
+        nextInput.removeAttribute("disabled");
+        nextInput.focus();
+      }
+
+      if (e.key === "Backspace") {
+        inputs.forEach((input, index2) => {
+          if (index1 <= index2 && prevInput) {
+            input.setAttribute("disabled", true);
+            input.value = "";
+            prevInput.focus();
+          }
+        });
+      }
+
+      let anyInputHasValue = false;
+      inputs.forEach((input) => {
+        if (input.value !== "") {
+          anyInputHasValue = true;
         }
-        //if the fourth input( which index number is 3) is not empty and has not disable attribute then
-        //add active class if not then remove the active class.
-        if (!inputs[3].disabled && inputs[3].value !== "") {
-          button.classList.add("active");
-          return;
-        }
-        button.classList.remove("active");
       });
-    });
 
-    //focus the first input which index is 0 on window load
-    window.addEventListener("load", () => inputs[0].focus());
-    </script>
+      if (anyInputHasValue) {
+        button.classList.add("active");
+      } else {
+        button.classList.remove("active");
+      }
+    });
+  });
+
+  window.addEventListener("load", () => inputs[0].focus());
+</script>
+
 
 
 

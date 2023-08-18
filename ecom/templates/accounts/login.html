@@ -4,12 +4,7 @@
 
 {% block content %}
 <main class="main">
-
-
-
-
-<!--------------------------lOGIN FORM------------------------------------------------>
-            <div class="login-page bg-image pt-2 pb-2 pt-md-6 pb-md-6 pt-lg-5 pb-lg-5" style="background-image: url('{% static 'assets/images/backgrounds/login-bg.png' %}')">
+            <div class="login-page bg-image pt-2 pb-2 pt-md-6 pb-md-6 pt-lg-5 pb-lg-5" style="background-image: url('{% static 'assets/images/backgrounds/nexo-login-bg.jpg' %}')">
             	<div class="container">
             		<div class="form-box">
             			<div class="form-tab">
@@ -20,11 +15,11 @@
 							</ul>
 							<div class="tab-content">
 							    <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-							    	<form method="post" action="#">
+							    	<form method="post" action="{% url 'user_login' %}">
                                         {% csrf_token %}
 							    		<div class="form-group">
 							    			<label for="phone_number">Phone number</label>
-							    			<input type="tel" class="form-control" id="phone_number" name="phone_number" required>
+							    			<input type="number" class="form-control" id="phone_number" name="phone_number" maxlength="10" required>
 							    		</div><!-- End .form-group -->
 
 							    		<div class="form-group">
@@ -33,10 +28,10 @@
 							    		</div><!-- End .form-group -->
 
 							    		<div class="form-footer">
-                                            <button type="submit" class="btn btn-outline-primary-2">
-                                                <span>LOG IN</span>
-                                                    <i class="icon-long-arrow-right"></i>
-                                            </button>
+                                            <input type="submit" class="btn btn-outline-primary-2" value="LOG IN">
+                                                <!-- <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i> -->
+                                        
                                             <a href="{% url 'signup' %}" class="forgot-link">New User?</a>
 
                                             <a href="{% url 'forgot' %}" class="forgot-link">Forgot Your Password?</a>
@@ -44,11 +39,16 @@
 							    	</form>
 
 							    </div><!-- .End .tab-pane -->
-                                {% for message in messages %}
-                                <div>
-                                    <p class="alert alert-danger">{{message}}</p>
-                                </div>
-                                {% endfor %}
+                                {% if messages %}
+								<div class="alert alert-danger alert-dismissible fade show" role="alert" style="color: #d00000;background-color: #ffb5b5;border: 2px solid #e21d1d;margin-top: 1.2rem;width: 60%;border-radius: 9px;">
+									{% for message in messages %}
+								<strong>{{message}}</strong>
+									{% endfor %}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true" style="font-weight: 500;display: inline-block;line-height: 1;font-size: 2.2rem;color: black;">&times;</span>
+								</button>
+								</div>
+								{% endif %}
 							</div><!-- End .tab-content -->
 						</div><!-- End .form-tab -->
             		</div><!-- End .form-box -->
