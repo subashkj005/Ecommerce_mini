@@ -111,22 +111,27 @@ def signup(request):
 
         if not re.match(email_regex, email):
             messages.error(request, 'Email should be in the format user@gmail.com')
-            return render(request, 'accounts/signup.html')
+            return redirect('signup')
 
         if not re.match(phone_regex, phone_number):
             messages.error(request, 'Phone number should be exactly 10 digits')
-            return render(request, 'accounts/signup.html')
+            return redirect('signup')
 
         if not re.match(password_regex, password):
             messages.error(request, 'Password should contain at least one lowercase letter, one uppercase letter, one digit, one special character, and be at least 8 characters long.')
-            return render(request, 'accounts/signup.html')
+            return redirect('signup')
 
         check_phone = Profile.objects.filter(phone_number=phone_number).first()
+        check_email = Profile.objects.filter(email=email).first()
 
         if check_phone:
             messages.error(request, 'Phone number already registered')
-            return render(request, 'accounts/signup.html')
-
+            return redirect('signup')
+        
+        if check_email:
+            messages.error(request, 'Email already registered')
+            return redirect('signup')
+        
         if password == confirm_password:
             otp = str(random.randint(1000, 9999))
             # send_otp(otp)
@@ -142,10 +147,10 @@ def signup(request):
                 'otp': otp
             }
 
-            return render(request, 'accounts/otp.html')
+            return render(request, 'accounts/otp.html', {'phone_number':phone_number})
         else:
             messages.error(request, 'Passwords do not match')
-            return render(request, 'accounts/signup.html')
+            return redirect('signup')
 
     return render(request, 'accounts/signup.html')
 
@@ -170,12 +175,12 @@ def forgot_password(request):
                     'phone_number': phone_number,
                     'otp': otp
                 }
-                return render(request, 'accounts/forgot_otp.html')
+                return render(request, 'accounts/forgot_otp.html', {'phone_number':phone_number})
 
         except Profile.DoesNotExist:
 
-            context = 'Enter number correctly'
-            return render(request, 'accounts/forgot.html', {'message': context})
+            messages.error(request, "Entered number doesn't exist")
+            return redirect('forgot')
 
     return render(request, 'accounts/forgot.html')
 
@@ -211,21 +216,22 @@ def password_update(request):
 
     if request.method == 'POST':
         password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm-password')
+        confirm_password = request.POST.get('confirm_password')
 
         if password == confirm_password:
             phone_number = user_details['phone_number']
-            user = Profile.objects.get(phone_number=phone_number)
-            user.password = password
+            user = User.objects.get(username=phone_number)
+            user.set_password(password)
             user.save()
 
             del request.session['user_details']
 
+            messages.success(request, "Password changed Successfully")
             return redirect('user_login')
 
         else:
-            message = "Password doesn't match"
-            return render(request, 'accounts/pass_confirm.html', {'message': message})
+            messages.error(request, "Password doesn't match")
+            return redirect('pass_update')
 
     return render(request, 'accounts/pass_confirm.html')
 @never_cache
@@ -254,14 +260,14 @@ def otp(request):
 
             del request.session['user_details']
 
+            messages.success(request, "Registration Successful")
             return redirect('user_login')
         else:
-            context = 'Invalid OTP'
-            return render(request, 'accounts/otp.html', {'otp_err':context})
+            messages.error(request, 'Invalid OTP')
+            return redirect('otp')
 
 
-    return render(request, 'accounts/otp.html', {'phone_number': mobile})
-
+    return render(request, 'accounts/signup.html', {'phone_number': mobile})
 
 
 def logout(request):
