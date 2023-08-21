@@ -33,15 +33,22 @@ def homepage(request):
     return render(request, 'pages/home_page.html', {'category_data': categories, 'variant_data': variants})
 
 def productpage(request, id):
+    has_user_given_review = False
+    user_product_purchase_status = False
+
     if 'phone_number' in request.session:
         user = Profile.objects.get(phone_number=request.session['phone_number'])
+        # Review
+        user_product_purchase_status = UserPurchasedProducts.objects.filter(user=user,
+                                                                            products=variant.product).exists()
+        has_user_given_review = Reviews.objects.filter(user=user, product=variant.product).exists()
+
     variant = Variant.objects.get(id=id)
     all_products = Product.objects.filter(category__id=variant.product.category.id)[:5]
     variant_images = variant.colour.colour_images.all()
     variant_reviews = Reviews.objects.filter(product = variant.product)
     review_count = Reviews.objects.filter(product = variant.product).aggregate(total_reviews=Count('id'))
-    user_product_purchase_status = UserPurchasedProducts.objects.filter(user=user, products=variant.product).exists()
-    has_user_given_review = Reviews.objects.filter(user=user,product=variant.product).exists()
+
     
     context = {
         'variant':variant,
@@ -308,3 +315,6 @@ def generate_pdf_invoice(request):
     if pisa_status.err:
         return HttpResponse('Error generating PDF')
     return response
+
+def about_page(request):
+    return render(request, 'pages/about.html')

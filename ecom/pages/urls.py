@@ -59,6 +59,9 @@ urlpatterns = [
     # Reviews
     path('add_review<int:id>', add_review, name='add_review'),
 
+    # About
+    path('about_page', about_page, name='about_page'),
+
     # Test case
     path('test', test_page, name='test_page'),
 

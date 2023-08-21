@@ -8,6 +8,50 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import LoginForm
 
+# @never_cache
+# def user_login(request):
+#     if request.method == 'POST':
+#         form = LoginForm(request.POST)
+#
+#         if form.is_valid():
+#             phone_number = form.cleaned_data['phone_number']
+#             password = form.cleaned_data['password']
+#
+#             # Check if the phone number exists in the database
+#             try:
+#                 profile = Profile.objects.get(phone_number=phone_number)
+#             except Profile.DoesNotExist:
+#                 messages.error(request, 'Your account does not exist')
+#                 return redirect('user_login')
+#
+#             # Check if the user is active
+#             if not profile.is_active:
+#                 messages.error(request, 'Your account is inactive')
+#                 return redirect('user_login')
+#
+#             # If the phone number exists and the user is active, authenticate the user
+#             user = authenticate(request, username=phone_number, password=password)
+#
+#             if user is not None:
+#                 otp = str(random.randint(1000, 9999))
+#                 # send_otp(otp)
+#
+#                 print('--------------------')
+#                 print('OTP IS ' + otp)
+#                 print('--------------------')
+#                 request.session['user'] = {'phone_number': phone_number, 'otp': otp}
+#                 return render(request, 'accounts/login_otp.html', {'phone': phone_number})
+#             else:
+#                 messages.error(request, 'Incorrect password')
+#                 return redirect('user_login')
+#         else:
+#             messages.error(request, 'Invalid form data')
+#             return redirect('user_login')
+#     else:
+#         form = LoginForm()
+#
+#     return render(request, 'accounts/login.html', {'form': form})
+
 @never_cache
 def user_login(request):
     if request.method == 'POST':
@@ -33,14 +77,8 @@ def user_login(request):
             user = authenticate(request, username=phone_number, password=password)
 
             if user is not None:
-                otp = str(random.randint(1000, 9999))
-                # send_otp(otp)
-
-                print('--------------------')
-                print('OTP IS ' + otp)
-                print('--------------------')
-                request.session['user'] = {'phone_number': phone_number, 'otp': otp}
-                return render(request, 'accounts/login_otp.html', {'phone': phone_number})
+                request.session['phone_number'] = phone_number
+                return redirect('user_home')
             else:
                 messages.error(request, 'Incorrect password')
                 return redirect('user_login')
@@ -134,7 +172,7 @@ def signup(request):
         
         if password == confirm_password:
             otp = str(random.randint(1000, 9999))
-            # send_otp(otp)
+            send_otp(otp)
             print('--------------------')
             print('OTP IS ' + otp)
             print('--------------------')
@@ -166,7 +204,7 @@ def forgot_password(request):
 
             if user is not None:
                 otp = str(random.randint(1000, 9999))
-                # send_otp(otp)
+                send_otp(otp)
                 print('--------------------')
                 print('OTP IS ' + otp)
                 print('--------------------')

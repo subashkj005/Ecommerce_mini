@@ -4,17 +4,19 @@ from wishlist.models import Wishlist
 from products.models import Product, Variant
 from cart.models import Cart
 
+
 # Create your views here.
 def wishlist(request):
+    wishlist_items = None
     if 'phone_number' in request.session:
         user = Profile.objects.get(phone_number=request.session['phone_number'])
-        wishlist = Wishlist.objects.filter(user=user).order_by('-id')
+        wishlist_items = Wishlist.objects.filter(user=user).order_by('-id')
 
+    return render(request, 'wishlist/wishlist.html', {'wishlist': wishlist_items})
 
-
-    return render(request, 'wishlist/wishlist.html', {'wishlist': wishlist})
 
 from django.http import JsonResponse
+
 
 def add_to_wishlist(request, id):
     try:
@@ -33,6 +35,7 @@ def add_to_wishlist(request, id):
     # Return a success message in the JSON response
     return JsonResponse({'message': 'Product added to wishlist successfully'})
 
+
 def delete_wishlist_item(request, id):
     if 'phone_number' in request.session:
         try:
@@ -43,6 +46,7 @@ def delete_wishlist_item(request, id):
         wishlist.delete()
 
     return redirect('wishlist')
+
 
 def wishlist_to_cart(request, id):
     if 'phone_number' in request.session:
@@ -62,10 +66,3 @@ def wishlist_to_cart(request, id):
         cart.save()
         wishlist.delete()
     return redirect('cart_page')
-
-
-
-
-
-
-

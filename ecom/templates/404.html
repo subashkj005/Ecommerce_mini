@@ -1,0 +1,20 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block account_active %} active {% endblock %}
+{% block content %}
+
+<main class="main">
+
+    <div class="error-content text-center" style="background-image: url('{% static 'assets/images/pg-header-custom.jpg' %}');">
+        <div class="container">
+            <h1 class="error-title">Error 404</h1><!-- End .error-title -->
+            <p>We are sorry, the page you've requested is not available.</p>
+            <a href="{% url 'user_home' %}" class="btn btn-outline-primary-2 btn-minwidth-lg">
+                <span>BACK TO HOMEPAGE</span>
+                <i class="icon-long-arrow-right"></i>
+            </a>
+        </div><!-- End .container -->
+    </div><!-- End .error-content text-center -->
+</main>
+{% endblock %}

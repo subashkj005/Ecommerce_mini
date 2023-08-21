@@ -32,7 +32,7 @@ def cart_page(request):
 
         }
         return render(request, 'pages/cart.html', context)
-    return render(request, 'pages/cart.html')
+    return render(request, 'pages/cart.html' )
 
 
 def add_to_cart(request, id):

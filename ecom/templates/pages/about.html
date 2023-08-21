@@ -1,0 +1,94 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="main">
+
+            <div class="container">
+	        	<div class="page-header page-header-big text-center" style="background-image: url('{% static 'assets/images/pg-header-custom.jpg' %}');">
+        			<h1 class="page-title text-white">About us<span class="text-white">Who we are</span></h1>
+	        	</div><!-- End .page-header -->
+            </div><!-- End .container -->
+
+            <div class="page-content pb-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 mb-3 mb-lg-0">
+                            <h2 class="title">Our Vision</h2><!-- End .title -->
+                            <p>Our Vision at Nexo is to redefine the online shopping experience by seamlessly connecting customers with products that resonate with their needs and aspirations. We aspire to create a dynamic platform where innovation, convenience, and customer satisfaction converge.  </p>
+                        </div><!-- End .col-lg-6 -->
+
+                        <div class="col-lg-6">
+                            <h2 class="title">Our Mission</h2><!-- End .title -->
+                            <p>We are dedicated to offering an expansive selection of products that cater to diverse tastes and needs, fostering a shopping experience that is not only convenient but also inspiring. Our mission extends beyond transactions; it's about building lasting connections with our customers by providing them with top-notch service, personalized recommendations, and a sense of belonging. </p>
+                        </div><!-- End .col-lg-6 -->
+                    </div><!-- End .row -->
+
+                    <div class="mb-5"></div><!-- End .mb-4 -->
+                </div><!-- End .container -->
+
+                <div class="bg-light-2 pt-6 pb-5 mb-6 mb-lg-8">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-5 mb-3 mb-lg-0">
+                                <h2 class="title">Who We Are</h2><!-- End .title -->
+                                <p class="lead text-primary mb-3">Empowering Your Style,<br> Elevating Your Experience</p><!-- End .lead text-primary -->
+                                <p class="mb-2">We are a dynamic community of passionate individuals committed to enhancing the way you shop. Our team of experts curates a diverse range of products, ensuring that every item resonates with quality, style, and value. With a blend of innovation and dedication, we craft an online space where discovery and delight converge. </p>
+
+                                <a href="{% url 'user_home' %}" class="btn btn-sm btn-minwidth btn-outline-primary-2">
+                                    <span>SHOP</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </a>
+                            </div><!-- End .col-lg-5 -->
+
+                            <div class="col-lg-6 offset-lg-1">
+                                <div class="about-images">
+                                    <img src="{% static 'assets/images/about/img-1.jpg' %}" alt="" class="about-img-front">
+                                    <img src="assets/images/about/img-2.jpg" alt="" class="about-img-back">
+                                </div><!-- End .about-images -->
+                            </div><!-- End .col-lg-6 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .bg-light-2 pt-6 pb-6 -->
+
+                <div class="mb-2"></div><!-- End .mb-2 -->
+
+                <div class="about-testimonials bg-light-2 pt-6 pb-6">
+                    <div class="container">
+                        <h2 class="title text-center mb-3">What Customer Say About Us</h2><!-- End .title text-center -->
+
+                        <div class="owl-carousel owl-simple owl-testimonials-photo owl-loaded owl-drag" data-toggle="owl" data-owl-options="{
+                                &quot;nav&quot;: false,
+                                &quot;dots&quot;: true,
+                                &quot;margin&quot;: 20,
+                                &quot;loop&quot;: false,
+                                &quot;responsive&quot;: {
+                                    &quot;1200&quot;: {
+                                        &quot;nav&quot;: true
+                                    }
+                                }
+                            }">
+                            <!-- End .testimonial -->
+
+                            <!-- End .testimonial -->
+                        <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2133px;"><div class="owl-item active" style="width: 1046.4px; margin-right: 20px;"><blockquote class="testimonial text-center">
+                                <img src="{% static 'assets/images/testimonials/user-1.jpg' %}" alt="user">
+                                <p>“ "I am extremely satisfied with my recent purchase from this ecommerce store. The user interface was intuitive and easy to navigate, making the shopping experience enjoyable. The product I received was exactly as described, and the quality exceeded my expectations. Additionally, the shipping was prompt, and the packaging ensured that the item arrived in perfect condition. I appreciate the attention to detail and the excellent customer service. I will definitely be returning for more purchases in the future!"</p>
+                                <cite>
+                                    Jenson Gregory
+                                    <span>Customer</span>
+                                </cite>
+                            </blockquote></div><div class="owl-item" style="width: 1046.4px; margin-right: 20px;"><blockquote class="testimonial text-center">
+                                <img src="{% static 'assets/images/testimonials/user-2.jpg' %}" alt="user">
+                                <p>"This ecommerce platform has a wide variety of products to choose from, and I love the convenience of shopping from the comfort of my home. However, I encountered a minor issue during checkout where the discount code I had didn't apply correctly. I reached out to customer support, and I must say they were incredibly responsive and helpful. They resolved the issue promptly and even offered a small apology gift for the inconvenience. Despite the hiccup, I'm happy with my purchase and the customer service provided. I'm looking forward to exploring more products on this site."</p>
+
+                                <cite>
+                                    Victoria Ventura
+                                    <span>Customer</span>
+                                </cite>
+                            </blockquote></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="icon-angle-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="icon-angle-right"></i></button></div><div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button></div></div><!-- End .testimonials-slider owl-carousel -->
+                    </div><!-- End .container -->
+                </div><!-- End .bg-light-2 pt-5 pb-6 -->
+            </div><!-- End .page-content -->
+        </main>
+{% endblock %}

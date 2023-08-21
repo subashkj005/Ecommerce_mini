@@ -10,8 +10,8 @@
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'user_home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Shop</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
             </ol>
         </div><!-- End .container -->
@@ -19,6 +19,7 @@
 
     <div class="page-content">
         <div class="cart">
+            {% if cart %}
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9">
@@ -231,6 +232,16 @@
                     </aside><!-- End .col-lg-3 -->
                 </div><!-- End .row -->
             </div><!-- End .container -->
+            {% else %}
+            <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 40vh;">
+                <div class="row">
+                  <div class="col-md-12 text-center">
+                    <img src="{% static 'assets/images/empty-cart.jpg' %}" class="img-fluid" alt="Responsive Image" style="max-width: 100%; max-height: 30vh;">
+                    <h2 style="margin-top: 20px;">Your cart is empty</h2>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
         </div><!-- End .cart -->
     </div><!-- End .page-content -->
 </main>
