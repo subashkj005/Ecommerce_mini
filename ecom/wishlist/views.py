@@ -56,6 +56,8 @@ def wishlist_to_cart(request, id):
         cart, created = Cart.objects.get_or_create(user=user, variant=variant)
 
         if created:
+            cart.total = cart.calculate_total_price()
+            cart.discount = variant.discount
             # If the user cart have applied with a coupon
             cart_items = Cart.objects.filter(user=user, coupon__isnull=False)
             if cart_items:
@@ -63,6 +65,8 @@ def wishlist_to_cart(request, id):
         else:
             if variant.stock > 0:
                 cart.quantity += 1
+                cart.total = cart.calculate_total_price()
+                cart.discount = variant.discount
         cart.save()
         wishlist.delete()
     return redirect('cart_page')
