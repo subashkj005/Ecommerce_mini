@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development settings
+*.env
+*.sqlite3
+
+# Secret key
+*.secret_key
+
+# Log files
+*.log
+
+# Generated media files
+media/
+
+# Database files
+db.sqlite3
+
+# Compiled Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# IDE-specific files
+.vscode/
+.idea/
+*.iml
+
+# Compiled binaries or packages
+*.egg-info/
+dist/
+build/
+
+# Dependency directories
+venv/
+env/
+env3/
+env2/
+.node_modules/
+
+# Cache and temporary files
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# User-specific files
+*.bak
+*.bak.*
+*.tmp
+*.orig
+
+# Compiled JavaScript files
+*.min.js
+*.min.css
+
+# Ignore virtual environment
+djangoenv/
