@@ -12,9 +12,15 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Enviroment file path
+ENV_PATH = os.path.join(BASE_DIR, '../.env')
+load_dotenv(dotenv_path=ENV_PATH)
 
 
 # Quick-start development settings - unsuitable for production
@@ -160,3 +166,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Razorpay
 RAZORPAY_KEY_ID = 'rzp_test_Pca6sif9v3F52s'
 RAZORPAY_KEY_SECRET = 'jFHVYI2RTfaPJjIhDqhJ1a7q'
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

@@ -18,8 +18,8 @@
 							    	<form method="post" action="{% url 'forgot' %}">
                                         {% csrf_token %}
 							    		<div class="form-group">
-							    			<label for="phone_number">Phone number</label>
-							    			<input type="tel" class="form-control" id="phone_number" name="phone_number" required>
+							    			<label for="phone_number">Email Address</label>
+							    			<input type="email" class="form-control" id="email" name="email" required>
 							    		</div><!-- End .form-group -->
 
 							    		<div class="form-footer">

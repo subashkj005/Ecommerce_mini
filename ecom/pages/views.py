@@ -35,6 +35,8 @@ def homepage(request):
 def productpage(request, id):
     has_user_given_review = False
     user_product_purchase_status = False
+    
+    variant = Variant.objects.get(id=id)
 
     if 'phone_number' in request.session:
         user = Profile.objects.get(phone_number=request.session['phone_number'])
@@ -43,7 +45,6 @@ def productpage(request, id):
                                                                             products=variant.product).exists()
         has_user_given_review = Reviews.objects.filter(user=user, product=variant.product).exists()
 
-    variant = Variant.objects.get(id=id)
     all_products = Product.objects.filter(category__id=variant.product.category.id)[:5]
     variant_images = variant.colour.colour_images.all()
     variant_reviews = Reviews.objects.filter(product = variant.product)

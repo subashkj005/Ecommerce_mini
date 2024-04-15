@@ -7,6 +7,8 @@ import re
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import LoginForm
+from .mail import send_otp_via_email
+
 
 # @never_cache
 # def user_login(request):
@@ -110,19 +112,20 @@ def login_otp(request):
 
     return redirect('user_login')
  
-    
-def send_otp(otp):
+# ------ Twilio ------- 
+# def send_otp(otp):
 
-    account_sid = 'AC8e5d47f05c224aa88a156759e1fae3c6'
-    auth_token = 'dc265a5cace4fcb7be65839fc581a759'
-    client = Client(account_sid, auth_token)
+#     account_sid = 'AC8e5d47f05c224aa88a156759e1fae3c6'
+#     auth_token = '058d43946752aee05a3a9145df2af1a6'
+#     client = Client(account_sid, auth_token)
 
-    message = client.messages.create(
-        body='Your otp is '+otp,
-        from_='+14849698077',
-        to='+917559961892'
-    )
-    print(message.sid)
+#     message = client.messages.create(
+#         body='Your otp is '+otp,
+#         from_='+15512240521',
+#         to='+917559961892'
+#     )
+#     print(message.sid)
+
 
 
 @never_cache
@@ -138,7 +141,8 @@ def signup(request):
         confirm_password = request.POST.get('confirm_password')
 
         # Custom Validation Checks
-        name_regex = r"^[A-Z][a-z]*$"
+        # name_regex = r"^[A-Z][a-z]*$"
+        name_regex = r"^[A-Z][a-z]*(?: [A-Z][a-z]*)*$"
         email_regex = r"^\w+@gmail\.com$"
         phone_regex = r"^\d{10}$"
         password_regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
@@ -171,8 +175,9 @@ def signup(request):
             return redirect('signup')
         
         if password == confirm_password:
-            otp = str(random.randint(1000, 9999))
-            send_otp(otp)
+            # otp = str(random.randint(1000, 9999))
+            # send_otp(otp)
+            otp = send_otp_via_email(email=email)
             print('--------------------')
             print('OTP IS ' + otp)
             print('--------------------')
@@ -185,7 +190,7 @@ def signup(request):
                 'otp': otp
             }
 
-            return render(request, 'accounts/otp.html', {'phone_number':phone_number})
+            return render(request, 'accounts/otp.html', {'email':email})
         else:
             messages.error(request, 'Passwords do not match')
             return redirect('signup')
@@ -197,23 +202,24 @@ def forgot_password(request):
         return redirect('user_home')
 
     if request.method == 'POST':
-        phone_number = request.POST.get('phone_number')
+        email = request.POST.get('email')
 
         try:
-            user = Profile.objects.get(phone_number=phone_number)
+            user = Profile.objects.get(email=email)
 
             if user is not None:
-                otp = str(random.randint(1000, 9999))
-                send_otp(otp)
+                # otp = str(random.randint(1000, 9999))
+                # send_otp(otp)
+                otp = send_otp_via_email(email=email)
                 print('--------------------')
                 print('OTP IS ' + otp)
                 print('--------------------')
 
                 request.session['user_details'] = {
-                    'phone_number': phone_number,
+                    'email': email,
                     'otp': otp
                 }
-                return render(request, 'accounts/forgot_otp.html', {'phone_number':phone_number})
+                return render(request, 'accounts/forgot_otp.html', {'email':email})
 
         except Profile.DoesNotExist:
 
@@ -229,7 +235,7 @@ def forgot_otp(request):
     # if not user_details:
     #     return redirect('forgot')
 
-    mobile = user_details['phone_number']
+    email = user_details['email']
 
     if request.method == 'POST':
         entered_otp = f"{request.POST.get('otp1')}{request.POST.get('otp2')}{request.POST.get('otp3')}{request.POST.get('otp4')}"
@@ -241,9 +247,9 @@ def forgot_otp(request):
 
         else:
             context = 'Invalid OTP'
-            return render(request, 'accounts/forgot_otp.html', {'phone_number': mobile, 'otp_err': context})
+            return render(request, 'accounts/forgot_otp.html', {'phone_number': email, 'otp_err': context})
 
-    return render(request, 'accounts/forgot_otp.html', {'phone_number': mobile})
+    return render(request, 'accounts/forgot_otp.html', {'phone_number': email})
 
 
 def password_update(request):

@@ -19,7 +19,7 @@
             <header>
               <i class="bx bxs-check-shield"></i>
             </header>
-            <h4 class="text-center">Enter OTP Code sent to {{ phone_number }}</h4>
+            <h4 class="text-center">Enter OTP Code sent to {{ email }}</h4>
             <form method="POST" action="{% url 'forgot_otp' %}">
               {% csrf_token %}
               <div class="input-field">

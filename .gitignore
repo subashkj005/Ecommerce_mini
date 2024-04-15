@@ -59,3 +59,4 @@ Thumbs.db
 
 # Ignore virtual environment
 djangoenv/
+venv/
